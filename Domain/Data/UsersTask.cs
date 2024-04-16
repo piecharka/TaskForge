@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Domain.Data;
+namespace Domain;
 
 public partial class UsersTask
 {
