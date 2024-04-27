@@ -17,5 +17,6 @@ namespace Domain.Interfaces.Services
         Task UpdateUserPasswordAsync(UserUpdatePasswordDto user);
         Task UpdateUserEmailAsync(UserUpdateEmailDto user);
         Task DeleteUserAsync(int id);
+        Task UpdateUserLoginAsync(int id);
     }
 }

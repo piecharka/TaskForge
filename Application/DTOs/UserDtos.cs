@@ -27,4 +27,10 @@ namespace Application.DTOs
         public int UserId { get; set; }
         public string Email { get; set; } = null!;
     }
+    public class UserLoginDto
+    {
+        public int UserId { get; set; }
+        public string Username { get; set; } = null!;
+        public string Password { get; set; } = null!;
+    }
 }

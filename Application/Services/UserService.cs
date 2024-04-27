@@ -88,5 +88,13 @@ namespace Application.Services
 
             await _repository.UpdateAsync(user);
         }
+
+        public async Task UpdateUserLoginAsync(int id)
+        {
+            var user = await _repository.GetByIdAsync(id);
+            user.LastLogin = DateTime.Now;
+
+            await _repository.UpdateAsync(user);
+        }
     }
 }

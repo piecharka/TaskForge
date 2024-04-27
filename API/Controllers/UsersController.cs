@@ -10,6 +10,7 @@ using Persistence;
 using Domain.Interfaces.Services;
 using Application.Services;
 using Application.DTOs;
+using Persistence.Repositories;
 
 namespace API.Controllers
 {
@@ -18,10 +19,12 @@ namespace API.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IPasswordHasher _passwordHasher;
 
-        public UsersController(IUserService userService)
+        public UsersController(IUserService userService, IPasswordHasher passwordHasher)
         {
             _userService = userService;
+            _passwordHasher = passwordHasher;
         }
 
         // GET: api/Users
@@ -41,17 +44,17 @@ namespace API.Controllers
         // PUT: api/Users/updatePassword
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("/updatePassword")]
-        public async Task<IActionResult> UpdateUserPasswordAsync([FromBody] UserUpdatePasswordDto user)
+        public async Task<IActionResult> UpdateUserPasswordAsync([FromBody] UserUpdatePasswordDto userUpdatePasswordData)
         {
-            await _userService.UpdateUserPasswordAsync(user);
+            await _userService.UpdateUserPasswordAsync(userUpdatePasswordData);
            
             return NoContent();
         }
 
         [HttpPut("/updateEmail")]
-        public async Task<IActionResult> UpdateUserEmailAsync([FromBody] UserUpdateEmailDto user)
+        public async Task<IActionResult> UpdateUserEmailAsync([FromBody] UserUpdateEmailDto userUpdateEmailData)
         {
-            await _userService.UpdateUserEmailAsync(user);
+            await _userService.UpdateUserEmailAsync(userUpdateEmailData);
 
             return NoContent();
         }
@@ -59,11 +62,16 @@ namespace API.Controllers
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostUserAsync(UserCreateDto user)
+        public async Task<ActionResult<User>> PostUserAsync(UserCreateDto userCreateData)
         {
-            await _userService.InsertUserAsync(user);
+            var user = await _userService.GetUserByNameAsync(userCreateData.Username);
 
-            return CreatedAtAction("GetUser", new { id = user.UserId }, user);
+            if (user == null)
+            {
+                await _userService.InsertUserAsync(userCreateData);
+            }
+
+            return CreatedAtAction("GetUser", new { id = userCreateData.UserId }, userCreateData);
         }
 
         // DELETE: api/Users/5
@@ -73,6 +81,23 @@ namespace API.Controllers
             await _userService.DeleteUserAsync(id);
 
             return NoContent();
+        }
+
+
+        [HttpPost("/login")]
+        public async Task<ActionResult<int>> LoginAsync([FromBody] UserLoginDto userLoginData)
+        {
+            var user = await _userService.GetUserByNameAsync(userLoginData.Username);
+
+            if (user != null && _passwordHasher.VerifyPassword(user.PasswordHash, userLoginData.Password))
+            {
+                await _userService.UpdateUserLoginAsync(user.UserId);
+                return user.UserId;
+            }
+            else
+            {
+                return NoContent();
+            }
         }
     }
 }
