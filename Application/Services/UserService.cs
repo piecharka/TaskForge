@@ -1,14 +1,9 @@
 ﻿using Application.DTOs;
+using Application.Interfaces.Services;
 using AutoMapper;
 using Domain;
 using Domain.Interfaces.Repositories;
-using Domain.Interfaces.Services;
 using Persistence.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Services
 {
@@ -41,7 +36,7 @@ namespace Application.Services
 
         public async Task<User> GetUserByNameAsync(string username)
         {
-            return await _repository.GetByNameAsync(username);
+            return await _repository.GetByNameAsync(username.ToLower());
         }
 
         public async Task<IEnumerable<User>> GetUsersAsync()
@@ -52,6 +47,7 @@ namespace Application.Services
         public async Task InsertUserAsync(UserCreateDto userDto)
         {
             var user = _mapper.Map<UserCreateDto, User>(userDto);
+            user.Username = user.Username.ToLower();
             user.PasswordHash = _passwordHasher.HashPassword(user.PasswordHash);
             user.CreatedAt = DateTime.Now;
             user.UpdatedAt = DateTime.Now;

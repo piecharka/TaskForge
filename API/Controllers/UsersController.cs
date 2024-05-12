@@ -7,10 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Domain;
 using Persistence;
-using Domain.Interfaces.Services;
 using Application.Services;
 using Application.DTOs;
 using Persistence.Repositories;
+using Application.Interfaces.Services;
 
 namespace API.Controllers
 {

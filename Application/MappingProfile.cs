@@ -15,6 +15,7 @@ namespace Application
         {
             CreateMap<User, UserCreateDto>();
             CreateMap<UserCreateDto, User>();
+            CreateMap<TeamDto, Team>();
         }
     }
 }
