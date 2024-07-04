@@ -9,13 +9,13 @@ public partial class Notfication
 
     public int UserId { get; set; }
 
-    public string Message { get; set; } = null!;
+    public string Message { get; set; }
 
     public DateTime SentAt { get; set; }
 
     public int NotficationStatusId { get; set; }
 
-    public virtual NotficationStatus NotficationStatus { get; set; } = null!;
+    public virtual NotficationStatus NotficationStatus { get; set; }
 
-    public virtual User User { get; set; } = null!;
+    public virtual User User { get; set; }
 }

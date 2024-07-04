@@ -1,6 +1,7 @@
 ﻿using Application.DTOs;
 using AutoMapper;
 using Domain;
+using Persistence.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;

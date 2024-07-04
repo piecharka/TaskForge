@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Azure;
 using Domain;
+using Domain.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace Persistence;
@@ -55,6 +57,7 @@ public partial class TaskForgeDbContext : DbContext
                 .HasColumnName("attachment_id");
             entity.Property(e => e.AddedBy).HasColumnName("added_by");
             entity.Property(e => e.FilePath)
+                .IsRequired()
                 .HasMaxLength(200)
                 .IsUnicode(false)
                 .HasColumnName("file_path");
@@ -80,7 +83,9 @@ public partial class TaskForgeDbContext : DbContext
             entity.Property(e => e.CommentId)
                 .ValueGeneratedNever()
                 .HasColumnName("comment_id");
-            entity.Property(e => e.CommentText).HasColumnName("comment_text");
+            entity.Property(e => e.CommentText)
+                .IsRequired()
+                .HasColumnName("comment_text");
             entity.Property(e => e.TaskId).HasColumnName("task_id");
             entity.Property(e => e.WrittenAt)
                 .HasColumnType("datetime")
@@ -106,6 +111,7 @@ public partial class TaskForgeDbContext : DbContext
 
             entity.Property(e => e.NotficationId).HasColumnName("notfication_id");
             entity.Property(e => e.Message)
+                .IsRequired()
                 .HasMaxLength(100)
                 .HasColumnName("message");
             entity.Property(e => e.NotficationStatusId).HasColumnName("notfication_status_id");
@@ -155,6 +161,7 @@ public partial class TaskForgeDbContext : DbContext
                 .HasColumnName("task_deadline");
             entity.Property(e => e.TaskDescription).HasColumnName("task_description");
             entity.Property(e => e.TaskName)
+                .IsRequired()
                 .HasMaxLength(60)
                 .HasColumnName("task_name");
             entity.Property(e => e.TaskStatusId).HasColumnName("task_status_id");
@@ -193,6 +200,7 @@ public partial class TaskForgeDbContext : DbContext
 
             entity.Property(e => e.StatusId).HasColumnName("status_id");
             entity.Property(e => e.StatusName)
+                .IsRequired()
                 .HasMaxLength(60)
                 .HasColumnName("status_name");
         });
@@ -205,6 +213,7 @@ public partial class TaskForgeDbContext : DbContext
 
             entity.Property(e => e.TypeId).HasColumnName("type_id");
             entity.Property(e => e.TypeName)
+                .IsRequired()
                 .HasMaxLength(60)
                 .HasColumnName("type_name");
         });
@@ -219,27 +228,39 @@ public partial class TaskForgeDbContext : DbContext
                 .ValueGeneratedNever()
                 .HasColumnName("team_id");
             entity.Property(e => e.TeamName)
+                .IsRequired()
                 .HasMaxLength(60)
                 .HasColumnName("team_name");
 
-            entity.HasMany(d => d.Users).WithMany(p => p.Teams)
-                .UsingEntity<Dictionary<string, object>>(
-                    "TeamUser",
-                    r => r.HasOne<User>().WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("fk_user"),
-                    l => l.HasOne<Team>().WithMany()
-                        .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("fk_team"),
-                    j =>
-                    {
-                        j.HasKey("TeamId", "UserId").HasName("pk_team_users");
-                        j.ToTable("team_users");
-                        j.IndexerProperty<int>("TeamId").HasColumnName("team_id");
-                        j.IndexerProperty<int>("UserId").HasColumnName("user_id");
-                    });
+            entity.HasMany(s => s.Users)
+                .WithMany(c => c.Teams)
+                .UsingEntity<TeamUser>(
+            j => j
+                .HasOne(pt => pt.User)
+                .WithMany(t => t.TeamUsers)
+                .HasForeignKey(pt => pt.UserId),
+            j => j
+                .HasOne(pt => pt.Team)
+                .WithMany(p => p.TeamUsers)
+                .HasForeignKey(pt => pt.TeamId)
+        );
+
+            //entity.HasMany(d => d.Users).WithMany(p => p.Teams)
+            //    .UsingEntity<Dictionary<string, object>>(
+            //        "TeamUser",
+            //        r => r.HasOne<User>().WithMany()
+            //            .HasForeignKey("UserId")
+            //            .HasConstraintName("FK_TeamUsers_Users_UserId"),
+            //        l => l.HasOne<Team>().WithMany()
+            //            .HasForeignKey("TeamId")
+            //            .HasConstraintName("FK_TeamUsers_Teams_TeamId"),
+            //        j =>
+            //        {
+            //            j.HasKey("TeamId", "UserId").HasName("PK_TeamUser");
+            //            j.ToTable("team_users");
+            //            j.IndexerProperty<int>("TeamId").HasColumnName("team_id");
+            //            j.IndexerProperty<int>("UserId").HasColumnName("user_id");
+            //        });
         });
 
         modelBuilder.Entity<TimeLog>(entity =>
@@ -277,6 +298,7 @@ public partial class TaskForgeDbContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
             entity.Property(e => e.Email)
+                .IsRequired()
                 .HasMaxLength(60)
                 .IsUnicode(false)
                 .HasColumnName("email");
@@ -285,6 +307,7 @@ public partial class TaskForgeDbContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("last_login");
             entity.Property(e => e.PasswordHash)
+                .IsRequired()
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("password_hash");
@@ -292,6 +315,7 @@ public partial class TaskForgeDbContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("updated_at");
             entity.Property(e => e.Username)
+                .IsRequired()
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("username");

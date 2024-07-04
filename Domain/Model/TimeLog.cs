@@ -13,5 +13,5 @@ public partial class TimeLog
 
     public DateTime EndTime { get; set; }
 
-    public virtual UsersTask UserTask { get; set; } = null!;
+    public virtual UsersTask UserTask { get; set; }
 }

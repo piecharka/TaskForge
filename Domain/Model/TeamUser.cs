@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.DTOs
+namespace Domain.Model
 {
-    public class TeamDto
+    public class TeamUser
     {
+        public int UserId { get; set; }
         public int TeamId { get; set; }
-        public string TeamName { get; set; }
-
+        public User User { get; set; }
+        public Team Team { get; set; }
     }
 }

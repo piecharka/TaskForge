@@ -7,7 +7,7 @@ public partial class ProjectTask
 {
     public int TaskId { get; set; }
 
-    public string TaskName { get; set; } = null!;
+    public string TaskName { get; set; }
 
     public int TaskStatusId { get; set; }
 
@@ -21,7 +21,7 @@ public partial class ProjectTask
 
     public int TaskTypeId { get; set; }
 
-    public string? TaskDescription { get; set; }
+    public string TaskDescription { get; set; }
 
     public DateTime UpdatedAt { get; set; }
 
@@ -29,13 +29,13 @@ public partial class ProjectTask
 
     public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
-    public virtual User CreatedByNavigation { get; set; } = null!;
+    public virtual User CreatedByNavigation { get; set; }
 
-    public virtual ProjectTaskStatus TaskStatus { get; set; } = null!;
+    public virtual ProjectTaskStatus TaskStatus { get; set; }
 
-    public virtual ProjectTaskType TaskType { get; set; } = null!;
+    public virtual ProjectTaskType TaskType { get; set; }
 
-    public virtual Team Team { get; set; } = null!;
+    public virtual Team Team { get; set; }
 
     public virtual ICollection<UsersTask> UsersTasks { get; set; } = new List<UsersTask>();
 }

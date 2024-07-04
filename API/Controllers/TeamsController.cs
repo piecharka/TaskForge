@@ -9,6 +9,7 @@ using Domain;
 using Persistence;
 using Application.Interfaces.Services;
 using Application.DTOs;
+using Persistence.DTOs;
 
 namespace API.Controllers
 {
@@ -90,6 +91,14 @@ namespace API.Controllers
         {
             
             await _teamService.DeleteTeamAsync(id);
+
+            return NoContent();
+        }
+
+        [HttpPut()]
+        public async Task<IActionResult> AddUserToTeamAsync(string username, int teamId)
+        {
+            await _teamService.AddUserToTeamAsync(username, teamId);
 
             return NoContent();
         }

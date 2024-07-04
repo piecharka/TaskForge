@@ -11,9 +11,9 @@ public partial class Attachment
 
     public int AddedBy { get; set; }
 
-    public string FilePath { get; set; } = null!;
+    public string FilePath { get; set; }
 
-    public virtual User AddedByNavigation { get; set; } = null!;
+    public virtual User AddedByNavigation { get; set; }
 
-    public virtual ProjectTask Task { get; set; } = null!;
+    public virtual ProjectTask Task { get; set; }
 }

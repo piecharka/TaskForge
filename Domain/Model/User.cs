@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Model;
+using System;
 using System.Collections.Generic;
 
 namespace Domain;
@@ -7,11 +8,11 @@ public partial class User
 {
     public int UserId { get; set; }
 
-    public string Username { get; set; } = null!;
+    public string Username { get; set; }
 
-    public string Email { get; set; } = null!;
+    public string Email { get; set; }
 
-    public string PasswordHash { get; set; } = null!;
+    public string PasswordHash { get; set; }
 
     public DateTime Birthday { get; set; }
 
@@ -33,5 +34,6 @@ public partial class User
 
     public virtual ICollection<UsersTask> UsersTasks { get; set; } = new List<UsersTask>();
 
-    public virtual ICollection<Team> Teams { get; set; } = new List<Team>();
+    public virtual ICollection<Team> Teams { get; } = new List<Team>();
+    public virtual ICollection<TeamUser> TeamUsers { get; set; } = new List<TeamUser>();
 }
