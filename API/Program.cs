@@ -23,6 +23,7 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITeamService, TeamService>();
+builder.Services.AddScoped<IProjectTaskService, ProjectTaskService>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITeamRepository, TeamRepository>();
@@ -30,7 +31,7 @@ builder.Services.AddScoped<IAttachmentRepository, AttachmentRepository>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddScoped<INotficationRepository, NotficationRepository>();
 builder.Services.AddScoped<INotficationStatusRepository, NotficationStatusRepository>();
-builder.Services.AddScoped<ITaskRepository, TaskRepository>();
+builder.Services.AddScoped<IProjectTaskRepository, ProjectTaskRepository>();
 builder.Services.AddScoped<ITaskStatusRepository, TaskStatusRepository>();
 builder.Services.AddScoped<ITaskTypeRepository, TaskTypeRepository>();
 builder.Services.AddScoped<ITeamRepository, TeamRepository>();

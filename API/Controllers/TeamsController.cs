@@ -32,7 +32,7 @@ namespace API.Controllers
 
         // GET: api/Teams/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Team>> GetTeam(int id)
+        public async Task<ActionResult<TeamDto>> GetTeam(int id)
         {
             var team = await _teamService.GetTeamByIdAsync(id);
 

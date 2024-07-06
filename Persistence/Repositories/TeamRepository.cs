@@ -1,4 +1,5 @@
 ﻿using Domain;
+using Domain.DTOs;
 using Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Persistence.DTOs;
@@ -12,7 +13,7 @@ namespace Persistence
         { 
             _forgeDbContext = forgeDbContext;
         }
-        public async Task<TeamDto> GetByIdAsync(int id)
+        public async Task<TeamDto> GetByIdAsync(int teamId)
         {
             return await _forgeDbContext.Teams
                 .Include(t => t.Users)
@@ -37,7 +38,7 @@ namespace Persistence
                         ProjectTasks = u.ProjectTasks,
                         UsersTasks = u.UsersTasks,
                     }).ToList()
-                }).Where(t => t.TeamId == id)
+                }).Where(t => t.TeamId == teamId)
                 .FirstOrDefaultAsync();
         }
 
@@ -69,11 +70,11 @@ namespace Persistence
                 }).ToListAsync();
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(int teamId)
         {
             var entity = await _forgeDbContext.Teams
                 .Include(t => t.Users)
-                .Where(t => t.TeamId == id)
+                .Where(t => t.TeamId == teamId)
                 .FirstOrDefaultAsync();
 
             if (entity != null)
@@ -84,25 +85,31 @@ namespace Persistence
             else
             {
                 // Opcjonalnie, możesz rzucić wyjątek lub zwrócić odpowiedź, jeśli zespół nie istnieje
-                throw new KeyNotFoundException($"Team with id {id} not found.");
+                throw new KeyNotFoundException($"Team with id {teamId} not found.");
             }
         }
 
         public async Task InsertAsync(Team entity)
         {
-            await _forgeDbContext.Set<Team>().AddAsync(entity);
+            await _forgeDbContext.Teams
+                .AddAsync(entity);
+
             await _forgeDbContext.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(Team entity)
         {
-            _forgeDbContext.Set<Team>().Update(entity);
+            _forgeDbContext.Teams
+                .Update(entity);
+
             await _forgeDbContext.SaveChangesAsync();
         }
 
         public async Task AddUserToTeamAsync(int teamId, User user)
         {
-            var team = await _forgeDbContext.Teams.Include(t => t.Users).FirstOrDefaultAsync(t => t.TeamId == teamId);
+            var team = await _forgeDbContext.Teams
+                .Include(t => t.Users)
+                .FirstOrDefaultAsync(t => t.TeamId == teamId);
 
             if (team == null)
             {
@@ -114,13 +121,15 @@ namespace Persistence
             await _forgeDbContext.SaveChangesAsync();
         }
 
-        public async Task AddUsersToTeamAsync(int id, List<User> usersToAdd)
+        public async Task AddUsersToTeamAsync(int teamId, List<User> usersToAdd)
         {
-            var team = await _forgeDbContext.Set<Team>().FindAsync(id);
+            var team = await _forgeDbContext.Teams
+                .Include(t => t.Users)
+                .FirstOrDefaultAsync(t => t.TeamId == teamId);
             
             foreach(var user in usersToAdd)
             {
-                //team.Users.Add(user);
+                team.Users.Add(user);
             }
             await _forgeDbContext.SaveChangesAsync();
         }

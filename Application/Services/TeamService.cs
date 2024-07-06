@@ -19,12 +19,12 @@ namespace Application.Services
         private readonly IUserService _userService;
         public TeamService(ITeamRepository teamRepository, IMapper mapper, IUserService userService)
         {
-            _teamRepository = teamRepository;
+            _teamRepository = teamRepository; 
             _mapper = mapper;
             _userService = userService;
         }
 
-        public async Task<Team> GetTeamByIdAsync(int id)
+        public async Task<TeamDto> GetTeamByIdAsync(int id)
         {
             return await _teamRepository.GetByIdAsync(id); 
         }

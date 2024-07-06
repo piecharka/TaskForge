@@ -10,11 +10,11 @@ namespace Domain.Interfaces.Repositories
     public interface ITeamRepository 
     {
         Task<IEnumerable<TeamDto>> GetAllAsync();
-        Task<TeamDto> GetByIdAsync(int id);
+        Task<TeamDto> GetByIdAsync(int teamId);
         Task InsertAsync(Team user);
         Task UpdateAsync(Team user);
-        Task DeleteAsync(int id);
-        Task AddUserToTeamAsync(int id, User user);
-        Task AddUsersToTeamAsync(int id, List<User> usersToAdd);
+        Task DeleteAsync(int teamId);
+        Task AddUserToTeamAsync(int teamId, User user);
+        Task AddUsersToTeamAsync(int teamId, List<User> usersToAdd);
     }
 }
