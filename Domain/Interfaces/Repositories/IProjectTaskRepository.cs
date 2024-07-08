@@ -1,4 +1,5 @@
-﻿using Persistence.DTOs;
+﻿using Domain.DTOs;
+using Persistence.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,8 @@ namespace Domain.Interfaces.Repositories
 {
     public interface IProjectTaskRepository
     {
-        Task<IEnumerable<ProjectTask>> GetAllInTeamAsync(int teamId);
-        Task<ProjectTask> GetByIdAsync(int teamId);
+        Task<IEnumerable<ProjectTaskDto>> GetAllInTeamAsync(int teamId);
+        Task<ProjectTask> GetByIdAsync(int id);
         Task InsertAsync(ProjectTask user);
         Task UpdateAsync(ProjectTask user);
         Task DeleteAsync(int teamId);

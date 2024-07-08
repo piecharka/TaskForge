@@ -2,6 +2,7 @@
 using Application.Interfaces.Services;
 using AutoMapper;
 using Domain;
+using Domain.DTOs;
 using Domain.Interfaces.Repositories;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace Application.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<ProjectTask>> GetAllProjectTasksInTeamAsync(int teamId)
+        public async Task<IEnumerable<ProjectTaskDto>> GetAllProjectTasksInTeamAsync(int teamId)
         {
             return await _projectTaskRepository.GetAllInTeamAsync(teamId);
         }

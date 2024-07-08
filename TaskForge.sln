@@ -30,6 +30,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskForge.Test", "TaskForge
 		{FC41A829-5946-488C-8236-D42656376F8E} = {FC41A829-5946-488C-8236-D42656376F8E}
 	EndProjectSection
 EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Frontend", "Frontend\Frontend.esproj", "{5812D6D3-CC2E-4063-A514-1A0AF50C056C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +58,12 @@ Global
 		{BB56C19D-1608-4B73-86A0-2CB67454E476}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB56C19D-1608-4B73-86A0-2CB67454E476}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB56C19D-1608-4B73-86A0-2CB67454E476}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5812D6D3-CC2E-4063-A514-1A0AF50C056C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5812D6D3-CC2E-4063-A514-1A0AF50C056C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5812D6D3-CC2E-4063-A514-1A0AF50C056C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{5812D6D3-CC2E-4063-A514-1A0AF50C056C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5812D6D3-CC2E-4063-A514-1A0AF50C056C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5812D6D3-CC2E-4063-A514-1A0AF50C056C}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
