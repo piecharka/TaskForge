@@ -2,6 +2,7 @@
 using Application.Interfaces.Services;
 using AutoMapper;
 using Domain;
+using Domain.DTOs;
 using Domain.Interfaces.Repositories;
 using Persistence.Repositories;
 
@@ -24,22 +25,22 @@ namespace Application.Services
             await _repository.DeleteAsync(id);
         }
 
-        public async Task<User> GetUserByEmailAsync(string email)
+        public async Task<UserGetDto> GetUserByEmailAsync(string email)
         {
             return await _repository.GetByEmailAsync(email);
         }
 
-        public async Task<User> GetUserByIdAsync(int id)
+        public async Task<UserGetDto> GetUserByIdAsync(int id)
         {
             return await _repository.GetByIdAsync(id);
         }
 
-        public async Task<User> GetUserByNameAsync(string username)
+        public async Task<UserGetDto> GetUserByNameAsync(string username)
         {
             return await _repository.GetByNameAsync(username.ToLower());
         }
 
-        public async Task<IEnumerable<User>> GetUsersAsync()
+        public async Task<IEnumerable<UserGetDto>> GetUsersAsync()
         {
             return await _repository.GetAllAsync();
         }
@@ -58,7 +59,7 @@ namespace Application.Services
 
         public async Task UpdateUserPasswordAsync(UserUpdatePasswordDto userDto)
         {
-            var user = await _repository.GetByIdAsync(userDto.UserId);
+            var user = await _repository.GetWholeUserObjectByIdAsync(userDto.UserId);
 
             if(user == null)
             {
@@ -72,7 +73,7 @@ namespace Application.Services
         }
         public async Task UpdateUserEmailAsync(UserUpdateEmailDto userDto)
         {
-            var user = await _repository.GetByIdAsync(userDto.UserId);
+            var user = await _repository.GetWholeUserObjectByIdAsync(userDto.UserId);
 
             if (user == null)
             {
@@ -85,12 +86,24 @@ namespace Application.Services
             await _repository.UpdateAsync(user);
         }
 
-        public async Task UpdateUserLoginAsync(int id)
+        private async Task UpdateUserLoginAsync(int id)
         {
-            var user = await _repository.GetByIdAsync(id);
+            var user = await _repository.GetWholeUserObjectByIdAsync(id);
             user.LastLogin = DateTime.Now;
 
             await _repository.UpdateAsync(user);
+        }
+
+        public async Task<int> LoginUserAsync(UserLoginDto userLoginDto)
+        {
+            var user = await _repository.GetWholeUserObjectByIdAsync(userLoginDto.UserId);
+
+            if (user != null && _passwordHasher.VerifyPassword(user.PasswordHash, userLoginDto.Password))
+            {
+                await UpdateUserLoginAsync(user.UserId);
+                return user.UserId;
+            }
+            else return -1;
         }
     }
 }

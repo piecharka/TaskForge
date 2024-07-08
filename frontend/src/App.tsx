@@ -1,23 +1,13 @@
 
-import { useEffect, useState } from 'react'
-import apiHandler from './api/apiHandler';
-import { Team } from './models/team';
+import { Route, Routes } from 'react-router-dom';
+import TeamView from './UI/TeamView';
 
 function App() {
-    const [teams, setTeams] = useState<Team[]>([]);
-    useEffect(() => {
-        apiHandler.Teams.list().then(response => {
-            setTeams(response);
-        })
-    }, [])
   return (
-      <>
-          {teams.map(team => (
-              <div key={team.teamId}>
-                  <h2>{team.teamName}</h2>
-              </div>
-          ))}      
-    </>
+          <Routes>
+              <Route path="/" element={ <div></div>} />
+              <Route path="/team/:teamId" element={ <TeamView />} />
+          </Routes> 
   )
 }
 

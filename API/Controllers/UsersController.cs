@@ -11,6 +11,7 @@ using Application.Services;
 using Application.DTOs;
 using Persistence.Repositories;
 using Application.Interfaces.Services;
+using Domain.DTOs;
 
 namespace API.Controllers
 {
@@ -29,14 +30,14 @@ namespace API.Controllers
 
         // GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsersAsync()
+        public async Task<ActionResult<IEnumerable<UserGetDto>>> GetUsersAsync()
         {
             return Ok(await _userService.GetUsersAsync());  
         }
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUserAsync(int id)
+        public async Task<ActionResult<UserGetDto>> GetUserAsync(int id)
         {
             return Ok(await _userService.GetUserByIdAsync(id));
         }
@@ -87,12 +88,11 @@ namespace API.Controllers
         [HttpPost("/login")]
         public async Task<ActionResult<int>> LoginAsync([FromBody] UserLoginDto userLoginData)
         {
-            var user = await _userService.GetUserByNameAsync(userLoginData.Username);
+            int userId = await _userService.LoginUserAsync(userLoginData);
 
-            if (user != null && _passwordHasher.VerifyPassword(user.PasswordHash, userLoginData.Password))
+            if (userId != -1)
             {
-                await _userService.UpdateUserLoginAsync(user.UserId);
-                return user.UserId;
+                return userId;
             }
             else
             {

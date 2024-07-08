@@ -16,12 +16,12 @@ namespace Application.Services
     {
         private readonly ITeamRepository _teamRepository;
         private readonly IMapper _mapper;
-        private readonly IUserService _userService;
-        public TeamService(ITeamRepository teamRepository, IMapper mapper, IUserService userService)
+        private readonly IUserRepository _userRepository;
+        public TeamService(ITeamRepository teamRepository, IMapper mapper, IUserRepository userRepository)
         {
             _teamRepository = teamRepository; 
             _mapper = mapper;
-            _userService = userService;
+            _userRepository = userRepository;
         }
 
         public async Task<TeamDto> GetTeamByIdAsync(int id)
@@ -47,7 +47,7 @@ namespace Application.Services
 
         public async Task AddUserToTeamAsync(string username, int teamId)
         {
-            var user = await _userService.GetUserByNameAsync(username);
+            var user = await _userRepository.GetWholeUserObjectByUsernameAsync(username);
             var team = await GetTeamByIdAsync(teamId);
 
             if (user == null || team == null) return;

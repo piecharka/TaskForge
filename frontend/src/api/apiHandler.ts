@@ -18,7 +18,8 @@ const Users = {
 }
 
 const Teams = {
-    list : () => requests.get<Team[]>('/teams')
+    list: () => requests.get<Team[]>('/teams'),
+    first: (id : number) => requests.get<Team>(`/teams/${id}`)
 }
 
 const apiHandler = {

@@ -11,8 +11,8 @@ namespace Domain.Interfaces.Repositories
     {
         Task<IEnumerable<TeamDto>> GetAllAsync();
         Task<TeamDto> GetByIdAsync(int teamId);
-        Task InsertAsync(Team user);
-        Task UpdateAsync(Team user);
+        Task InsertAsync(Team team);
+        Task UpdateAsync(Team team);
         Task DeleteAsync(int teamId);
         Task AddUserToTeamAsync(int teamId, User user);
         Task AddUsersToTeamAsync(int teamId, List<User> usersToAdd);

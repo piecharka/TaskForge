@@ -1,14 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain.DTOs;
 
 namespace Domain.Interfaces.Repositories
 {
-    public interface IUserRepository : IGenericRepository<User>
+    public interface IUserRepository
     {
-        Task<User> GetByNameAsync(string username);
-        Task<User> GetByEmailAsync(string email);
+        Task<IEnumerable<UserGetDto>> GetAllAsync();
+        Task<UserGetDto> GetByIdAsync(int userId);
+        Task InsertAsync(User user);
+        Task UpdateAsync(User user);
+        Task DeleteAsync(int userId);
+        Task<UserGetDto> GetByNameAsync(string username);
+        Task<UserGetDto> GetByEmailAsync(string email);
+        Task<User> GetWholeUserObjectByIdAsync(int userId);
+        Task<User> GetWholeUserObjectByUsernameAsync(string username);
     }
 }
