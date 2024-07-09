@@ -32,7 +32,7 @@ namespace Domain.DTOs
 
         public virtual ICollection<TaskCommentDto> Comments { get; set; } = new List<TaskCommentDto>();
 
-        public virtual TaskUserDto CreatedByNavigation { get; set; } 
+        public virtual TaskUserGetDto CreatedByNavigation { get; set; } 
 
         public virtual ProjectTaskStatus TaskStatus { get; set; }
 
@@ -40,7 +40,7 @@ namespace Domain.DTOs
 
         public virtual Team Team { get; set; }
 
-        public virtual ICollection<UsersTask> UsersTasks { get; set; } = new List<UsersTask>();
+        public virtual ICollection<UserTaskDto> UsersTasks { get; set; } = new List<UserTaskDto>();
     }
 
     public class TaskAttachmentsDto
@@ -66,14 +66,12 @@ namespace Domain.DTOs
 
         public DateTime WrittenAt { get; set; }
     }
-    public class TaskUserDto
+    public class TaskUserGetDto
     {
         public int UserId { get; set; }
         public string Username { get; set; }
 
         public string Email { get; set; }
-
-        public string PasswordHash { get; set; }
 
         public DateTime Birthday { get; set; }
 
@@ -84,5 +82,30 @@ namespace Domain.DTOs
         public DateTime LastLogin { get; set; }
 
         public bool IsActive { get; set; }
+    }
+    public class UserTaskDto
+    {
+        public int UserTaskId { get; set; }
+
+        public int UserId { get; set; }
+
+        public int TaskId { get; set; }
+
+        public virtual ProjectTask Task { get; set; }
+
+        public virtual ICollection<TimeLogDto> TimeLogs { get; set; } = new List<TimeLogDto>();
+
+        public virtual TaskUserGetDto User { get; set; }
+    }
+    
+    public class TimeLogDto
+    {
+        public int LogId { get; set; }
+
+        public int UserTaskId { get; set; }
+
+        public DateTime StartTime { get; set; }
+
+        public DateTime EndTime { get; set; }
     }
 }

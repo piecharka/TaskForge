@@ -37,5 +37,10 @@ namespace Application.Services
         {
             await _projectTaskRepository.DeleteAsync(id);
         }
+
+        public async Task<IEnumerable<TaskUserGetDto>> GetTaskUsersAsync(int taskId)
+        {
+            return await _projectTaskRepository.GetTaskUsersByTaskIdAsync(taskId);
+        }
     }
 }

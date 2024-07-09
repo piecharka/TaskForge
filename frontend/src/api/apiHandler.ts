@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { User } from '../models/user';
 import { Team } from '../models/team';
+import { ProjectTask } from '../models/projectTask';
 
 axios.defaults.baseURL = 'http://localhost:5194/api';
 
@@ -14,7 +15,8 @@ const requests = {
 }
 
 const Users = {
-    list: () => requests.get<User[]>('/users')
+    list: () => requests.get<User[]>('/users'),
+    teamUsers: (id : number) => requests.get<User[]>(`/users/team/${id}`)
 }
 
 const Teams = {
@@ -22,9 +24,14 @@ const Teams = {
     first: (id : number) => requests.get<Team>(`/teams/${id}`)
 }
 
+const ProjectTasks = {
+    projectTaskListInTeam: (teamId : number) => requests.get<ProjectTask>(`/projecttasks/${teamId}`)
+}
+
 const apiHandler = {
     Users,
-    Teams
+    Teams,
+    ProjectTasks
 }
 
 export default apiHandler;

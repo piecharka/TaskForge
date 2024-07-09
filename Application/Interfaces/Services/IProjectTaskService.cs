@@ -14,5 +14,6 @@ namespace Application.Interfaces.Services
         public Task<IEnumerable<ProjectTaskDto>> GetAllProjectTasksInTeamAsync(int teamId);
         public Task AddProjectTaskAsync(ProjectTaskInsertDto projectTaskInsert);
         public Task DeleteProjectTaskAsync(int teamId);
+        Task<IEnumerable<TaskUserGetDto>> GetTaskUsersAsync(int taskId);
     }
 }

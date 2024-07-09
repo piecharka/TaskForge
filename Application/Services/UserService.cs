@@ -45,6 +45,11 @@ namespace Application.Services
             return await _repository.GetAllAsync();
         }
 
+        public async Task<IEnumerable<UserGetDto>> GetTeamUsersAsync(int teamId)
+        {
+            return await _repository.GetTeamUsersAsync(teamId);
+        }
+
         public async Task InsertUserAsync(UserCreateDto userDto)
         {
             var user = _mapper.Map<UserCreateDto, User>(userDto);

@@ -13,5 +13,6 @@ namespace Domain.Interfaces.Repositories
         Task<UserGetDto> GetByEmailAsync(string email);
         Task<User> GetWholeUserObjectByIdAsync(int userId);
         Task<User> GetWholeUserObjectByUsernameAsync(string username);
+        Task<IEnumerable<UserGetDto>> GetTeamUsersAsync(int teamId);
     }
 }

@@ -42,6 +42,13 @@ namespace API.Controllers
             return Ok(await _userService.GetUserByIdAsync(id));
         }
 
+        // GET: api/Users/team
+        [HttpGet("/api/users/team/{teamId}")]
+        public async Task<ActionResult<IEnumerable<UserGetDto>>> GetTeamUsersAsync(int teamId)
+        {
+            return Ok(await _userService.GetTeamUsersAsync(teamId));
+        }
+
         // PUT: api/Users/updatePassword
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("/updatePassword")]

@@ -2,11 +2,6 @@
 using Domain.DTOs;
 using Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Persistence.Repositories
 {
@@ -28,6 +23,9 @@ namespace Persistence.Repositories
                  .Include(t => t.TaskType)
                  .Include(t => t.Team)
                  .Include(t => t.UsersTasks)
+                 .ThenInclude(ut => ut.User)
+                 .Include(t => t.UsersTasks)
+                 .ThenInclude(ut => ut.TimeLogs)
                  .Select(t => new ProjectTaskDto
                  {
                      TaskId = t.TaskId,
@@ -55,12 +53,11 @@ namespace Persistence.Repositories
                          CommentText = c.CommentText,
                          WrittenAt = c.WrittenAt
                      }).ToList(),
-                     CreatedByNavigation = new TaskUserDto
+                     CreatedByNavigation = new TaskUserGetDto
                      {
                          UserId = t.CreatedByNavigation.UserId,
                          Username = t.CreatedByNavigation.Username,
                          Email = t.CreatedByNavigation.Email,
-                         PasswordHash = t.CreatedByNavigation.PasswordHash,
                          Birthday = t.CreatedByNavigation.Birthday,
                          CreatedAt = t.CreatedByNavigation.CreatedAt,
                          UpdatedAt = t.CreatedByNavigation.UpdatedAt,
@@ -70,8 +67,30 @@ namespace Persistence.Repositories
                      TaskStatus = t.TaskStatus,
                      TaskType = t.TaskType,
                      Team = t.Team,
-                     UsersTasks = t.UsersTasks,
-                     
+                     UsersTasks = t.UsersTasks.Select(ut => new UserTaskDto
+                     {
+                         UserTaskId = ut.UserTaskId,
+                         UserId = ut.UserId,
+                         TaskId = ut.TaskId,
+                         User = new TaskUserGetDto
+                         {
+                             UserId = ut.User.UserId,
+                             Username = ut.User.Username,
+                             Email = ut.User.Email,
+                             Birthday = ut.User.Birthday,
+                             CreatedAt = ut.User.CreatedAt,
+                             UpdatedAt = ut.User.UpdatedAt,
+                             LastLogin = ut.User.LastLogin,
+                             IsActive = ut.User.IsActive,
+                         },
+                         TimeLogs = ut.TimeLogs.Select(tl => new TimeLogDto
+                         {
+                             LogId = tl.LogId,
+                             UserTaskId = tl.LogId,
+                             StartTime = tl.StartTime,
+                             EndTime = tl.EndTime
+                         }).ToList()
+                     }).ToList()
                  })
                  .Where(pt => pt.TeamId == teamId)
                  .ToListAsync();
@@ -87,6 +106,9 @@ namespace Persistence.Repositories
                  .Include(pt => pt.TaskType)
                  .Include(pt => pt.Team)
                  .Include(pt => pt.UsersTasks)
+                .ThenInclude(ut => ut.User)
+                .Include(pt => pt.UsersTasks)
+                .ThenInclude(ut => ut.TimeLogs)
                  .Where(pt => pt.TaskId == id)
                  .FirstOrDefaultAsync();
         }
@@ -101,6 +123,9 @@ namespace Persistence.Repositories
                 .Include(pt => pt.TaskType)
                 .Include(pt => pt.Team)
                 .Include(pt => pt.UsersTasks)
+                .ThenInclude(ut => ut.User)
+                .Include(pt => pt.UsersTasks)
+                .ThenInclude(ut => ut.TimeLogs)
                 .Where(t => t.TaskId == id)
                 .FirstOrDefaultAsync();
 
@@ -130,6 +155,24 @@ namespace Persistence.Repositories
                 .Update(projectTask);
 
             await _forgeDbContext.SaveChangesAsync();
+        }
+
+        public async Task<ICollection<TaskUserGetDto>> GetTaskUsersByTaskIdAsync(int taskId)
+        {
+            return await _forgeDbContext.UsersTasks
+                .Include(ut => ut.User)
+                .Include(ut => ut.TimeLogs)
+                .Where(ut => ut.Task.TaskId == taskId)
+                .Select(ut => new TaskUserGetDto
+                {
+                    UserId = ut.User.UserId,
+                    Username = ut.User.Username,
+                    Email = ut.User.Email,
+                    Birthday = ut.User.Birthday,
+                    LastLogin = ut.User.LastLogin,
+                    IsActive = ut.User.IsActive,
+                })
+                .ToListAsync();
         }
     }
 }

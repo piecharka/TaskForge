@@ -10,6 +10,7 @@ using Persistence;
 using Application.Interfaces.Services;
 using Application.Services;
 using Application.DTOs;
+using Domain.DTOs;
 
 namespace API.Controllers
 {
@@ -93,6 +94,13 @@ namespace API.Controllers
             await _projectTaskService.DeleteProjectTaskAsync(id);
 
             return NoContent();
+        }
+
+        // GET: api/ProjectTasks
+        [HttpGet("/api/ProjectTasks/Users/{taskId}")]
+        public async Task<ActionResult<IEnumerable<TaskUserGetDto>>> GetTasks(int taskId)
+        {
+            return Ok(await _projectTaskService.GetTaskUsersAsync(taskId));
         }
     }
 }
