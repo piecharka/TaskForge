@@ -12,20 +12,20 @@ using Application.DTOs;
 using Persistence.Repositories;
 using Application.Interfaces.Services;
 using Domain.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
-        private readonly IPasswordHasher _passwordHasher;
 
-        public UsersController(IUserService userService, IPasswordHasher passwordHasher)
+        public UsersController(IUserService userService)
         {
             _userService = userService;
-            _passwordHasher = passwordHasher;
         }
 
         // GET: api/Users
@@ -79,7 +79,7 @@ namespace API.Controllers
                 await _userService.InsertUserAsync(userCreateData);
             }
 
-            return CreatedAtAction("GetUser", new { id = userCreateData.UserId }, userCreateData);
+            return CreatedAtAction("GetUser", userCreateData);
         }
 
         // DELETE: api/Users/5
@@ -89,22 +89,6 @@ namespace API.Controllers
             await _userService.DeleteUserAsync(id);
 
             return NoContent();
-        }
-
-
-        [HttpPost("/login")]
-        public async Task<ActionResult<int>> LoginAsync([FromBody] UserLoginDto userLoginData)
-        {
-            int userId = await _userService.LoginUserAsync(userLoginData);
-
-            if (userId != -1)
-            {
-                return userId;
-            }
-            else
-            {
-                return NoContent();
-            }
         }
     }
 }

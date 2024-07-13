@@ -4,6 +4,7 @@ using Domain;
 using Persistence.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,8 @@ namespace Application
             CreateMap<UserCreateDto, User>();
             CreateMap<TeamDto, Team>();
             CreateMap<ProjectTaskInsertDto, ProjectTask>();
+            CreateMap<ProjectTask, UsersTasksToDoDto>();
+            CreateMap<UserRegisterDto, User>();
         }
     }
 }

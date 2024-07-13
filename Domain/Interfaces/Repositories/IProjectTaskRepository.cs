@@ -16,5 +16,6 @@ namespace Domain.Interfaces.Repositories
         Task UpdateAsync(ProjectTask user);
         Task DeleteAsync(int teamId);
         Task<ICollection<TaskUserGetDto>> GetTaskUsersByTaskIdAsync(int taskId);
+        Task<ICollection<ProjectTask>> GetAllTasksByUserIdAsync(int userId);
     }
 }

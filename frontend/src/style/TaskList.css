@@ -1,0 +1,23 @@
+
+.table{
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.taskList {
+    border: 1px solid #ccc;
+    border-radius: 1rem;
+    padding: 3rem;
+    margin: 1rem;
+    background-color: #1B1B1E;
+
+    color: white;
+}
+
+.taskList-tasks {
+    display: flex;
+    flex-direction: column;
+    align-content: space-around;
+}

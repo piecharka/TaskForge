@@ -90,25 +90,5 @@ namespace Application.Services
 
             await _repository.UpdateAsync(user);
         }
-
-        private async Task UpdateUserLoginAsync(int id)
-        {
-            var user = await _repository.GetWholeUserObjectByIdAsync(id);
-            user.LastLogin = DateTime.Now;
-
-            await _repository.UpdateAsync(user);
-        }
-
-        public async Task<int> LoginUserAsync(UserLoginDto userLoginDto)
-        {
-            var user = await _repository.GetWholeUserObjectByIdAsync(userLoginDto.UserId);
-
-            if (user != null && _passwordHasher.VerifyPassword(user.PasswordHash, userLoginDto.Password))
-            {
-                await UpdateUserLoginAsync(user.UserId);
-                return user.UserId;
-            }
-            else return -1;
-        }
     }
 }

@@ -108,4 +108,5 @@ namespace Domain.DTOs
 
         public DateTime EndTime { get; set; }
     }
+    
 }

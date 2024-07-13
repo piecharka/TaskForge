@@ -96,6 +96,16 @@ namespace Persistence.Repositories
                  .ToListAsync();
         }
 
+        public async Task<ICollection<ProjectTask>> GetAllTasksByUserIdAsync(int userId)
+        {
+            return await _forgeDbContext.UsersTasks
+                .Include(ut => ut.User)
+                .Include(ut => ut.TimeLogs)
+                .Where(ut => ut.UserId == userId)
+                .Select(ut => ut.Task)
+                .ToListAsync();
+        }
+
         public async Task<ProjectTask> GetByIdAsync(int id)
         {
             return await _forgeDbContext.ProjectTasks

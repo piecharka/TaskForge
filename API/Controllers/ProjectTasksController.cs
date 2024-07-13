@@ -11,9 +11,11 @@ using Application.Interfaces.Services;
 using Application.Services;
 using Application.DTOs;
 using Domain.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProjectTasksController : ControllerBase
@@ -97,10 +99,16 @@ namespace API.Controllers
         }
 
         // GET: api/ProjectTasks
-        [HttpGet("/api/ProjectTasks/Users/{taskId}")]
+        [HttpGet("/api/ProjectTasks/{taskId}")]
         public async Task<ActionResult<IEnumerable<TaskUserGetDto>>> GetTasks(int taskId)
         {
             return Ok(await _projectTaskService.GetTaskUsersAsync(taskId));
+        }
+
+        [HttpGet("/api/ProjectTasks/Users/{userId}")]
+        public async Task<ActionResult<IEnumerable<UsersTasksToDoDto>>> GetTodoTasks(int userId)
+        {
+            return Ok(await _projectTaskService.GetToDoTasksAsync(userId));
         }
     }
 }

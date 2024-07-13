@@ -42,5 +42,16 @@ namespace Application.Services
         {
             return await _projectTaskRepository.GetTaskUsersByTaskIdAsync(taskId);
         }
+
+        public async Task<IEnumerable<UsersTasksToDoDto>> GetToDoTasksAsync(int userId)
+        {
+            var tasks = await _projectTaskRepository.GetAllTasksByUserIdAsync(userId);
+            
+            var todoTasks = tasks
+                .Select(_mapper.Map<ProjectTask, UsersTasksToDoDto>)
+                .Where(t => t.TaskStatusId == 1 || t.TaskStatusId == 3);
+
+            return todoTasks;
+        }
     }
 }

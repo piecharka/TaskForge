@@ -8,7 +8,6 @@ namespace Application.DTOs
 {
     public class UserCreateDto
     {
-        public int UserId { get; set; }
         public string Username { get; set; } = null!;
 
         public string Email { get; set; } = null!;
@@ -17,20 +16,33 @@ namespace Application.DTOs
 
         public DateTime Birthday { get; set; }
     }
+
     public class UserUpdatePasswordDto
     {
         public int UserId { get; set; }
         public string PasswordHash { get; set; } = null!;
     }
+
     public class UserUpdateEmailDto
     {
         public int UserId { get; set; }
         public string Email { get; set; } = null!;
     }
+
     public class UserLoginDto
     {
-        public int UserId { get; set; }
         public string Username { get; set; } = null!;
         public string Password { get; set; } = null!;
+    }
+
+    public class UserRegisterDto
+    {
+        public string Username { get; set; } = null!;
+
+        public string Email { get; set; } = null!;
+
+        public string PasswordHash { get; set; } = null!;
+
+        public DateTime Birthday { get; set; }
     }
 }

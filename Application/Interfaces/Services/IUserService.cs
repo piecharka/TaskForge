@@ -14,7 +14,6 @@ namespace Application.Interfaces.Services
         Task UpdateUserPasswordAsync(UserUpdatePasswordDto user);
         Task UpdateUserEmailAsync(UserUpdateEmailDto user);
         Task DeleteUserAsync(int id); 
-        Task<int> LoginUserAsync(UserLoginDto userLoginDto);
         Task<IEnumerable<UserGetDto>> GetTeamUsersAsync(int teamId);
     }
 }

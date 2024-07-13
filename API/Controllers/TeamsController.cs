@@ -10,9 +10,11 @@ using Persistence;
 using Application.Interfaces.Services;
 using Application.DTOs;
 using Persistence.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TeamsController : ControllerBase
