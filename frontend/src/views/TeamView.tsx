@@ -3,11 +3,12 @@ import { useParams } from "react-router-dom";
 import apiHandler from "../api/apiHandler";
 import { Team } from "../models/team";
 import { User } from "../models/user";
+import { observer } from "mobx-react-lite";
 
-function TeamView() {
+const TeamView = observer(() => {
     const { teamId } = useParams<{ teamId: string }>();
     const [team, setTeam] = useState<Team | null>(null);
-    const [usersInTeam, setUsersInTeam] = useState<User[]> ([]);
+    const [usersInTeam, setUsersInTeam] = useState<User[]>([]);
 
     useEffect(() => {
         apiHandler.Teams.first(Number(teamId)).then(response => {
@@ -23,13 +24,13 @@ function TeamView() {
         return <div>Loading...</div>;
     }
 
-  return (
-      <div>
-          {team.teamName}
-          {usersInTeam.map(u => (
-              <p key={u.userId }>{u.username}</p>))}
-      </div>
-  );
-}
+    return (
+        <div>
+            {team.teamName}
+            {usersInTeam.map(u => (
+                <p key={u.userId}>{u.username}</p>))}
+        </div>
+    );
+});
 
 export default TeamView;

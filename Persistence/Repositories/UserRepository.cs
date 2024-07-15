@@ -24,7 +24,6 @@ namespace Persistence.Repositories
                     Email = u.Email,
                     Birthday = u.Birthday,
                     LastLogin = u.LastLogin,
-                    IsActive = u.IsActive,
                     Teams = u.Teams.Select(t => new UserTeamDto
                     {
                         TeamId = t.TeamId,

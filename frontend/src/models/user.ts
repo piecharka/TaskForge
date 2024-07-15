@@ -20,3 +20,23 @@ export type User = {
     usersTasks: UsersTask[];
     teams: Team[];
 };
+
+export type UserLoginData = {
+    username: string;
+    password: string;
+}
+
+export type UserRegisterData = {
+    username: string;
+    password: string;
+    email: string;
+    birthday: Date;
+}
+
+export type UserStoredData = {
+    userId: number;
+    username: string;
+    token: string;
+    lastLogin: Date;
+    teams: Team[];
+}

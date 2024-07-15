@@ -1,17 +1,19 @@
+import { observer } from "mobx-react-lite";
+import { Link } from "react-router-dom";
 
 
-function DashboardView() {
-  //  const [todoTasks, setTodoTasks] = useState<ProjectTask[]>([]);
+const DashboardView = observer(() => {
+    //  const [todoTasks, setTodoTasks] = useState<ProjectTask[]>([]);
 
-  //  useEffect(() => {
-  //      apiHandler.ProjectTasks.todoTasks()
-  //  }, [])
+    //  useEffect(() => {
+    //      apiHandler.ProjectTasks.todoTasks()
+    //  }, [])
 
-  //return (
-  //    <div>
-  //      <TaskList statusName="to-do"/>
-  //    </div>
-  //);
-}
+    return (
+        <div>
+            <Link to="team/0">link</Link>
+        </div>
+    );
+});
 
 export default DashboardView;

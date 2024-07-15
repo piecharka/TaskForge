@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Application.DTOs
+﻿namespace Application.DTOs
 {
     public class UserCreateDto
     {
@@ -34,6 +28,27 @@ namespace Application.DTOs
         public string Username { get; set; } = null!;
         public string Password { get; set; } = null!;
     }
+
+    public class UserLoginGetDto
+    {
+        public int UserId { get; set; }
+
+        public string Username { get; set; }
+
+        public string Token { get; set; }
+
+        public string Email { get; set; }
+
+        public DateTime LastLogin { get; set; }
+
+        public virtual ICollection<UserLoginTeamDto> Teams { get; set; } = new List<UserLoginTeamDto>();
+    }
+    public class UserLoginTeamDto
+    {
+        public int TeamId { get; set; }
+        public string TeamName { get; set; }
+    }
+
 
     public class UserRegisterDto
     {

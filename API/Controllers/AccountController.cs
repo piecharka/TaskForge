@@ -20,8 +20,8 @@ namespace API.Controllers
             _accountService = accountService;
         }
 
-        [HttpPost("/login")]
-        public async Task<ActionResult> LoginAsync([FromBody] UserLoginDto userLoginData)
+        [HttpPost("login")]
+        public async Task<ActionResult<UserLoginGetDto>> LoginAsync([FromBody] UserLoginDto userLoginData)
         {
 
             var user = await _accountService.LoginUserAsync(userLoginData);
@@ -31,11 +31,11 @@ namespace API.Controllers
                 return Unauthorized();
             }
 
-            return Ok(new { token = _jwtTokenService.GenerateToken(user) });
+            return Ok(user);
         }
 
-        [HttpPost("/register")]
-        public async Task<ActionResult> Register([FromBody] UserRegisterDto userRegisterData)
+        [HttpPost("register")]
+        public async Task<ActionResult<UserLoginGetDto>> Register([FromBody] UserRegisterDto userRegisterData)
         {
             if(!await _accountService.ValidateEmailAsync(userRegisterData.Email))
             {
@@ -49,7 +49,7 @@ namespace API.Controllers
             
             var user = await _accountService.RegisterUserAsync(userRegisterData);
 
-            return Ok(new { token = _jwtTokenService.GenerateToken(user) });
+            return Ok(user);
         }
     }
 }

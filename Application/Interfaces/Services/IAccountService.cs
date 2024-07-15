@@ -10,8 +10,8 @@ namespace Application.Interfaces.Services
 {
     public interface IAccountService
     {
-        Task<User> LoginUserAsync(UserLoginDto userLoginDto);
-        Task<User> RegisterUserAsync(UserRegisterDto userRegisterDto);
+        Task<UserLoginGetDto> LoginUserAsync(UserLoginDto userLoginDto);
+        Task<UserLoginGetDto> RegisterUserAsync(UserRegisterDto userRegisterDto);
         Task<bool> ValidateEmailAsync(string email);
         Task<bool> ValidateUsernameAsync(string username);
     }

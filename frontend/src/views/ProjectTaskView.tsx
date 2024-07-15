@@ -5,9 +5,10 @@ import { useParams } from "react-router-dom";
 import { ProjectTaskStatus } from "../models/projectTaskStatus";
 import TaskList from "../components/TaskList";
 import '../style/TaskList.css';
+import { observer } from "mobx-react-lite";
 
 
-function ProjectTaskView() {
+const ProjectTaskView = observer(() => {
     const { teamId } = useParams<{ teamId: string }>();
     const [projectTaskList, setProjectTaskList] = useState<ProjectTask[]>([]);
     const [projectTaskStatusList, setProjectTaskStatusList] = useState<ProjectTaskStatus[]>([]);
@@ -28,6 +29,6 @@ function ProjectTaskView() {
             <TaskList key={pts.statusId} taskList={projectTaskList} statusName={pts.statusName} />
         ))}
     </div>);
-}
+});
 
 export default ProjectTaskView;

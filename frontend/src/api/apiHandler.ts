@@ -1,19 +1,32 @@
 import axios, { AxiosResponse } from 'axios';
-import { User } from '../models/user';
+import { User, UserLoginData, UserRegisterData } from '../models/user';
 import { Team } from '../models/team';
 import { ProjectTask } from '../models/projectTask';
 import { ProjectTaskType } from '../models/projectTaskType';
 import { ProjectTaskStatus } from '../models/projectTaskStatus';
+import { store } from '../stores/store';
 
 axios.defaults.baseURL = 'http://localhost:5194/api';
 
 const responseBody = (response: AxiosResponse) => response.data;
+
+axios.interceptors.request.use(config => {
+    const token = store.commonStore.token;
+    if (token && config.headers) config.headers.Authorization = `Bearer ${token}`;
+
+    return config
+})
 
 const requests = {
     get: <T> (url: string) => axios.get<T>(url).then(responseBody),
     post: <T> (url: string, body: object) => axios.post<T>(url, body).then(responseBody),
     put: <T> (url: string, body: object) => axios.put<T>(url, body).then(responseBody),
     del: <T> (url: string) => axios.delete<T>(url).then(responseBody),
+
+}
+const Account = {   
+    login: (loginData: UserLoginData) => requests.post<User>('/account/login', loginData),
+    register: (registerData: UserRegisterData) => requests.post<User>('/account/register', registerData),
 }
 
 const Users = {
@@ -40,6 +53,7 @@ const ProjectTaskStatuses = {
 }
 
 const apiHandler = {
+    Account,
     Users,
     Teams,
     ProjectTasks,
