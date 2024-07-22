@@ -58,6 +58,8 @@ builder.Services.AddScoped<IProjectTaskService, ProjectTaskService>();
 builder.Services.AddScoped<IProjectTaskTypeService, ProjectTaskTypeService>();
 builder.Services.AddScoped<IProjectTaskStatusService, ProjectTaskStatusService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<ICommentService, CommentService>();
+
 
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();

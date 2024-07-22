@@ -1,8 +1,91 @@
-.login-form {
-    width: 300px;
+.card-box {
+    width: 600px;
     margin: 0 auto;
     padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #2B303A; /* Zmieniono na ciemnoszary */
+    border-radius: 10px; /* Zaokr¹glone krawêdzie */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Dodano cieñ */
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.first-part{
+    width: 300px;
+}
+
+.second-part{
+    padding: 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+h1 {
+    color: #0C7C59; /* Ciemny zielony */
+}
+
+input {
+    height: 46px;
+    padding: 0 16px;
+    border: 2px solid #0C7C59; /* Zmieniono na ciemny zielony */
+    border-radius: 4px;
+    outline: 0;
+    transition: border-color 0.2s, box-shadow 0.2s; /* Animacje */
+    margin-top: 20px;
+    color: #2B303A; /* Ciemnoszary tekst */
+}
+
+    input:focus {
+        border-color: #58A4B0; /* Turkusowy niebieski na focus */
+        box-shadow: 0 0 5px rgba(88, 164, 176, 0.5); /* Turkusowy cieñ */
+    }
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+button {
+    padding: 12px 10px;
+    width: 100%;
+    background-color: #58A4B0; /* Turkusowy niebieski */
+    border: 0;
+    border-radius: 5px; /* Zaokr¹glone krawêdzie */
+    margin-top: 20px;
+    color: #fff; /* Bia³y tekst */
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background-color 0.2s, box-shadow 0.2s; /* Animacje */
+}
+
+    button:hover {
+        background-color: #0C7C59; /* Ciemny zielony na hover */
+        box-shadow: 0 4px 8px rgba(12, 124, 89, 0.5); /* Ciemny zielony cieñ */
+    }
+
+.error {
+    color: #D64933; /* Czerwony z odcieniem pomarañczowym */
+    margin-bottom: 10px;
+}
+
+.register-link{
+    text-decoration: none;
+    color: black;
+    font-size: 0.8rem;
+}
+
+::placeholder {
+    color: #2B303A; /* Ciemnoszary placeholder */
+    opacity: 0.6; /* Przezroczystoœæ placeholdera */
+}
+
+@media (max-width: 600px) {
+    .login-form {
+        width: 90%; /* Responsywnoœæ */
+        padding: 15px;
+    }
 }

@@ -1,34 +1,43 @@
 import { useEffect, useState } from "react";
-import { ProjectTask } from "../models/projectTask";
 import apiHandler from "../api/apiHandler";
 import { useParams } from "react-router-dom";
-import { ProjectTaskStatus } from "../models/projectTaskStatus";
-import TaskList from "../components/TaskList";
-import '../style/TaskList.css';
-import { observer } from "mobx-react-lite";
+import { ProjectTask } from "../models/projectTask";
+import { Comment } from "../models/comment";
 
-
-const ProjectTaskView = observer(() => {
-    const { teamId } = useParams<{ teamId: string }>();
-    const [projectTaskList, setProjectTaskList] = useState<ProjectTask[]>([]);
-    const [projectTaskStatusList, setProjectTaskStatusList] = useState<ProjectTaskStatus[]>([]);
+function ProjectTaskView() {
+    const [task, setTask] = useState<ProjectTask>();
+    const [comments, setComments] = useState<Comment[]>();
+    const { taskId } = useParams<{taskId: string}>();
 
     useEffect(() => {
-        apiHandler.ProjectTasks.projectTaskListInTeam(Number(teamId)).then(response => {
-            setProjectTaskList(response)
-        })
+        apiHandler.ProjectTasks.getTask(Number(taskId))
+            .then(response => {
+                setTask(response)
+                console.log(response)
+            })
 
-        apiHandler.ProjectTaskStatuses.projectTaskStatusesList().then(response => {
-            setProjectTaskStatusList(response)
-        })
+        apiHandler.Comments.taskComments(Number(taskId))
+            .then(response => setComments(response));
 
-    }, [teamId])
+    }, [taskId])
 
-    return (<div className="table">
-        {projectTaskStatusList.map(pts => (
-            <TaskList key={pts.statusId} taskList={projectTaskList} statusName={pts.statusName} />
-        ))}
-    </div>);
-});
+  return (
+      <div>
+          {task && 
+              <div>
+                  <h1>{task.taskName}</h1>
+                  <span>{task.taskDeadline}</span>
+                  <p>{task.taskDescription}</p>
+              </div>
+          }
+
+          {comments && comments.map(c => (<div>
+              <p>{c.commentText }</p>
+          </div>
+          ))
+        }
+      </div>
+  );
+}
 
 export default ProjectTaskView;

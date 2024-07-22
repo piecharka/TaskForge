@@ -2,31 +2,61 @@ import { Link } from "react-router-dom";
 import "../style/Navbar.css";
 import { useStore } from "../stores/store";
 import { observer } from "mobx-react-lite";
+import { Team } from "../models/team";
+import { useEffect, useState } from "react";
+import apiHandler from "../api/apiHandler";
 
 const Navbar = observer(() => {
+    const [showTeams, setShowTeams] = useState<boolean>(false);
+    const [teams, setTeams] = useState<Team[]>([]);
     const { userStore } = useStore();
+
+    useEffect(() => {
+        apiHandler.Teams.teamsByUsername(userStore.user?.username)
+            .then(response => setTeams(response));
+    }, [userStore])
 
     const handleLogout = () => {
         userStore.logout();
     }
 
+    const teamOnClick = () => {
+        setShowTeams(!showTeams);
+        console.log(teams)
+        console.log(showTeams)
+    }
+
   return (
       <nav className="navbar">
           <ul className="navbar-nav">
-              { userStore.isLoggedIn ? <li className="nav-item">
-                  <Link  to="/login" onClick={handleLogout} className="nav-link">
-                    <span className="link-text">Log out</span>
+              {userStore.isLoggedIn && <div className="nav-team"><li className="nav-item">
+                  <Link to="#" className="nav-link" onClick={teamOnClick}>
+                      <span className="link-text">Teams <i className="fa fa-caret-down"></i></span>
+                  </Link>
+                  {showTeams && (
+                      <div className="teams-list">
+                          {teams.map(t => (
+                              <span key={t.teamId}>
+                                  <Link to={`team/${t.teamId}`} className="nav-link sub-link">
+                                      <span className="link-text">{t.teamName}</span>
+                                  </Link>
+                              </span>
+                          ))}
+                      </div>
+                  )}
+              </li>
+              </div>
+              }
+
+              {userStore.isLoggedIn ? <li className="nav-item">
+                  <Link to="/login" onClick={handleLogout} className="nav-link">
+                      <span className="link-text">Log out</span>
                   </Link>
               </li> : <li className="nav-item">
                   <Link to="login" className="nav-link">
-                      <span className="link-text">Log in</span>
+                      <span className="link-text">Login</span>
                   </Link>
               </li>}
-              <li className="nav-item">
-                  <Link to="#" className="nav-link">
-                      <span className="link-text">dupa2</span>
-                  </Link>
-              </li>
           </ul>
       </nav>
   );

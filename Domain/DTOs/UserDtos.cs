@@ -21,6 +21,7 @@ namespace Domain.DTOs
         public bool IsActive { get; set; }
         public virtual ICollection<UserTeamDto> Teams { get; set; } = new List<UserTeamDto>();
     }
+
     public class UserTeamDto
     {
         public int TeamId { get; set; }

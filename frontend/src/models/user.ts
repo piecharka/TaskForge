@@ -30,7 +30,7 @@ export type UserRegisterData = {
     username: string;
     password: string;
     email: string;
-    birthday: Date;
+    birthday: Date | null;
 }
 
 export type UserStoredData = {

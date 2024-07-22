@@ -25,18 +25,7 @@ namespace Persistence
                     {
                         UserId = u.UserId,
                         Username = u.Username,
-                        Email = u.Email,
-                        PasswordHash = u.PasswordHash,
-                        Birthday = u.Birthday,
-                        CreatedAt = u.CreatedAt,
-                        UpdatedAt = u.UpdatedAt,
-                        LastLogin = u.LastLogin,
-                        IsActive = u.IsActive,
-                        Attachments = u.Attachments,
-                        Comments = u.Comments,
-                        Notfications = u.Notfications,
-                        ProjectTasks = u.ProjectTasks,
-                        UsersTasks = u.UsersTasks,
+                        Email = u.Email,    
                     }).ToList()
                 }).Where(t => t.TeamId == teamId)
                 .FirstOrDefaultAsync();
@@ -55,17 +44,6 @@ namespace Persistence
                         UserId = u.UserId,
                         Username = u.Username,
                         Email = u.Email,
-                        PasswordHash = u.PasswordHash,
-                        Birthday = u.Birthday,
-                        CreatedAt = u.CreatedAt,
-                        UpdatedAt = u.UpdatedAt,
-                        LastLogin = u.LastLogin,
-                        IsActive = u.IsActive,
-                        Attachments = u.Attachments,
-                        Comments = u.Comments,
-                        Notfications = u.Notfications,
-                        ProjectTasks = u.ProjectTasks,
-                        UsersTasks = u.UsersTasks,
                     }).ToList()
                 }).ToListAsync();
         }
@@ -132,6 +110,26 @@ namespace Persistence
                 team.Users.Add(user);
             }
             await _forgeDbContext.SaveChangesAsync();
+        }
+
+        public async Task<ICollection<TeamDto>> GetTeamsByUsername(string username)
+        {
+            return await _forgeDbContext.Users
+                .Include(u => u.Teams)
+                .Where(u => u.Username == username)
+                .SelectMany(u => u.Teams
+                .Select(t => new TeamDto
+                {
+                    TeamId = t.TeamId,
+                    TeamName = t.TeamName,
+                    Users = t.Users.Select(u => new TeamUserDto
+                    {
+                        UserId = u.UserId,
+                        Username = u.Username,
+                        Email = u.Email
+                    }).ToList()
+                }))
+                .ToListAsync();
         }
     }
 }

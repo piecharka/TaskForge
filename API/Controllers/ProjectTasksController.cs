@@ -28,25 +28,18 @@ namespace API.Controllers
         }
 
         // GET: api/ProjectTasks
-        [HttpGet("{teamId}")]
+        [HttpGet("team/{teamId}")]
         public async Task<ActionResult<IEnumerable<ProjectTask>>> GetProjectTasks(int teamId)
         {
             return Ok(await _projectTaskService.GetAllProjectTasksInTeamAsync(teamId));
         }
 
-        //// GET: api/ProjectTasks/5
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<ProjectTask>> GetProjectTask(int id)
-        //{
-        //    var projectTask = await _context.ProjectTasks.FindAsync(id);
-
-        //    if (projectTask == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return projectTask;
-        //}
+        // GET: api/ProjectTasks/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ProjectTask>> GetProjectTask(int id)
+        {
+            return Ok(await _projectTaskService.GetTaskByIdAsync(id));
+        }
 
         //// PUT: api/ProjectTasks/5
         //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -99,16 +92,16 @@ namespace API.Controllers
         }
 
         // GET: api/ProjectTasks
-        [HttpGet("/api/ProjectTasks/{taskId}")]
+        [HttpGet("/api/ProjectTasks/user/{taskId}")]
         public async Task<ActionResult<IEnumerable<TaskUserGetDto>>> GetTasks(int taskId)
         {
             return Ok(await _projectTaskService.GetTaskUsersAsync(taskId));
         }
 
-        [HttpGet("/api/ProjectTasks/Users/{userId}")]
-        public async Task<ActionResult<IEnumerable<UsersTasksToDoDto>>> GetTodoTasks(int userId)
+        [HttpGet("/api/ProjectTasks/Users/{username}")]
+        public async Task<ActionResult<IEnumerable<UsersTasksToDoDto>>> GetTodoTasks(string username)
         {
-            return Ok(await _projectTaskService.GetToDoTasksAsync(userId));
+            return Ok(await _projectTaskService.GetToDoTasksAsync(username));
         }
     }
 }

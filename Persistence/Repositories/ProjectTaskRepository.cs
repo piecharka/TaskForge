@@ -37,7 +37,6 @@ namespace Persistence.Repositories
                      TaskDeadline = t.TaskDeadline,
                      TaskTypeId = t.TaskTypeId,
                      TaskDescription = t.TaskDescription,
-                     UpdatedAt = t.UpdatedAt,
                      Attachments = t.Attachments.Select(a => new TaskAttachmentsDto
                      {
                          AttachmentId = a.AttachmentId,
@@ -58,15 +57,10 @@ namespace Persistence.Repositories
                          UserId = t.CreatedByNavigation.UserId,
                          Username = t.CreatedByNavigation.Username,
                          Email = t.CreatedByNavigation.Email,
-                         Birthday = t.CreatedByNavigation.Birthday,
-                         CreatedAt = t.CreatedByNavigation.CreatedAt,
-                         UpdatedAt = t.CreatedByNavigation.UpdatedAt,
                          LastLogin = t.CreatedByNavigation.LastLogin,
-                         IsActive = t.CreatedByNavigation.IsActive,
                      },
                      TaskStatus = t.TaskStatus,
                      TaskType = t.TaskType,
-                     Team = t.Team,
                      UsersTasks = t.UsersTasks.Select(ut => new UserTaskDto
                      {
                          UserTaskId = ut.UserTaskId,
@@ -77,11 +71,7 @@ namespace Persistence.Repositories
                              UserId = ut.User.UserId,
                              Username = ut.User.Username,
                              Email = ut.User.Email,
-                             Birthday = ut.User.Birthday,
-                             CreatedAt = ut.User.CreatedAt,
-                             UpdatedAt = ut.User.UpdatedAt,
                              LastLogin = ut.User.LastLogin,
-                             IsActive = ut.User.IsActive,
                          },
                          TimeLogs = ut.TimeLogs.Select(tl => new TimeLogDto
                          {
@@ -106,7 +96,17 @@ namespace Persistence.Repositories
                 .ToListAsync();
         }
 
-        public async Task<ProjectTask> GetByIdAsync(int id)
+        public async Task<ICollection<ProjectTask>> GetAllTasksByUsernameAsync(string username)
+        {
+            return await _forgeDbContext.UsersTasks
+                .Include(ut => ut.User)
+                .Include(ut => ut.TimeLogs)
+                .Where(ut => ut.User.Username == username)
+                .Select(ut => ut.Task)
+                .ToListAsync();
+        }
+
+        public async Task<ProjectTaskDto> GetByIdAsync(int id)
         {
             return await _forgeDbContext.ProjectTasks
                  .Include(pt => pt.Attachments) 
@@ -120,6 +120,62 @@ namespace Persistence.Repositories
                 .Include(pt => pt.UsersTasks)
                 .ThenInclude(ut => ut.TimeLogs)
                  .Where(pt => pt.TaskId == id)
+                 .Select(t => new ProjectTaskDto
+                 {
+                     TaskId = t.TaskId,
+                     TaskName = t.TaskName,
+                     TaskStatusId = t.TaskStatusId,
+                     TeamId = t.TeamId,
+                     CreatedBy = t.CreatedBy,
+                     CreatedAt = t.CreatedAt,
+                     TaskDeadline = t.TaskDeadline,
+                     TaskTypeId = t.TaskTypeId,
+                     TaskDescription = t.TaskDescription,
+                     Attachments = t.Attachments.Select(a => new TaskAttachmentsDto
+                     {
+                         AttachmentId = a.AttachmentId,
+                         TaskId = a.TaskId,
+                         AddedBy = a.AddedBy,
+                         FilePath = a.FilePath
+                     }).ToList(),
+                     Comments = t.Comments.Select(c => new TaskCommentDto
+                     {
+                         CommentId = c.CommentId,
+                         TaskId = c.TaskId,
+                         WrittenBy = c.WrittenBy,
+                         CommentText = c.CommentText,
+                         WrittenAt = c.WrittenAt
+                     }).ToList(),
+                     CreatedByNavigation = new TaskUserGetDto
+                     {
+                         UserId = t.CreatedByNavigation.UserId,
+                         Username = t.CreatedByNavigation.Username,
+                         Email = t.CreatedByNavigation.Email,
+                         LastLogin = t.CreatedByNavigation.LastLogin,
+                     },
+                     TaskStatus = t.TaskStatus,
+                     TaskType = t.TaskType,
+                     UsersTasks = t.UsersTasks.Select(ut => new UserTaskDto
+                     {
+                         UserTaskId = ut.UserTaskId,
+                         UserId = ut.UserId,
+                         TaskId = ut.TaskId,
+                         User = new TaskUserGetDto
+                         {
+                             UserId = ut.User.UserId,
+                             Username = ut.User.Username,
+                             Email = ut.User.Email,
+                             LastLogin = ut.User.LastLogin,
+                         },
+                         TimeLogs = ut.TimeLogs.Select(tl => new TimeLogDto
+                         {
+                             LogId = tl.LogId,
+                             UserTaskId = tl.LogId,
+                             StartTime = tl.StartTime,
+                             EndTime = tl.EndTime
+                         }).ToList()
+                     }).ToList()
+                 })
                  .FirstOrDefaultAsync();
         }
 
@@ -178,9 +234,7 @@ namespace Persistence.Repositories
                     UserId = ut.User.UserId,
                     Username = ut.User.Username,
                     Email = ut.User.Email,
-                    Birthday = ut.User.Birthday,
                     LastLogin = ut.User.LastLogin,
-                    IsActive = ut.User.IsActive,
                 })
                 .ToListAsync();
         }

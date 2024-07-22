@@ -54,5 +54,10 @@ namespace Application.Services
 
             await _teamRepository.AddUserToTeamAsync(teamId, user);
         }
+
+        public async Task<IEnumerable<TeamDto>> GetTeamsByUsernameAsync(string username)
+        {
+            return await _teamRepository.GetTeamsByUsername(username);
+        }
     }
 }

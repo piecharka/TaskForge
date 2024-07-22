@@ -16,5 +16,6 @@ namespace Domain.Interfaces.Repositories
         Task DeleteAsync(int teamId);
         Task AddUserToTeamAsync(int teamId, User user);
         Task AddUsersToTeamAsync(int teamId, List<User> usersToAdd);
+        Task<ICollection<TeamDto>> GetTeamsByUsername(string username);
     }
 }

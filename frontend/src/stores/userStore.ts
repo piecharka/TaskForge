@@ -1,5 +1,5 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import { UserLoginData, UserStoredData } from "../models/user";
+import { UserLoginData, UserRegisterData, UserStoredData } from "../models/user";
 import apiHandler from "../api/apiHandler";
 import { store } from "./store";
 
@@ -17,6 +17,12 @@ export default class UserStore {
 
     login = async (creds: UserLoginData) => {
         const user = await apiHandler.Account.login(creds);
+        store.commonStore.setToken(user.token);
+        runInAction(() => this.user = user);
+    }
+
+    register = async (creds: UserRegisterData) => {
+        const user = await apiHandler.Account.register(creds);
         store.commonStore.setToken(user.token);
         runInAction(() => this.user = user);
     }

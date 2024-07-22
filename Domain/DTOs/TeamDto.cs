@@ -14,4 +14,13 @@ namespace Persistence.DTOs
         public string TeamName { get; set; }
         public ICollection<TeamUserDto> Users { get; set; }
     }
+
+    public class TeamUserDto
+    {
+        public int UserId { get; set; }
+        public string Username { get; set; }
+
+        public string Email { get; set; }
+
+    }
 }

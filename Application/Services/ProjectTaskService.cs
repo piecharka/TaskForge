@@ -38,14 +38,19 @@ namespace Application.Services
             await _projectTaskRepository.DeleteAsync(id);
         }
 
+        public async Task<ProjectTaskDto> GetTaskByIdAsync(int taskId)
+        {
+            return await _projectTaskRepository.GetByIdAsync(taskId);
+        }
+
         public async Task<IEnumerable<TaskUserGetDto>> GetTaskUsersAsync(int taskId)
         {
             return await _projectTaskRepository.GetTaskUsersByTaskIdAsync(taskId);
         }
 
-        public async Task<IEnumerable<UsersTasksToDoDto>> GetToDoTasksAsync(int userId)
+        public async Task<IEnumerable<UsersTasksToDoDto>> GetToDoTasksAsync(string username)
         {
-            var tasks = await _projectTaskRepository.GetAllTasksByUserIdAsync(userId);
+            var tasks = await _projectTaskRepository.GetAllTasksByUsernameAsync(username);
             
             var todoTasks = tasks
                 .Select(_mapper.Map<ProjectTask, UsersTasksToDoDto>)

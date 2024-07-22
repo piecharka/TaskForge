@@ -1,42 +1,68 @@
 import { useState } from "react";
 import { useStore } from "../stores/store";
 import { observer } from "mobx-react-lite";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import "../style/LoginForm.css";
 
 const LoginFormView = observer(function LoginFormView() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState<string | null>(null);
     const { userStore } = useStore();
     const navigate = useNavigate();
 
-    const handleSubmit = () => {
+    const handleSubmit = (e : React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         userStore.login({ username, password })
-        navigate('/');
+        .then(() => {
+            setError('');
+            navigate('/');
+        }).catch((error: any) => {
+            if (error.response && error.response.data && error.response.data.message) {
+                setError(error.response.data.message);
+            } else if (error.message) {
+                setError(error.message);
+            } else {
+                setError('An unexpected error occurred');
+            }
+        })
+        //navigate('/');
     }
 
   return (
-      <div className="login-form">
-          <form onSubmit={ handleSubmit }>
-              <div className="form-group">
-                  <label htmlFor="username">Username</label>
-                  <input
-                      type="username"
-                      id="username"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                  />
+      <div className="card-box">
+          <div className="first-part"></div>
+          <div className="second-part">
+              <div className="login-form">
+                  <h1>Login</h1>
+                  {error && <div className="error">{error}</div>} {/* Wyœwietl komunikat b³êdu */}
+                  <form onSubmit={handleSubmit}>
+                      <div className="form-group">
+                          <input
+                              type="username"
+                              id="username"
+                              value={username}
+                              onChange={(e) => setUsername(e.target.value)}
+                              placeholder="username"
+                          />
+                      </div>
+                      <div className="form-group">
+                          <input
+                              type="password"
+                              id="password"
+                              value={password}
+                              onChange={(e) => setPassword(e.target.value)}
+                              placeholder="password"
+                          />
+                      </div>
+                      <button type="submit">Submit</button>
+                  </form>
+
               </div>
-              <div className="form-group">
-                  <label htmlFor="password">Password</label>
-                  <input
-                      type="password"
-                      id="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                  />
-              </div>
-              <button type="submit">Log in</button>
-          </form>
+                  <Link className="register-link" to="/register/" >
+                    <span>Create your account &rarr;</span>
+                  </Link>
+          </div>
       </div>
   );
 })

@@ -4,6 +4,7 @@ import apiHandler from "../api/apiHandler";
 import { Team } from "../models/team";
 import { User } from "../models/user";
 import { observer } from "mobx-react-lite";
+import "../style/Team.css"
 
 const TeamView = observer(() => {
     const { teamId } = useParams<{ teamId: string }>();
@@ -14,6 +15,7 @@ const TeamView = observer(() => {
         apiHandler.Teams.first(Number(teamId)).then(response => {
             setTeam(response);
         });
+
         apiHandler.Users.teamUsers(Number(teamId)).then(response => {
             setUsersInTeam(response);
         })
@@ -26,9 +28,11 @@ const TeamView = observer(() => {
 
     return (
         <div>
-            {team.teamName}
-            {usersInTeam.map(u => (
-                <p key={u.userId}>{u.username}</p>))}
+            <h1>{team.teamName}</h1>
+            <div className="user-list">
+                {usersInTeam.map(u => (
+                    <p key={u.userId}>{u.username}</p>))}
+            </div>
         </div>
     );
 });

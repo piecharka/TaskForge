@@ -26,8 +26,6 @@ namespace Domain.DTOs
 
         public string TaskDescription { get; set; }
 
-        public DateTime UpdatedAt { get; set; }
-
         public virtual ICollection<TaskAttachmentsDto> Attachments { get; set; } = new List<TaskAttachmentsDto>();
 
         public virtual ICollection<TaskCommentDto> Comments { get; set; } = new List<TaskCommentDto>();
@@ -37,8 +35,6 @@ namespace Domain.DTOs
         public virtual ProjectTaskStatus TaskStatus { get; set; }
 
         public virtual ProjectTaskType TaskType { get; set; }
-
-        public virtual Team Team { get; set; }
 
         public virtual ICollection<UserTaskDto> UsersTasks { get; set; } = new List<UserTaskDto>();
     }
@@ -73,15 +69,7 @@ namespace Domain.DTOs
 
         public string Email { get; set; }
 
-        public DateTime Birthday { get; set; }
-
-        public DateTime CreatedAt { get; set; }
-
-        public DateTime UpdatedAt { get; set; }
-
         public DateTime LastLogin { get; set; }
-
-        public bool IsActive { get; set; }
     }
     public class UserTaskDto
     {

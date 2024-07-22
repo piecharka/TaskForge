@@ -7,7 +7,11 @@ using System.Threading.Tasks;
 
 namespace Domain.Interfaces.Repositories
 {
-    public interface ICommentRepository : IGenericRepository<Comment>
+    public interface ICommentRepository
     {
+        Task<IEnumerable<Comment>> GetAllTaskCommentsAsync(int taskId);
+        Task AddCommentAsync(Comment comment);
+        Task UpdateAsync(Comment comment);
+        Task DeleteAsync(int commentId);
     }
 }

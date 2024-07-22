@@ -11,5 +11,6 @@ namespace Application.Interfaces.Services
         public Task InsertTeamAsync(TeamDto teamDto);
         public Task DeleteTeamAsync(int id);
         public Task AddUserToTeamAsync(string username, int teamId);
+        Task<IEnumerable<TeamDto>> GetTeamsByUsernameAsync(string username);
     }
 }

@@ -1,10 +1,6 @@
 /*
 MAIN COLORS:
-    #503D3F
-    #615756
-    #539987
-    #52FFB8
-    #4DFFF3
+    #BAC1B8 #58A4B0 #0C7C59 #2B303A #D64933
 
 */
 
@@ -17,9 +13,10 @@ MAIN COLORS:
 body {
     font-weight: 400;
     font-style: normal;
-    background-color: #D8DBE2;
+    background-color: #BAC1B8;
     margin: 0;
     padding: 0;
+    color: #2B303A;
 }
 
 .main{

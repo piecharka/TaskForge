@@ -46,6 +46,12 @@ namespace API.Controllers
             return team;
         }
 
+        [HttpGet("user/{username}")]
+        public async Task<ActionResult<TeamDto>> GetTeamsByUsername(string username)
+        {
+            return Ok(await _teamService.GetTeamsByUsernameAsync(username));
+        }
+
         // PUT: api/Teams/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         //[HttpPut("{id}")]

@@ -62,7 +62,7 @@ namespace Application.Services
         {
             var user = _mapper.Map<UserRegisterDto, User>(userRegisterDto);
             user.Username = user.Username.ToLower();
-            user.PasswordHash = _passwordHasher.HashPassword(user.PasswordHash);
+            user.PasswordHash = _passwordHasher.HashPassword(userRegisterDto.Password);
             user.CreatedAt = DateTime.Now;
             user.UpdatedAt = DateTime.Now;
             user.LastLogin = DateTime.Now;

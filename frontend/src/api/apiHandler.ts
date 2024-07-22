@@ -29,6 +29,10 @@ const Account = {
     register: (registerData: UserRegisterData) => requests.post<User>('/account/register', registerData),
 }
 
+const Comments = {
+    taskComments: (taskId : number) => requests.get<Comment>(`/comments/${taskId}`)
+}
+
 const Users = {
     list: () => requests.get<User[]>('/users'),
     teamUsers: (id : number) => requests.get<User[]>(`/users/team/${id}`)
@@ -36,12 +40,14 @@ const Users = {
 
 const Teams = {
     list: () => requests.get<Team[]>('/teams'),
-    first: (id : number) => requests.get<Team>(`/teams/${id}`)
+    first: (id: number) => requests.get<Team>(`/teams/${id}`),
+    teamsByUsername: (username: string | undefined) => requests.get<Team[]>(`/teams/user/${username}`)
 }
 
 const ProjectTasks = {
-    projectTaskListInTeam: (teamId: number) => requests.get<ProjectTask>(`/projecttasks/${teamId}`),
-    todoTasks: (userId: number) => requests.get<ProjectTask>(`/projecttasks/users/${userId}`)
+    projectTaskListInTeam: (teamId: number) => requests.get<ProjectTask>(`/projecttasks/team/${teamId}`),
+    todoTasks: (username: string | undefined) => requests.get<ProjectTask>(`/projecttasks/users/${username}`),
+    getTask: (taskId: number) => requests.get<ProjectTask>(`/projecttasks/${taskId}`)
 }
 
 const ProjectTaskTypes = {
@@ -54,6 +60,7 @@ const ProjectTaskStatuses = {
 
 const apiHandler = {
     Account,
+    Comments,
     Users,
     Teams,
     ProjectTasks,
