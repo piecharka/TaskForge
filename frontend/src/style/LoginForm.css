@@ -1,29 +1,48 @@
 .card-box {
     width: 600px;
     margin: 0 auto;
-    padding: 20px;
     border: 1px solid #2B303A; /* Zmieniono na ciemnoszary */
     border-radius: 10px; /* Zaokr¹glone krawêdzie */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Dodano cieñ */
     background-color: white;
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: stretch;
 }
 
-.first-part{
-    width: 300px;
+.first-part {
+    background-color: #58A4B0;
+    flex: 1;
+    padding: 2rem;
+    margin: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .second-part{
-    padding: 4rem;
+    flex:1;
+    padding: 2rem;
+
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2rem;
+    gap: 1rem;
 }
 
-h1 {
+.second-part form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap:1rem;
+}
+
+.app-title {
+    color: white;
+    text-align: center;
+}
+
+.second-part h1 {
     color: #0C7C59; /* Ciemny zielony */
 }
 
@@ -34,7 +53,6 @@ input {
     border-radius: 4px;
     outline: 0;
     transition: border-color 0.2s, box-shadow 0.2s; /* Animacje */
-    margin-top: 20px;
     color: #2B303A; /* Ciemnoszary tekst */
 }
 
@@ -55,7 +73,6 @@ button {
     background-color: #58A4B0; /* Turkusowy niebieski */
     border: 0;
     border-radius: 5px; /* Zaokr¹glone krawêdzie */
-    margin-top: 20px;
     color: #fff; /* Bia³y tekst */
     letter-spacing: 1px;
     cursor: pointer;

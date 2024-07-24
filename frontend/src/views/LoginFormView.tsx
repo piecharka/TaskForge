@@ -31,9 +31,14 @@ const LoginFormView = observer(function LoginFormView() {
 
   return (
       <div className="card-box">
-          <div className="first-part"></div>
+          <div className="first-part">
+              <div className="app-title">
+                  <h1>Task Forge</h1>
+                  <p>Organize and schedule your team's time</p>
+              </div>
+          </div>
           <div className="second-part">
-              <div className="login-form">
+              <div>
                   <h1>Login</h1>
                   {error && <div className="error">{error}</div>} {/* Wyœwietl komunikat b³êdu */}
                   <form onSubmit={handleSubmit}>

@@ -37,47 +37,55 @@ const RegisterFormView = observer(function LoginFormView() {
 
     return (
         <div className="card-box">
-            <div className="first-part"></div>
+            <div className="first-part">
+                <div className="app-title">
+                    <h1>Task Forge</h1>
+                    <p>Organize and schedule your team's time</p>
+                </div>
+            </div>
+
             <div className="second-part">
-                <h1>Register</h1>
-                {error && <div className="error">{error}</div>} {/* Wyœwietl komunikat b³êdu */}
-                <form onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <input
-                            type="username"
-                            id="username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            placeholder="username"
-                        />
-                    </div>
-                    <div className="form-group">
-                        <input
-                            type="email"
-                            id="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            placeholder="email"
-                        />
-                    </div>
-                    <div className="form-group">
-                        <input
-                            type="password"
-                            id="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            placeholder="password"
-                        />
-                    </div>
-                    <div className="form-group">
-                        <DatePicker
-                            selected={birthday}
-                            onChange={(date: Date | null) => setBirthday(date)}
-                            placeholderText="Select a date"
-                        />
-                    </div>
-                    <button type="submit">Submit</button>
-                </form>
+                <div>
+                    <h1>Register</h1>
+                    {error && <div className="error">{error}</div>} {/* Wyœwietl komunikat b³êdu */}
+                    <form onSubmit={handleSubmit}>
+                        <div className="form-group">
+                            <input
+                                type="username"
+                                id="username"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                placeholder="username"
+                            />
+                        </div>
+                        <div className="form-group">
+                            <input
+                                type="email"
+                                id="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="email"
+                            />
+                        </div>
+                        <div className="form-group">
+                            <input
+                                type="password"
+                                id="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                placeholder="password"
+                            />
+                        </div>
+                        <div className="form-group">
+                            <DatePicker
+                                selected={birthday}
+                                onChange={(date: Date | null) => setBirthday(date)}
+                                placeholderText="Select a date"
+                            />
+                        </div>
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
             </div>
         </div>
     );
