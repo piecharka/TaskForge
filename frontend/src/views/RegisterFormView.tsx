@@ -33,8 +33,6 @@ const RegisterFormView = observer(function LoginFormView() {
         //navigate('/');
     }
 
-    
-
     return (
         <div className="card-box">
             <div className="first-part">

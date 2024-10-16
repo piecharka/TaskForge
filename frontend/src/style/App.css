@@ -5,18 +5,17 @@ MAIN COLORS:
 */
 
 :root {
-    font-family: "Open Sans", sans-serif;
+    font-family: "Inter", sans-serif;
     font-optical-sizing: auto;
-
 }
 
 body {
     font-weight: 400;
     font-style: normal;
-    background-color: #BAC1B8;
+    background-color: #2B303A;
     margin: 0;
     padding: 0;
-    color: #2B303A;
+    color: white;
 }
 
 .main{

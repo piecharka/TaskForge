@@ -1,10 +1,12 @@
+.horizontal-navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 4rem;
+    border-bottom: 3px solid #0C7C59;
+}
 
-.user-list {
-    border: 1px solid #ccc;
-    width: 20rem;
-    border-radius: 0.5rem;
-    padding: 1.5rem;
-    margin: 0.5rem;
-    background-color: #2B303A;
+.horizontal-navbar  a{
+    text-decoration: none;
     color: white;
 }

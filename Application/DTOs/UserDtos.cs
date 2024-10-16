@@ -36,12 +36,6 @@
         public string Username { get; set; }
 
         public string Token { get; set; }
-
-        public string Email { get; set; }
-
-        public DateTime LastLogin { get; set; }
-
-        public virtual ICollection<UserLoginTeamDto> Teams { get; set; } = new List<UserLoginTeamDto>();
     }
     public class UserLoginTeamDto
     {

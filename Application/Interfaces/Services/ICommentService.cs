@@ -1,4 +1,6 @@
-﻿using Domain;
+﻿using Application.DTOs;
+using Domain;
+using Domain.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,9 @@ namespace Application.Interfaces.Services
 {
     public interface ICommentService
     {
-        Task<IEnumerable<Comment>> GetTasksCommentsAsync(int taskId);
+        Task<IEnumerable<CommentDto>> GetTasksCommentsAsync(int taskId);
+        Task DeleteCommentAsync(int id);
+        Task AddCommentAsync(CommentInsertDto commentInsert);
+        Task UpdateCommentAsync(int commentId, CommentUpdateDto commentUpdate);
     }
 }

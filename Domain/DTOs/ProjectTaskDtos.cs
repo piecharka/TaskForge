@@ -25,6 +25,7 @@ namespace Domain.DTOs
         public int TaskTypeId { get; set; }
 
         public string TaskDescription { get; set; }
+        public virtual TeamGetDto Team { get; set; }
 
         public virtual ICollection<TaskAttachmentsDto> Attachments { get; set; } = new List<TaskAttachmentsDto>();
 
@@ -61,6 +62,7 @@ namespace Domain.DTOs
         public string CommentText { get; set; }
 
         public DateTime WrittenAt { get; set; }
+        public virtual TaskCommentUserDto WrittenByNavigation { get; set; }
     }
     public class TaskUserGetDto
     {
@@ -71,6 +73,13 @@ namespace Domain.DTOs
 
         public DateTime LastLogin { get; set; }
     }
+
+    public class TaskCommentUserDto
+    {
+        public int UserId { get; set; }
+        public string Username { get; set; }
+    }
+
     public class UserTaskDto
     {
         public int UserTaskId { get; set; }
@@ -84,6 +93,12 @@ namespace Domain.DTOs
         public virtual ICollection<TimeLogDto> TimeLogs { get; set; } = new List<TimeLogDto>();
 
         public virtual TaskUserGetDto User { get; set; }
+    }
+
+    public class TeamGetDto
+    {
+        public int TeamId { get; set; }
+        public string TeamName { get; set; }
     }
     
     public class TimeLogDto

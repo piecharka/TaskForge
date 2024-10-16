@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Domain;
+using Domain.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +16,7 @@ namespace Application.DTOs
 
         public int TaskStatusId { get; set; }
 
+
         public int CreatedBy { get; set; }
 
         public DateTime TaskDeadline { get; set; }
@@ -21,5 +24,14 @@ namespace Application.DTOs
         public int TaskTypeId { get; set; }
 
         public string TaskDescription { get; set; }
+
+        public TeamGetDto Team{ get; set; }
+        public ProjectTaskStatus TaskStatus { get; set; }
+    }
+
+    public class TeamGetDto
+    {
+        public int TeamId { get; set; }
+        public string TeamName { get; set; }
     }
 }

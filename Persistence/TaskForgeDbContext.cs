@@ -81,7 +81,6 @@ public partial class TaskForgeDbContext : DbContext
             entity.ToTable("comments");
 
             entity.Property(e => e.CommentId)
-                .ValueGeneratedNever()
                 .HasColumnName("comment_id");
             entity.Property(e => e.CommentText)
                 .IsRequired()

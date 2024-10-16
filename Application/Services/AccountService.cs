@@ -41,15 +41,7 @@ namespace Application.Services
                 {
                     UserId = user.UserId,
                     Username = user.Username,
-                    Email = user.Email,
                     Token = token,
-                    LastLogin = user.LastLogin,
-                    Teams = user.Teams.Select(t =>
-                    new UserLoginTeamDto
-                    {
-                        TeamId = t.TeamId,
-                        TeamName = t.TeamName,
-                    }).ToList()
                 };
 
                 return userReturnData;
@@ -75,15 +67,7 @@ namespace Application.Services
             {
                 UserId = user.UserId,
                 Username = user.Username,
-                Email = user.Email,
                 Token = token,
-                LastLogin = user.LastLogin,
-                Teams = user.Teams.Select(t =>
-                new UserLoginTeamDto
-                {
-                    TeamId = t.TeamId,
-                    TeamName = t.TeamName,
-                }).ToList()
             };
 
             return userReturnData;

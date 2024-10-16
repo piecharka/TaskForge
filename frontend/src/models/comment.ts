@@ -10,3 +10,9 @@ export type Comment = {
     task: ProjectTask;
     writtenByNavigation: User;
 };
+
+export type CommentInsertData = {
+    taskId: number;
+    writtenBy: number;
+    commentText: string;
+}

@@ -5,6 +5,7 @@ import { ProjectTask } from '../models/projectTask';
 import { ProjectTaskType } from '../models/projectTaskType';
 import { ProjectTaskStatus } from '../models/projectTaskStatus';
 import { store } from '../stores/store';
+import { CommentInsertData } from '../models/comment';
 
 axios.defaults.baseURL = 'http://localhost:5194/api';
 
@@ -30,10 +31,12 @@ const Account = {
 }
 
 const Comments = {
-    taskComments: (taskId : number) => requests.get<Comment>(`/comments/${taskId}`)
+    taskComments: (taskId: number) => requests.get<Comment>(`/comments/${taskId}`),
+    insertComment: (commentData: CommentInsertData) => requests.post<Comment>(`/comments/`, commentData)
 }
 
 const Users = {
+    getUserById: (userId: number) => requests.get<User>(`/users/${userId}`),
     list: () => requests.get<User[]>('/users'),
     teamUsers: (id : number) => requests.get<User[]>(`/users/team/${id}`)
 }

@@ -1,4 +1,5 @@
 ﻿using Domain;
+using Domain.DTOs;
 using Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,10 +18,25 @@ namespace Persistence.Repositories
             _taskForgeDbContext = context;
         }
 
-        public async Task<IEnumerable<Comment>> GetAllTaskCommentsAsync(int taskId) 
+        public async Task<IEnumerable<CommentDto>> GetAllTaskCommentsAsync(int taskId) 
         {
             return await _taskForgeDbContext.Comments
                 .Include(c => c.Task)
+                .Include(c => c.WrittenByNavigation)
+                .Select(c => new CommentDto
+                {
+                    CommentId = c.CommentId,
+                    TaskId = c.TaskId,
+                    WrittenBy = c.WrittenBy,
+                    CommentText = c.CommentText,
+                    WrittenAt = c.WrittenAt,
+                    WrittenByNavigation = new CommentUserDto
+                    {
+                        UserId = c.WrittenByNavigation.UserId,
+                        Username = c.WrittenByNavigation.Username,
+                        Email = c.WrittenByNavigation.Email,
+                    }
+                })
                 .Where(c => c.TaskId == taskId)
                 .ToListAsync();
         }
@@ -43,7 +59,7 @@ namespace Persistence.Repositories
         public async Task DeleteAsync(int commentId)
         {
             var entity = await _taskForgeDbContext.Comments
-                .Include(t => t.Task)
+                .Include(c => c.Task)
                 .Where(t => t.CommentId == commentId)
                 .FirstOrDefaultAsync();
 

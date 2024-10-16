@@ -18,6 +18,7 @@ namespace Persistence.Repositories
             return await _forgeDbContext.ProjectTasks
                  .Include(t => t.Attachments) 
                  .Include(t => t.Comments)
+                 .ThenInclude(c => c.WrittenByNavigation)
                  .Include(t => t.CreatedByNavigation)
                  .Include(t => t.TaskStatus)
                  .Include(t => t.TaskType)
@@ -50,7 +51,12 @@ namespace Persistence.Repositories
                          TaskId = c.TaskId,
                          WrittenBy = c.WrittenBy,
                          CommentText = c.CommentText,
-                         WrittenAt = c.WrittenAt
+                         WrittenAt = c.WrittenAt,
+                         WrittenByNavigation = new TaskCommentUserDto
+                         {
+                             UserId = c.WrittenByNavigation.UserId,
+                             Username = c.WrittenByNavigation.Username,
+                         },
                      }).ToList(),
                      CreatedByNavigation = new TaskUserGetDto
                      {
@@ -99,6 +105,10 @@ namespace Persistence.Repositories
         public async Task<ICollection<ProjectTask>> GetAllTasksByUsernameAsync(string username)
         {
             return await _forgeDbContext.UsersTasks
+                .Include(ut => ut.Task)
+                    .ThenInclude(t => t.Team)
+                .Include(ut => ut.Task)
+                    .ThenInclude(t => t.TaskStatus)
                 .Include(ut => ut.User)
                 .Include(ut => ut.TimeLogs)
                 .Where(ut => ut.User.Username == username)
@@ -109,9 +119,10 @@ namespace Persistence.Repositories
         public async Task<ProjectTaskDto> GetByIdAsync(int id)
         {
             return await _forgeDbContext.ProjectTasks
-                 .Include(pt => pt.Attachments) 
-                 .Include(pt => pt.Comments)
+                 .Include(pt => pt.Attachments)
                  .Include(pt => pt.CreatedByNavigation)
+                 .Include(pt => pt.Comments)
+                 .ThenInclude(c => c.WrittenByNavigation)
                  .Include(pt => pt.TaskStatus)
                  .Include(pt => pt.TaskType)
                  .Include(pt => pt.Team)
@@ -144,7 +155,12 @@ namespace Persistence.Repositories
                          TaskId = c.TaskId,
                          WrittenBy = c.WrittenBy,
                          CommentText = c.CommentText,
-                         WrittenAt = c.WrittenAt
+                         WrittenAt = c.WrittenAt,
+                         WrittenByNavigation = new TaskCommentUserDto
+                         {
+                             UserId = c.WrittenByNavigation.UserId,
+                             Username = c.WrittenByNavigation.Username,
+                         },
                      }).ToList(),
                      CreatedByNavigation = new TaskUserGetDto
                      {
@@ -184,6 +200,7 @@ namespace Persistence.Repositories
             var entity = await _forgeDbContext.ProjectTasks
                 .Include(pt => pt.Attachments)
                 .Include(pt => pt.Comments)
+                .ThenInclude(c => c.WrittenByNavigation)
                 .Include(pt => pt.CreatedByNavigation)
                 .Include(pt => pt.TaskStatus)
                 .Include(pt => pt.TaskType)

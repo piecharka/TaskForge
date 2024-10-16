@@ -1,0 +1,25 @@
+/* TaskTable.css */
+
+.table-container {
+    padding: 20px 0;
+}
+
+.task-table {
+    width: 47rem;
+    border-collapse: collapse;
+    color: white;
+}
+
+.task-table thead tr {
+    
+ }
+
+.header-cell {
+    padding: 0.8rem 1rem;
+    text-align: left;
+
+}
+
+.task-cell {
+    padding: 10px 15px; 
+}

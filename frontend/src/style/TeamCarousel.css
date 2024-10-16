@@ -1,0 +1,18 @@
+    .carousel {
+    display: flex;
+    flex-direction: row;
+    height: 5rem;
+    gap: 1rem;
+}
+
+.project {
+    width: 10rem;
+    border-radius:5px;
+    background-color: #58A4B0;
+    padding: 1rem 0.5rem;
+    color: black;
+}
+
+.carousel a{
+    text-decoration: none;
+}

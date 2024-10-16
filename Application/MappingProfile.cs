@@ -19,8 +19,11 @@ namespace Application
             CreateMap<UserCreateDto, User>();
             CreateMap<TeamDto, Team>();
             CreateMap<ProjectTaskInsertDto, ProjectTask>();
+            CreateMap<Team, TeamGetDto>();
             CreateMap<ProjectTask, UsersTasksToDoDto>();
             CreateMap<UserRegisterDto, User>();
+            CreateMap<CommentInsertDto, Comment>();
+            CreateMap<CommentUpdateDto, Comment>();
         }
     }
 }

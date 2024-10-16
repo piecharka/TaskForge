@@ -37,6 +37,4 @@ export type UserStoredData = {
     userId: number;
     username: string;
     token: string;
-    lastLogin: Date;
-    teams: Team[];
 }

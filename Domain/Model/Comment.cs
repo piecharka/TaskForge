@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Domain;
 
-public partial class Comment
+public class Comment
 {
     public int CommentId { get; set; }
 

@@ -28,23 +28,24 @@ const Navbar = observer(() => {
 
   return (
       <nav className="navbar">
+          {!showTeams && 
           <ul className="navbar-nav">
-              {userStore.isLoggedIn && <div className="nav-team"><li className="nav-item">
+                  
+              {userStore.isLoggedIn && 
+                  <li className="nav-item">
+                      <Link to="/" className="nav-link">
+                        <span className="link-text">Dashboard</span>
+                      </Link>
+                  </li>
+              }
+
+              {userStore.isLoggedIn &&
+                  <div className="nav-team"><li className="nav-item">
                   <Link to="#" className="nav-link" onClick={teamOnClick}>
-                      <span className="link-text">Teams <i className="fa fa-caret-down"></i></span>
+                          <span className="link-text">Teams</span>
                   </Link>
-                  {showTeams && (
-                      <div className="teams-list">
-                          {teams.map(t => (
-                              <span key={t.teamId}>
-                                  <Link to={`team/${t.teamId}`} className="nav-link sub-link">
-                                      <span className="link-text">{t.teamName}</span>
-                                  </Link>
-                              </span>
-                          ))}
-                      </div>
-                  )}
-              </li>
+                  
+                </li>
               </div>
               }
 
@@ -56,8 +57,22 @@ const Navbar = observer(() => {
                   <Link to="login" className="nav-link">
                       <span className="link-text">Login</span>
                   </Link>
-              </li>}
+                      </li>}
           </ul>
+          }
+          {showTeams && <ul className="navbar-nav">
+              <li className="nav-item">
+                  <Link to="#" onClick={teamOnClick} className="nav-link">
+                      <span className="link-text">Go back</span>
+                  </Link>
+              </li>
+              {teams.map(t => (
+                  <li className="nav-item">
+                      <Link to={"/team/" + t.teamId} className="nav-link">
+                          <span className="link-text">{t.teamName}</span>
+                      </Link>
+                  </li>))}
+          </ul>}
       </nav>
   );
 })

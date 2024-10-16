@@ -22,4 +22,8 @@ export default class CommonStore {
     setToken = (token: string | null) => {
         this.token = token;
     }
+
+    isToken= () => {
+        return !!this.token;
+    }
 }
