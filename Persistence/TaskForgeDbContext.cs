@@ -26,6 +26,7 @@ public partial class TaskForgeDbContext : DbContext
 
     public virtual DbSet<NotficationStatus> NotficationStatuses { get; set; }
 
+    public virtual DbSet<Permission> Permissions { get; set; }
     public virtual DbSet<ProjectTask> ProjectTasks { get; set; }
 
     public virtual DbSet<ProjectTaskStatus> ProjectTaskStatuses { get; set; }
@@ -142,6 +143,19 @@ public partial class TaskForgeDbContext : DbContext
                 .HasColumnName("status_name");
         });
 
+        modelBuilder.Entity<Permission>(entity =>
+        {
+            entity.HasKey(e => e.PermissionId).HasName("PK__permission__3683B531A31494F8");
+
+            entity.ToTable("permissions");
+
+            entity.Property(e => e.PermissionId).HasColumnName("permission_id");
+            entity.Property(e => e.PermissionName)
+                .HasMaxLength(50)
+                .HasColumnName("permission_name");
+            entity.Property(e => e.PermissionRank).HasColumnName("permission_rank");
+        });
+
         modelBuilder.Entity<ProjectTask>(entity =>
         {
             entity.HasKey(e => e.TaskId).HasName("PK__project___0492148DA6C3B2E0");
@@ -241,7 +255,12 @@ public partial class TaskForgeDbContext : DbContext
             j => j
                 .HasOne(pt => pt.Team)
                 .WithMany(p => p.TeamUsers)
-                .HasForeignKey(pt => pt.TeamId)
+                .HasForeignKey(pt => pt.TeamId),
+            j => j
+                .HasOne(pt => pt.Permission)
+                .WithMany(p => p.TeamUsers)
+                .HasForeignKey(pt => pt.PermissionId)
+                .OnDelete(DeleteBehavior.Restrict)
         );
 
             //entity.HasMany(d => d.Users).WithMany(p => p.Teams)

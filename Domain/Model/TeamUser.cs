@@ -10,7 +10,9 @@ namespace Domain.Model
     {
         public int UserId { get; set; }
         public int TeamId { get; set; }
+        public int PermissionId { get; set; }
         public User User { get; set; }
         public Team Team { get; set; }
+        public Permission Permission { get; set; }
     }
 }

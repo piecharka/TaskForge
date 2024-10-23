@@ -1,0 +1,31 @@
+
+.backlog{
+    display:flex;
+    flex-direction: row;
+    gap: 2rem;
+    justify-content: space-between;
+}
+
+.task-list{
+    display:flex;
+    flex-direction: column;
+    gap: 1rem;
+    
+    width: 25%;
+}
+
+.space{
+    width: 20rem;
+}
+
+.task {
+    border: 1px solid #50545d;
+    border-radius: 3px;
+    color: white;
+    text-decoration: none;
+    background-color: #3d424b;
+    padding: 1rem;
+}
+.task p{
+    margin: 0;
+}

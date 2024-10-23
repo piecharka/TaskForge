@@ -1,6 +1,7 @@
 ﻿using Domain;
 using Domain.DTOs;
 using Domain.Interfaces.Repositories;
+using Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using Persistence.DTOs;
 
@@ -83,7 +84,7 @@ namespace Persistence
             await _forgeDbContext.SaveChangesAsync();
         }
 
-        public async Task AddUserToTeamAsync(int teamId, User user)
+        public async Task AddUserToTeamAsync(int teamId, User user, Permission permission)
         {
             var team = await _forgeDbContext.Teams
                 .Include(t => t.Users)
@@ -94,7 +95,13 @@ namespace Persistence
                 throw new Exception($"Team with ID {teamId} not found.");
             }
 
-            team.Users.Add(user);
+            //team.Users.Add(user);
+            team.TeamUsers.Add(new TeamUser
+            {
+                User = user,
+                Permission = permission
+               
+            });
 
             await _forgeDbContext.SaveChangesAsync();
         }

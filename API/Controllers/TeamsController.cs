@@ -104,9 +104,9 @@ namespace API.Controllers
         }
 
         [HttpPut()]
-        public async Task<IActionResult> AddUserToTeamAsync(string username, int teamId)
+        public async Task<IActionResult> AddUserToTeamAsync(string username, int teamId, int permissionId)
         {
-            await _teamService.AddUserToTeamAsync(username, teamId);
+            await _teamService.AddUserToTeamAsync(username, teamId, permissionId);
 
             return NoContent();
         }

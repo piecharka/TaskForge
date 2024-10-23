@@ -17,11 +17,16 @@ namespace Application.Services
         private readonly ITeamRepository _teamRepository;
         private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;
-        public TeamService(ITeamRepository teamRepository, IMapper mapper, IUserRepository userRepository)
+        private readonly IPermissionRepository _permissionRepository;
+        public TeamService(ITeamRepository teamRepository, 
+            IMapper mapper, 
+            IUserRepository userRepository, 
+            IPermissionRepository permissionRepository)
         {
             _teamRepository = teamRepository; 
             _mapper = mapper;
             _userRepository = userRepository;
+            _permissionRepository = permissionRepository;
         }
 
         public async Task<TeamDto> GetTeamByIdAsync(int id)
@@ -45,14 +50,15 @@ namespace Application.Services
             await _teamRepository.DeleteAsync(id);
         }
 
-        public async Task AddUserToTeamAsync(string username, int teamId)
+        public async Task AddUserToTeamAsync(string username, int teamId, int permissionId)
         {
             var user = await _userRepository.GetWholeUserObjectByUsernameAsync(username);
             var team = await GetTeamByIdAsync(teamId);
+            var permission = await _permissionRepository.GetByIdAsync(permissionId);
 
             if (user == null || team == null) return;
 
-            await _teamRepository.AddUserToTeamAsync(teamId, user);
+            await _teamRepository.AddUserToTeamAsync(teamId, user, permission);
         }
 
         public async Task<IEnumerable<TeamDto>> GetTeamsByUsernameAsync(string username)

@@ -7,6 +7,7 @@ import { observer } from "mobx-react-lite";
 import "../style/Team.css"
 import { ProjectTask } from "../models/projectTask";
 import TaskTable from "../components/TaskTable";
+import Backlog from "../components/Backlog";
 
 const TeamView = observer(() => {
     const { teamId } = useParams<{ teamId: string }>();
@@ -50,11 +51,14 @@ const TeamView = observer(() => {
                     </Link>
                 ))}
             </div>
-            <div className="">
+            {activeLink === "Summary" && <div className="">
                 {usersInTeam.map(u => (
                     <Link to={"/users/" + u.userId} key={u.userId}>{u.username}</Link>))}
-            </div>
-            <TaskTable taskList={tasks} tableHeaders={tableHeaders} />
+            </div>}
+
+            {activeLink === "Backlog" && <Backlog taskList={ tasks} /> }
+
+            {activeLink === "List" &&<TaskTable taskList={tasks} tableHeaders={tableHeaders} />}
         </div>
     );
 });

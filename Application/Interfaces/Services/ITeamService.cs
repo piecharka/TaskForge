@@ -10,7 +10,7 @@ namespace Application.Interfaces.Services
         public Task<IEnumerable<TeamDto>> GetAllTeamsAsync();
         public Task InsertTeamAsync(TeamDto teamDto);
         public Task DeleteTeamAsync(int id);
-        public Task AddUserToTeamAsync(string username, int teamId);
+        public Task AddUserToTeamAsync(string username, int teamId, int permissionId);
         Task<IEnumerable<TeamDto>> GetTeamsByUsernameAsync(string username);
     }
 }

@@ -59,8 +59,7 @@ builder.Services.AddScoped<IProjectTaskTypeService, ProjectTaskTypeService>();
 builder.Services.AddScoped<IProjectTaskStatusService, ProjectTaskStatusService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
-
-
+builder.Services.AddScoped<IPermissionService, PermissionService>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITeamRepository, TeamRepository>();
@@ -74,6 +73,7 @@ builder.Services.AddScoped<ITaskTypeRepository, TaskTypeRepository>();
 builder.Services.AddScoped<ITeamRepository, TeamRepository>();
 builder.Services.AddScoped<ITimeLogRepository, TimeLogRepository>();
 builder.Services.AddScoped<IUsersTaskRepository, UsersTaskRepository>();
+builder.Services.AddScoped<IPermissionRepository, PermissionRepository>();
 
 builder.Services.AddDbContext<TaskForgeDbContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("TaskForgeDbContext")));

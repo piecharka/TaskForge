@@ -1,4 +1,5 @@
-﻿using Persistence.DTOs;
+﻿using Domain.Model;
+using Persistence.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace Domain.Interfaces.Repositories
         Task InsertAsync(Team team);
         Task UpdateAsync(Team team);
         Task DeleteAsync(int teamId);
-        Task AddUserToTeamAsync(int teamId, User user);
+        Task AddUserToTeamAsync(int teamId, User user, Permission permission);
         Task AddUsersToTeamAsync(int teamId, List<User> usersToAdd);
         Task<ICollection<TeamDto>> GetTeamsByUsername(string username);
     }

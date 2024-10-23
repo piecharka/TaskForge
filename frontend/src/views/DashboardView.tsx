@@ -32,6 +32,7 @@ const DashboardView = observer(() => {
         <div className="dashboard">
             <TeamCarousel teamList={teams} />
             <TaskTable taskList={todoTasks} tableHeaders={tableHeaders} />
+
         </div>
     );
 });

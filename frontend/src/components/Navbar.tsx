@@ -28,6 +28,8 @@ const Navbar = observer(() => {
 
   return (
       <nav className="navbar">
+          {
+              userStore.isLoggedIn && <div>
           {!showTeams && 
           <ul className="navbar-nav">
                   
@@ -39,7 +41,6 @@ const Navbar = observer(() => {
                   </li>
               }
 
-              {userStore.isLoggedIn &&
                   <div className="nav-team"><li className="nav-item">
                   <Link to="#" className="nav-link" onClick={teamOnClick}>
                           <span className="link-text">Teams</span>
@@ -47,17 +48,13 @@ const Navbar = observer(() => {
                   
                 </li>
               </div>
-              }
+           
 
-              {userStore.isLoggedIn ? <li className="nav-item">
+              <li className="nav-item">
                   <Link to="/login" onClick={handleLogout} className="nav-link">
                       <span className="link-text">Log out</span>
                   </Link>
-              </li> : <li className="nav-item">
-                  <Link to="login" className="nav-link">
-                      <span className="link-text">Login</span>
-                  </Link>
-                      </li>}
+              </li>
           </ul>
           }
           {showTeams && <ul className="navbar-nav">
@@ -72,6 +69,15 @@ const Navbar = observer(() => {
                           <span className="link-text">{t.teamName}</span>
                       </Link>
                   </li>))}
+          </ul>}
+              </div>}
+          {!userStore.isLoggedIn &&
+          <ul className="navbar-nav">
+                  <li className="nav-item">
+                      <Link to="login" className="nav-link">
+                          <span className="link-text">Login</span>
+                      </Link>
+                  </li>
           </ul>}
       </nav>
   );
