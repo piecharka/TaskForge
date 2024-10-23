@@ -48,6 +48,11 @@ namespace Application.Services
             return await _projectTaskRepository.GetTaskUsersByTaskIdAsync(taskId);
         }
 
+        public async Task<IEnumerable<ProjectTaskDto>> GetTasksBySprintIdAsync(int sprintId)
+        {
+            return await _projectTaskRepository.GetAllTasksBySprintIdAsync(sprintId);
+        }
+
         public async Task<IEnumerable<UsersTasksToDoDto>> GetToDoTasksAsync(string username)
         {
             var tasks = await _projectTaskRepository.GetAllTasksByUsernameAsync(username);

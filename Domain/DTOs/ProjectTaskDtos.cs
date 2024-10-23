@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -38,6 +39,7 @@ namespace Domain.DTOs
         public virtual ProjectTaskType TaskType { get; set; }
 
         public virtual ICollection<UserTaskDto> UsersTasks { get; set; } = new List<UserTaskDto>();
+        public virtual SprintGetDto Sprint { get; set; }
     }
 
     public class TaskAttachmentsDto
@@ -112,4 +114,12 @@ namespace Domain.DTOs
         public DateTime EndTime { get; set; }
     }
     
+    public class SprintGetDto
+    {
+        public int SprintId { get; set; }
+        public string SprintName { get; set; }
+        public DateTime SprintStart { get; set; }
+        public DateTime SprintEnd { get; set; }
+        public string GoalDescription { get; set; }
+    }
 }

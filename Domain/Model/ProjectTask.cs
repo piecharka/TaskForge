@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Model;
+using System;
 using System.Collections.Generic;
 
 namespace Domain;
@@ -25,6 +26,8 @@ public partial class ProjectTask
 
     public DateTime UpdatedAt { get; set; }
 
+    public int SprintId { get; set; }
+
     public virtual ICollection<Attachment> Attachments { get; set; } = new List<Attachment>();
 
     public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
@@ -38,4 +41,5 @@ public partial class ProjectTask
     public virtual Team Team { get; set; }
 
     public virtual ICollection<UsersTask> UsersTasks { get; set; } = new List<UsersTask>();
+    public virtual Sprint Sprint { get; set; }
 }

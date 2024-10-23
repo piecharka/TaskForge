@@ -18,5 +18,6 @@ namespace Domain.Interfaces.Repositories
         Task<ICollection<TaskUserGetDto>> GetTaskUsersByTaskIdAsync(int taskId);
         Task<ICollection<ProjectTask>> GetAllTasksByUserIdAsync(int userId);
         Task<ICollection<ProjectTask>> GetAllTasksByUsernameAsync(string username);
+        Task<ICollection<ProjectTaskDto>> GetAllTasksBySprintIdAsync(int sprintId);
     }
 }

@@ -116,6 +116,93 @@ namespace Persistence.Repositories
                 .ToListAsync();
         }
 
+        public async Task<ICollection<ProjectTaskDto>> GetAllTasksBySprintIdAsync(int sprintId)
+        {
+            return await _forgeDbContext.ProjectTasks
+                .Include(t => t.Attachments)
+                .Include(t => t.Comments)
+                .ThenInclude(c => c.WrittenByNavigation)
+                .Include(t => t.CreatedByNavigation)
+                .Include(t => t.TaskStatus)
+                .Include(t => t.TaskType)
+                .Include(t => t.Team)
+                .Include(t => t.UsersTasks)
+                .ThenInclude(ut => ut.User)
+                .Include(t => t.UsersTasks)
+                .ThenInclude(ut => ut.TimeLogs)
+                .Select(t => new ProjectTaskDto
+                {
+                    TaskId = t.TaskId,
+                    TaskName = t.TaskName,
+                    TaskStatusId = t.TaskStatusId,
+                    TeamId = t.TeamId,
+                    CreatedBy = t.CreatedBy,
+                    CreatedAt = t.CreatedAt,
+                    TaskDeadline = t.TaskDeadline,
+                    TaskTypeId = t.TaskTypeId,
+                    TaskDescription = t.TaskDescription,
+                    Attachments = t.Attachments.Select(a => new TaskAttachmentsDto
+                    {
+                        AttachmentId = a.AttachmentId,
+                        TaskId = a.TaskId,
+                        AddedBy = a.AddedBy,
+                        FilePath = a.FilePath
+                    }).ToList(),
+                    Comments = t.Comments.Select(c => new TaskCommentDto
+                    {
+                        CommentId = c.CommentId,
+                        TaskId = c.TaskId,
+                        WrittenBy = c.WrittenBy,
+                        CommentText = c.CommentText,
+                        WrittenAt = c.WrittenAt,
+                        WrittenByNavigation = new TaskCommentUserDto
+                        {
+                            UserId = c.WrittenByNavigation.UserId,
+                            Username = c.WrittenByNavigation.Username,
+                        },
+                    }).ToList(),
+                    CreatedByNavigation = new TaskUserGetDto
+                    {
+                        UserId = t.CreatedByNavigation.UserId,
+                        Username = t.CreatedByNavigation.Username,
+                        Email = t.CreatedByNavigation.Email,
+                        LastLogin = t.CreatedByNavigation.LastLogin,
+                    },
+                    TaskStatus = t.TaskStatus,
+                    TaskType = t.TaskType,
+                    UsersTasks = t.UsersTasks.Select(ut => new UserTaskDto
+                    {
+                        UserTaskId = ut.UserTaskId,
+                        UserId = ut.UserId,
+                        TaskId = ut.TaskId,
+                        User = new TaskUserGetDto
+                        {
+                            UserId = ut.User.UserId,
+                            Username = ut.User.Username,
+                            Email = ut.User.Email,
+                            LastLogin = ut.User.LastLogin,
+                        },
+                        TimeLogs = ut.TimeLogs.Select(tl => new TimeLogDto
+                        {
+                            LogId = tl.LogId,
+                            UserTaskId = tl.LogId,
+                            StartTime = tl.StartTime,
+                            EndTime = tl.EndTime
+                        }).ToList()
+                    }).ToList(),
+                    Sprint = new SprintGetDto
+                    {
+                        SprintId = t.Sprint.SprintId,
+                        SprintName = t.Sprint.SprintName,
+                        SprintStart = t.Sprint.SprintStart,
+                        SprintEnd = t.Sprint.SprintEnd,
+                        GoalDescription = t.Sprint.GoalDescription,
+                    },
+                })
+                .Where(t => t.Sprint.SprintId == sprintId)
+                .ToListAsync();
+        }
+
         public async Task<ProjectTaskDto> GetByIdAsync(int id)
         {
             return await _forgeDbContext.ProjectTasks

@@ -1,10 +1,6 @@
 ﻿using Domain;
 using Domain.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Application.DTOs
 {
@@ -27,11 +23,5 @@ namespace Application.DTOs
 
         public TeamGetDto Team{ get; set; }
         public ProjectTaskStatus TaskStatus { get; set; }
-    }
-
-    public class TeamGetDto
-    {
-        public int TeamId { get; set; }
-        public string TeamName { get; set; }
     }
 }

@@ -29,9 +29,15 @@ namespace API.Controllers
 
         // GET: api/ProjectTasks
         [HttpGet("team/{teamId}")]
-        public async Task<ActionResult<IEnumerable<ProjectTask>>> GetProjectTasksByTeamId(int teamId)
+        public async Task<ActionResult<IEnumerable<ProjectTaskDto>>> GetProjectTasksByTeamId(int teamId)
         {
             return Ok(await _projectTaskService.GetAllProjectTasksInTeamAsync(teamId));
+        }
+
+        [HttpGet("sprint/{sprintId}")]
+        public async Task<ActionResult<IEnumerable<ProjectTaskDto>>> GetProjectTasksBySprintId(int sprintId)
+        {
+            return Ok(await _projectTaskService.GetTasksBySprintIdAsync(sprintId));
         }
 
         // GET: api/ProjectTasks/5

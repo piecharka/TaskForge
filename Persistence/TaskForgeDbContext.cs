@@ -35,6 +35,8 @@ public partial class TaskForgeDbContext : DbContext
 
     public virtual DbSet<Team> Teams { get; set; }
 
+    public virtual DbSet<Sprint> Sprints { get; set; }
+
     public virtual DbSet<TimeLog> TimeLogs { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
@@ -180,9 +182,10 @@ public partial class TaskForgeDbContext : DbContext
             entity.Property(e => e.TaskStatusId).HasColumnName("task_status_id");
             entity.Property(e => e.TaskTypeId).HasColumnName("task_type_id");
             entity.Property(e => e.TeamId).HasColumnName("team_id");
+            entity.Property(e => e.SprintId).HasColumnName("sprint_id");
             entity.Property(e => e.UpdatedAt)
                 .HasColumnType("datetime")
-                .HasColumnName("updated_at");
+                .HasColumnName("updated_at");   
 
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.ProjectTasks)
                 .HasForeignKey(d => d.CreatedBy)
@@ -203,6 +206,11 @@ public partial class TaskForgeDbContext : DbContext
                 .HasForeignKey(d => d.TeamId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_task_team");
+
+            entity.HasOne(d => d.Sprint).WithMany(p => p.ProjectTasks)
+               .HasForeignKey(d => d.SprintId)
+               .OnDelete(DeleteBehavior.ClientSetNull)
+               .HasConstraintName("fk_sprint");
         });
 
         modelBuilder.Entity<ProjectTaskStatus>(entity =>
@@ -220,7 +228,7 @@ public partial class TaskForgeDbContext : DbContext
 
         modelBuilder.Entity<ProjectTaskType>(entity =>
         {
-            entity.HasKey(e => e.TypeId).HasName("PK__project___2C000598C419062A");
+            entity.HasKey(e => e.TypeId).HasName("PK__project___3683B531D7884CB7");
 
             entity.ToTable("project_task_types");
 
@@ -229,6 +237,67 @@ public partial class TaskForgeDbContext : DbContext
                 .IsRequired()
                 .HasMaxLength(60)
                 .HasColumnName("type_name");
+        });
+
+        modelBuilder.Entity<Sprint>(entity =>
+        {
+            entity.HasKey(e => e.SprintId).HasName("PK__sprint___2C000598C419062A");
+
+            entity.ToTable("sprints");
+
+            entity.Property(e => e.SprintId).HasColumnName("SprintId");
+            entity.Property(e => e.SprintName)
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasColumnName("SprintName");
+
+            entity.Property(e => e.TeamId)
+                .IsRequired()
+                .HasColumnName("TeamId");
+
+            entity.Property(e => e.SprintStart)
+                .IsRequired()
+                .HasColumnType("date")
+                .HasColumnName("SprintStart");
+
+            entity.Property(e => e.SprintEnd)
+                .IsRequired()
+                .HasColumnType("date")
+                .HasColumnName("SprintEnd");
+
+            entity.Property(e => e.GoalDescription)
+                .HasMaxLength(500)
+                .HasColumnName("GoalDescription");
+
+            entity.Property(e => e.CreatedAt)
+                .IsRequired()
+                .HasColumnType("datetime")
+                .HasDefaultValueSql("GETDATE()")
+                .HasColumnName("CreatedAt");
+
+            entity.Property(e => e.UpdatedAt)
+                .IsRequired()
+                .HasColumnType("datetime")
+                .HasDefaultValueSql("GETDATE()")
+                .HasColumnName("UpdatedAt");
+
+            entity.HasOne(e => e.Team)
+                .WithMany(t => t.Sprints)
+                .HasForeignKey(e => e.TeamId)
+                .HasConstraintName("FK_Sprint_Team");
+        });
+
+        modelBuilder.Entity<Permission>(entity =>
+        {
+            entity.HasKey(e => e.PermissionId).HasName("PK__permission__3683B531A31494F8");
+
+            entity.ToTable("permissions");
+
+            entity.Property(e => e.PermissionId).HasColumnName("permission_id");
+            entity.Property(e => e.PermissionName)
+                .HasMaxLength(50)
+                .HasColumnName("permission_name");
+            entity.Property(e => e.PermissionRank).HasColumnName("permission_rank");
         });
 
         modelBuilder.Entity<Team>(entity =>

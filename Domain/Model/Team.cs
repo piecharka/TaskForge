@@ -14,4 +14,6 @@ public partial class Team
 
     public virtual ICollection<User> Users { get; } = new List<User>();
     public virtual ICollection<TeamUser> TeamUsers { get; set; } = new List<TeamUser>();
+    public virtual ICollection<Sprint> Sprints { get; set; } = new List<Sprint>();
+
 }
