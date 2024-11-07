@@ -1,0 +1,37 @@
+::before,
+::after{
+    box-sizing: border-box;
+}
+
+.task-form{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.task-input{
+    display: flex;
+    flex-direction: column;
+}
+
+.task-input input{
+    width: 20rem;
+}
+
+.submit-button {
+    min-width: 20rem;
+    padding: 0.5rem;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.form-position {
+    display: flex;
+    justify-content: center; 
+    height: 100vh;
+    padding: 2rem;
+}
+.error {
+    color: #D64933; 
+    margin-bottom: 10px;
+}

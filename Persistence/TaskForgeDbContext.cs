@@ -160,12 +160,12 @@ public partial class TaskForgeDbContext : DbContext
 
         modelBuilder.Entity<ProjectTask>(entity =>
         {
-            entity.HasKey(e => e.TaskId).HasName("PK__project___0492148DA6C3B2E0");
+            entity.HasKey(e => e.TaskId).HasName("PK__project___0492148D7779847D");
 
             entity.ToTable("project_tasks");
 
             entity.Property(e => e.TaskId)
-                .ValueGeneratedNever()
+                .ValueGeneratedOnAdd()
                 .HasColumnName("task_id");
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
@@ -190,27 +190,27 @@ public partial class TaskForgeDbContext : DbContext
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.ProjectTasks)
                 .HasForeignKey(d => d.CreatedBy)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_task_creator");
+                .HasConstraintName("FK_project_task_created_by");
 
             entity.HasOne(d => d.TaskStatus).WithMany(p => p.ProjectTasks)
                 .HasForeignKey(d => d.TaskStatusId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_task_status");
+                .HasConstraintName("FK_project_task_task_status");
 
             entity.HasOne(d => d.TaskType).WithMany(p => p.ProjectTasks)
                 .HasForeignKey(d => d.TaskTypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_task_type");
+                .HasConstraintName("FK_project_task_task_type");
 
             entity.HasOne(d => d.Team).WithMany(p => p.ProjectTasks)
                 .HasForeignKey(d => d.TeamId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_task_team");
+                .HasConstraintName("FK_project_task_team");
 
             entity.HasOne(d => d.Sprint).WithMany(p => p.ProjectTasks)
                .HasForeignKey(d => d.SprintId)
                .OnDelete(DeleteBehavior.ClientSetNull)
-               .HasConstraintName("fk_sprint");
+               .HasConstraintName("FK_project_task_sprint");
         });
 
         modelBuilder.Entity<ProjectTaskStatus>(entity =>
@@ -410,20 +410,20 @@ public partial class TaskForgeDbContext : DbContext
 
         modelBuilder.Entity<UsersTask>(entity =>
         {
-            entity.HasKey(e => e.UserTaskId).HasName("PK__users_ta__3275DCE2C6661CD6");
+            entity.HasKey(e => e.UserTaskId).HasName("PK_userTaskId");
 
             entity.ToTable("users_tasks");
 
             entity.Property(e => e.UserTaskId)
-                .ValueGeneratedNever()
-                .HasColumnName("user_task_id");
+                .ValueGeneratedOnAdd()
+                .HasColumnName("userTaskId");
             entity.Property(e => e.TaskId).HasColumnName("task_id");
             entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.Task).WithMany(p => p.UsersTasks)
                 .HasForeignKey(d => d.TaskId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_users_task_id");
+                .HasConstraintName("FK_user_task_task_id");
 
             entity.HasOne(d => d.User).WithMany(p => p.UsersTasks)
                 .HasForeignKey(d => d.UserId)

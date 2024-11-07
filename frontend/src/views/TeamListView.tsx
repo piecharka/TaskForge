@@ -8,7 +8,7 @@ import "../style/TeamList.css"
 function TeamListView() {
     const [teams, setTeams] = useState<Team[]>([]);
     const { userStore } = useStore();
-
+    
     useEffect(() => {
         apiHandler.Teams.teamsByUsername(userStore.user?.username)
             .then(response => setTeams(response));

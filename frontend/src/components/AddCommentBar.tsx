@@ -11,21 +11,30 @@ function CommentBar() {
     const taskIdNumber = Number(taskId);
     const { userStore } = useStore();
 
-    const handleSubmit = () => {
-        apiHandler.Comments.insertComment({commentText, taskId: taskIdNumber, writtenBy : userStore.user.userId})
+    const handleSubmit = (e : React.FormEvent) => {
+        e.preventDefault(); 
+        if (commentText.trim()) {
+            apiHandler.Comments.insertComment({
+                commentText,
+                taskId: taskIdNumber,
+                writtenBy: userStore.user.userId
+            });
+            setCommentText(''); 
+        }
     }
 
     return (
         <div className="comment-bar">
-            <form onSubmit={handleSubmit}>
-                <label>Add comment</label>
-                <input
-                    type="comment"
+            <form onSubmit={handleSubmit} className="comment-form">
+                <label htmlFor="comment">Add comment</label>
+                <textarea
                     id="comment"
                     value={commentText}
-                    onChange={(e) => { setCommentText(e.target.value); } }
+                    onChange={(e) => setCommentText(e.target.value)}
+                    placeholder="Write your comment here..."
+                    className="comment-input"
                 />
-                <button type="submit">Submit</button>
+                <button type="submit" className="comment-submit">Submit</button>
             </form>
         </div>
     );

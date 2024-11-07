@@ -24,17 +24,19 @@ namespace Application.DTOs
         public int TaskTypeId { get; set; }
 
         public string TaskDescription { get; set; }
+        public int SprintId { get; set; }
 
-        public virtual ICollection<Attachment> Attachments { get; set; } = new List<Attachment>();
+        //public virtual ICollection<Attachment> Attachments { get; set; } = new List<Attachment>();
 
-        public virtual User CreatedByNavigation { get; set; }
+        //public virtual User CreatedByNavigation { get; set; }
 
-        public virtual ProjectTaskStatus TaskStatus { get; set; }
+        //public virtual ProjectTaskStatus TaskStatus { get; set; }
 
-        public virtual ProjectTaskType TaskType { get; set; }
+        //public virtual ProjectTaskType TaskType { get; set; }
 
-        public virtual Team Team { get; set; }
+        //public virtual Team Team { get; set; }
 
-        public virtual ICollection<UsersTask> UsersTasks { get; set; } = new List<UsersTask>();
+        //public virtual ICollection<UsersTask> UsersTasks { get; set; } = new List<UsersTask>();
+        public List<int> UserIds { get; set; }
     }
 }

@@ -311,10 +311,27 @@ namespace Persistence.Repositories
             }
         }
 
-        public async Task InsertAsync(ProjectTask projectTask)
+        public async Task InsertAsync(ProjectTask projectTask, List<int> userIds)
         {
             await _forgeDbContext.ProjectTasks
                 .AddAsync(projectTask);
+
+            await _forgeDbContext.SaveChangesAsync();
+
+            for (int i = 0; i < userIds.Count; i++)
+            {
+                bool exists = await _forgeDbContext.UsersTasks
+                    .AnyAsync(ut => ut.TaskId == projectTask.TaskId && ut.UserId == userIds[i]);
+                if (!exists)
+                {
+                    // Add the new UsersTask if it does not exist
+                    await _forgeDbContext.UsersTasks.AddAsync(new UsersTask
+                    {
+                        TaskId = projectTask.TaskId,
+                        UserId = userIds[i]
+                    });
+                }
+            }
 
             await _forgeDbContext.SaveChangesAsync();
         }

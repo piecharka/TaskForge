@@ -7,8 +7,9 @@ function Backlog({ taskList}: { taskList: ProjectTask[]}) {
         <div className="backlog">
               <div className="task-list">
                   <h2>To-do tasks</h2>
-                  {taskList.map(t => {
-                      return <Link to={"/tasks/" + t.taskId} className="task">
+                {taskList.map(t => {
+                    if (t.taskStatus.statusId === 1)
+                      return <Link key={t.taskId} to={"/tasks/" + t.taskId} className="task">
                           <p>{t.taskName}</p>
                           <span>{t.taskType.typeName}</span>
                       </Link>
@@ -16,8 +17,9 @@ function Backlog({ taskList}: { taskList: ProjectTask[]}) {
             </div>
               <div className="task-list">
                 <h2>In progress tasks</h2>
-                  {taskList.map(t => {
-                      return <Link to={"/tasks/" + t.taskId} className="task">
+                {taskList.map(t => {
+                    if (t.taskStatus.statusId === 3)
+                      return <Link key={ t.taskId} to={"/tasks/" + t.taskId} className="task">
                           <p>{t.taskName}</p>
                           <span>{t.taskType.typeName}</span>
                       </Link>
@@ -27,7 +29,7 @@ function Backlog({ taskList}: { taskList: ProjectTask[]}) {
                 <h2>Done tasks</h2>
                   {taskList.map(t => {
                       if (t.taskStatus.statusId === 2)
-                          return <Link to={"/tasks/" + t.taskId} className="task">
+                          return <Link key={t.taskId} to={"/tasks/" + t.taskId} className="task">
                               <p>{t.taskName}</p>
                               <span>{t.taskType.typeName}</span>
                           </Link>

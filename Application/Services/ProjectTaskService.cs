@@ -30,7 +30,9 @@ namespace Application.Services
         public async Task AddProjectTaskAsync(ProjectTaskInsertDto projectTaskInsert)
         {
             var projectTask = _mapper.Map<ProjectTaskInsertDto, ProjectTask>(projectTaskInsert);
-            await _projectTaskRepository.InsertAsync(projectTask);
+            projectTask.CreatedAt= DateTime.Now;
+            projectTask.UpdatedAt = DateTime.Now;
+            await _projectTaskRepository.InsertAsync(projectTask, projectTaskInsert.UserIds);
         }
 
         public async Task DeleteProjectTaskAsync(int id)

@@ -85,7 +85,7 @@ namespace API.Controllers
         {
             await _projectTaskService.AddProjectTaskAsync(projectTaskInsert);
 
-            return CreatedAtAction("GetTeam", new { id = projectTaskInsert.TaskId }, projectTaskInsert);
+            return CreatedAtAction("PostProjectTask", new { id = projectTaskInsert.TaskId }, projectTaskInsert);
         }
 
         // DELETE: api/ProjectTasks/5

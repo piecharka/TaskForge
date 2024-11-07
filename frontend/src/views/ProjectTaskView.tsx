@@ -26,22 +26,28 @@ function ProjectTaskView() {
 
     return (
       <div>
-            <div className="task-card">
-              <AddCommentBar />
-
               {task && 
-                  <div>
-                      <h1>{task.taskName}</h1>
-                      <span>{task.taskDeadline}</span>
-                      <p>{task.taskDescription}</p>
+                  <div className="">
+                    <h1>{task.taskName}</h1>
+                    <span>{new Date(task.taskDeadline).toLocaleString("pl-PL", {
+                        year: "numeric",
+                        month: "2-digit",
+                        day: "2-digit",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        second: "2-digit"
+                    })}</span>
+                    <p>{task.taskDescription}</p>
+                       
                   </div>
               }
-
-            </div>
-            {comments && comments.map(c => (<div>
+            
+            {comments && comments.map(c => (
+             <div>
                 <CommentBar comment={c} />
             </div>
             ))}
+            <AddCommentBar />
       </div>
   );
 }

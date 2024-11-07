@@ -6,6 +6,7 @@ import { ProjectTaskType } from '../models/projectTaskType';
 import { ProjectTaskStatus } from '../models/projectTaskStatus';
 import { store } from '../stores/store';
 import { CommentInsertData } from '../models/comment';
+import { ProjectTaskPostData } from '../DTOs/ProjectTaskPostData';
 
 axios.defaults.baseURL = 'http://localhost:5194/api';
 
@@ -50,7 +51,8 @@ const Teams = {
 const ProjectTasks = {
     projectTaskListInTeam: (teamId: number) => requests.get<ProjectTask>(`/projecttasks/team/${teamId}`),
     todoTasks: (username: string | undefined) => requests.get<ProjectTask>(`/projecttasks/users/${username}`),
-    getTask: (taskId: number) => requests.get<ProjectTask>(`/projecttasks/${taskId}`)
+    getTask: (taskId: number) => requests.get<ProjectTask>(`/projecttasks/${taskId}`),
+    postTask: (taskData: ProjectTaskPostData) => requests.post<ProjectTask>(`/projecttasks`, taskData),
 }
 
 const ProjectTaskTypes = {
