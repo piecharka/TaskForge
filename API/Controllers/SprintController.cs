@@ -16,10 +16,22 @@ namespace API.Controllers
             _sprintService = sprintService;
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<ActionResult<Sprint>> GetSprintById(int id)
         {
             return Ok(await _sprintService.GetSprintByIdAsync(id));
+        }
+
+        [HttpGet("team-current/{teamId}")]
+        public async Task<ActionResult<Sprint>> GetCurrentSprint(int teamId)
+        {
+            return Ok(await _sprintService.GetCurrentSprintTeamAsync(teamId));
+        }
+
+        [HttpGet("team/{teamId}")]
+        public async Task<ActionResult<IEnumerable<Sprint>>> GetTeamsSprints(int teamId)
+        {
+            return Ok(await _sprintService.GetSprintsAsync(teamId));
         }
     }
 }

@@ -59,7 +59,7 @@ const TeamView = observer(() => {
 
             {activeLink === "New Task" && <NewTaskForm /> }
 
-            {activeLink === "Backlog" && <Backlog taskList={ tasks} /> }
+            {activeLink === "Backlog" && <Backlog  /> }
 
             {activeLink === "List" &&<TaskTable taskList={tasks} tableHeaders={tableHeaders} />}
         </div>

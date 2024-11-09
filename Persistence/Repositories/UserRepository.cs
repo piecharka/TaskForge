@@ -19,7 +19,7 @@ namespace Persistence.Repositories
                 .Include(t => t.Teams)
                 .Select(u => new UserGetDto
                 {
-                    UserId = u.UserId,
+                    UserId = u.UserId,  
                     Username = u.Username,
                     Email = u.Email,
                     Birthday = u.Birthday,

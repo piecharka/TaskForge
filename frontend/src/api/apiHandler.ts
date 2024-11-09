@@ -7,6 +7,7 @@ import { ProjectTaskStatus } from '../models/projectTaskStatus';
 import { store } from '../stores/store';
 import { CommentInsertData } from '../models/comment';
 import { ProjectTaskPostData } from '../DTOs/ProjectTaskPostData';
+import { Sprint } from '../models/sprint';
 
 axios.defaults.baseURL = 'http://localhost:5194/api';
 
@@ -53,6 +54,7 @@ const ProjectTasks = {
     todoTasks: (username: string | undefined) => requests.get<ProjectTask>(`/projecttasks/users/${username}`),
     getTask: (taskId: number) => requests.get<ProjectTask>(`/projecttasks/${taskId}`),
     postTask: (taskData: ProjectTaskPostData) => requests.post<ProjectTask>(`/projecttasks`, taskData),
+    getSprintTasks: (sprintId: number) => requests.get<ProjectTask>(`/projecttasks/sprint/${sprintId}`),
 }
 
 const ProjectTaskTypes = {
@@ -63,6 +65,12 @@ const ProjectTaskStatuses = {
     projectTaskStatusesList: () => requests.get<ProjectTaskStatus>(`/projecttaskstatus`)
 }
 
+const Sprints = {
+    getCurrentTeamSprint: (teamId: number) => requests.get(`/sprint/team-current/${teamId}`),
+    getTeamsSprints: (teamId: number) => requests.get(`/sprint/team/${teamId}`),
+    getSprintById : (sprintId: number) => requests.get<Sprint>(`/sprint/${sprintId}`)
+}
+
 const apiHandler = {
     Account,
     Comments,
@@ -70,7 +78,8 @@ const apiHandler = {
     Teams,
     ProjectTasks,
     ProjectTaskTypes,
-    ProjectTaskStatuses
+    ProjectTaskStatuses,
+    Sprints
 }
 
 export default apiHandler;

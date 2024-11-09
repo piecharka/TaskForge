@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces.Services;
+using Domain.DTOs;
 using Domain.Interfaces.Repositories;
 using Domain.Model;
 using System;
@@ -21,6 +22,16 @@ namespace Application.Services
         public async Task<Sprint> GetSprintByIdAsync(int sprintId)
         {
             return await _sprintRepository.GetSprintByIdAsync(sprintId);
+        }
+
+        public async Task<SprintDto> GetCurrentSprintTeamAsync(int teamId)
+        {
+            return await _sprintRepository.GetCurrentTeamSprintAsync(teamId);
+        }
+
+        public async Task<IEnumerable<SprintDto>> GetSprintsAsync(int teamId)
+        {
+            return await _sprintRepository.GetTeamSprintsAsync(teamId);
         }
     }
 }
