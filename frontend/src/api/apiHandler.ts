@@ -71,6 +71,11 @@ const Sprints = {
     getSprintById : (sprintId: number) => requests.get<Sprint>(`/sprint/${sprintId}`)
 }
 
+const SprintEvents = {
+    getSprintEventsByTeamId: (teamId: number) => requests.get(`/sprintevent/team/${teamId}`),
+    getSprintEventsByUserId: (userId: number) => requests.get(`/sprintevent/user/${userId}`),
+}
+
 const apiHandler = {
     Account,
     Comments,
@@ -79,7 +84,8 @@ const apiHandler = {
     ProjectTasks,
     ProjectTaskTypes,
     ProjectTaskStatuses,
-    Sprints
+    Sprints,
+    SprintEvents
 }
 
 export default apiHandler;

@@ -61,6 +61,8 @@ builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IPermissionService, PermissionService>();
 builder.Services.AddScoped<ISprintService, SprintService>();
+builder.Services.AddScoped<ISprintEventTypeService, SprintEventTypeService>();
+builder.Services.AddScoped<ISprintEventService, SprintEventService>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITeamRepository, TeamRepository>();
@@ -76,6 +78,8 @@ builder.Services.AddScoped<ITimeLogRepository, TimeLogRepository>();
 builder.Services.AddScoped<IUsersTaskRepository, UsersTaskRepository>();
 builder.Services.AddScoped<IPermissionRepository, PermissionRepository>();
 builder.Services.AddScoped<ISprintRepository, SprintRepository>();
+builder.Services.AddScoped<ISprintEventTypeRepository, SprintEventTypeRepository>();
+builder.Services.AddScoped<ISprintEventRepository, SprintEventRepository>();
 
 builder.Services.AddDbContext<TaskForgeDbContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("TaskForgeDbContext")));

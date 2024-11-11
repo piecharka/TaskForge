@@ -37,6 +37,9 @@ public partial class TaskForgeDbContext : DbContext
 
     public virtual DbSet<Sprint> Sprints { get; set; }
 
+    public virtual DbSet<SprintEvent> SprintEvents { get; set; }
+    public virtual DbSet<SprintEventType> SprintEventTypes { get; set; }
+
     public virtual DbSet<TimeLog> TimeLogs { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
@@ -145,6 +148,7 @@ public partial class TaskForgeDbContext : DbContext
                 .HasColumnName("status_name");
         });
 
+
         modelBuilder.Entity<Permission>(entity =>
         {
             entity.HasKey(e => e.PermissionId).HasName("PK__permission__3683B531A31494F8");
@@ -226,6 +230,19 @@ public partial class TaskForgeDbContext : DbContext
                 .HasColumnName("status_name");
         });
 
+        modelBuilder.Entity<SprintEventType>(entity =>
+        {
+            entity.HasKey(e => e.EventTypeId).HasName("PK__sprint_e__BB84C6F39BB14810");
+
+            entity.ToTable("sprint_event_type");
+
+            entity.Property(e => e.EventTypeId).HasColumnName("event_type_id");
+            entity.Property(e => e.EventTypeName)
+                .IsRequired()
+                .HasMaxLength(60)
+                .HasColumnName("event_type_name");
+        });
+
         modelBuilder.Entity<ProjectTaskType>(entity =>
         {
             entity.HasKey(e => e.TypeId).HasName("PK__project___3683B531D7884CB7");
@@ -285,6 +302,60 @@ public partial class TaskForgeDbContext : DbContext
                 .WithMany(t => t.Sprints)
                 .HasForeignKey(e => e.TeamId)
                 .HasConstraintName("FK_Sprint_Team");
+        });
+
+        modelBuilder.Entity<SprintEvent>(entity =>
+        {
+            entity.HasKey(e => e.SprintEventId).HasName("PK__sprint_e__417030F3E395792E");
+
+            entity.ToTable("sprint_events");
+
+            entity.Property(e => e.SprintEventId).HasColumnName("sprint_event_id");
+            entity.Property(e => e.SprintEventName)
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasColumnName("sprint_event_name");
+
+            entity.Property(e => e.TeamId)
+                .IsRequired()
+                .HasColumnName("team_id");
+
+            entity.Property(e => e.SprintId)
+                .IsRequired()
+                .HasColumnName("sprint_id");
+
+            entity.Property(e => e.CreatedBy)
+                .IsRequired()
+                .HasColumnName("created_by");
+
+            entity.Property(e => e.SprintEventDate)
+                .IsRequired()
+                .HasColumnType("date")
+                .HasColumnName("sprint_event_date");
+
+            entity.Property(e => e.SprintEventTypeId)
+                .IsRequired()
+                .HasColumnName("sprint_event_type_id");
+
+            entity.HasOne(e => e.Team)
+                .WithMany(t => t.SprintEvents)
+                .HasForeignKey(e => e.TeamId)
+                .HasConstraintName("FK__sprint_ev__team___19AACF41");
+
+            entity.HasOne(e => e.Sprint)
+                .WithMany(t => t.SprintEvents)
+                .HasForeignKey(e => e.SprintId)
+                .HasConstraintName("FK__sprint_ev__sprin__18B6AB08");
+
+            entity.HasOne(e => e.CreatedByNavigation)
+                .WithMany(t => t.SprintEvents)
+                .HasForeignKey(e => e.CreatedBy)
+                .HasConstraintName("FK__sprint_ev__creat__1B9317B3");
+
+            entity.HasOne(e => e.SprintEventType)
+                .WithMany(t => t.SprintEvents)
+                .HasForeignKey(e => e.SprintEventTypeId)
+                .HasConstraintName("FK__sprint_ev__sprin__1A9EF37A");
         });
 
         modelBuilder.Entity<Permission>(entity =>

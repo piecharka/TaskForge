@@ -19,5 +19,7 @@ namespace Domain.Model
 
         public virtual Team Team { get; set; }
         public virtual List<ProjectTask> ProjectTasks { get; set; }
+        public virtual List<SprintEvent> SprintEvents { get; set; }
+
     }
 }

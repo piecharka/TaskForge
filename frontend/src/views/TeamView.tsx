@@ -9,6 +9,8 @@ import { ProjectTask } from "../models/projectTask";
 import TaskTable from "../components/TaskTable";
 import Backlog from "../components/Backlog";
 import NewTaskForm from "../components/NewTaskForm";
+import SprintDetails from "../components/SprintDetails";
+import TeamEventCalendar from "../components/TeamEventCalendar";
 
 const TeamView = observer(() => {
     const { teamId } = useParams<{ teamId: string }>();
@@ -41,7 +43,7 @@ const TeamView = observer(() => {
         <div>
             <h1>{team.teamName}</h1>
             <div className="horizontal-navbar">
-                {["Summary", "Backlog", "List","New Task", "Sprint", "Team settings"].map(link => (
+                {["Summary", "Backlog", "List","New Task", "Sprint", "Calendar", "Team settings"].map(link => (
                     <Link
                         to="#"
                         key={link}
@@ -59,7 +61,11 @@ const TeamView = observer(() => {
 
             {activeLink === "New Task" && <NewTaskForm /> }
 
-            {activeLink === "Backlog" && <Backlog  /> }
+            {activeLink === "Backlog" && <Backlog />}
+
+            {activeLink === "Sprint" && <SprintDetails />}
+
+            {activeLink === "Calendar" && <TeamEventCalendar /> }
 
             {activeLink === "List" &&<TaskTable taskList={tasks} tableHeaders={tableHeaders} />}
         </div>

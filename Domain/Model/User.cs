@@ -36,4 +36,5 @@ public partial class User
 
     public virtual ICollection<Team> Teams { get; } = new List<Team>();
     public virtual ICollection<TeamUser> TeamUsers { get; set; } = new List<TeamUser>();
+    public virtual ICollection<SprintEvent> SprintEvents { get; set; } = new List<SprintEvent>();
 }

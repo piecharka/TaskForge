@@ -1,0 +1,4 @@
+.fc-toolbar-chunk{
+    display: flex;
+    flex-direction: row;
+}
