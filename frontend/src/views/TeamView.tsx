@@ -11,6 +11,7 @@ import Backlog from "../components/Backlog";
 import NewTaskForm from "../components/NewTaskForm";
 import SprintDetails from "../components/SprintDetails";
 import TeamEventCalendar from "../components/TeamEventCalendar";
+import TeamSummary from "../components/TeamSummary";
 
 const TeamView = observer(() => {
     const { teamId } = useParams<{ teamId: string }>();
@@ -54,10 +55,7 @@ const TeamView = observer(() => {
                     </Link>
                 ))}
             </div>
-            {activeLink === "Summary" && <div className="">
-                {usersInTeam.map(u => (
-                    <Link to={"/users/" + u.userId} key={u.userId}>{u.username}</Link>))}
-            </div>}
+            {activeLink === "Summary" && <TeamSummary/>}
 
             {activeLink === "New Task" && <NewTaskForm /> }
 

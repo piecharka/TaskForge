@@ -43,6 +43,5 @@ namespace Persistence.Repositories
 
             return sprintEvents;
         }
-
     }
 }

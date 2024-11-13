@@ -26,6 +26,7 @@ namespace Domain.DTOs
         public int TaskTypeId { get; set; }
 
         public string TaskDescription { get; set; }
+
         public virtual TeamGetDto Team { get; set; }
 
         public virtual ICollection<TaskAttachmentsDto> Attachments { get; set; } = new List<TaskAttachmentsDto>();

@@ -12,5 +12,6 @@ namespace Application.Interfaces.Services
         Task<IEnumerable<SprintEvent>> GetSprintEventsAsync();
         Task<IEnumerable<SprintEvent>> GetSprintEventsByTeamIdAsync(int teamId);
         Task<IEnumerable<SprintEvent>> GetSprintEventsByUserIdAsync(int userId);
+        Task<IEnumerable<SprintEvent>> GetClosestThreeEventsAsync(int teamId);
     }
 }

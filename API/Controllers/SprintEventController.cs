@@ -34,5 +34,11 @@ namespace API.Controllers
         {
             return Ok(await _sprintEventService.GetSprintEventsByUserIdAsync(userId));
         }
+
+        [HttpGet("team/closest/{teamId}")]
+        public async Task<ActionResult<IEnumerable<SprintEvent>>> GetClosestThreeEvents(int teamId)
+        {
+            return Ok(await _sprintEventService.GetClosestThreeEventsAsync(teamId));
+        }
     }
 }

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Application.Services
 {
@@ -22,9 +23,31 @@ namespace Application.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<ProjectTaskDto>> GetAllProjectTasksInTeamAsync(int teamId)
+        public async Task<IEnumerable<ProjectTaskDto>> GetAllProjectTasksInTeamAsync(int teamId, SortParams sortParams)
         {
-            return await _projectTaskRepository.GetAllInTeamAsync(teamId);
+            var query = await _projectTaskRepository.GetAllInTeamAsync(teamId);
+
+            query = sortParams.SortBy.ToLower() switch
+            {
+                "id" => sortParams.SortOrder == "asc" ? 
+                    query.OrderBy(t => t.TaskId) : query.OrderByDescending(t => t.TaskId),
+                "title" => sortParams.SortOrder == "asc" ? 
+                    query.OrderBy(t => t.TaskName) : query.OrderByDescending(t => t.TaskName),
+                "deadline" => sortParams.SortOrder == "asc" ? 
+                    query.OrderBy(t => t.TaskDeadline) : query.OrderByDescending(t => t.TaskDeadline),
+                "status" => sortParams.SortOrder == "asc" ? 
+                    query.OrderBy(t => t.TaskStatus.StatusName) : query.OrderByDescending(t => t.TaskStatus.StatusName),
+                "created by" => sortParams.SortOrder == "asc" ? 
+                    query.OrderBy(t => t.CreatedByNavigation.Username) : query.OrderByDescending(t => t.CreatedByNavigation.Username),
+                "type" => sortParams.SortOrder == "asc" ?
+                    query.OrderBy(t => t.TaskType.TypeName) : query.OrderByDescending(t => t.TaskType.TypeName),
+                "attached to" => sortParams.SortOrder == "asc" ?
+                    query.OrderBy(t => t.UsersTasks.FirstOrDefault()?.User.Username) :
+                    query.OrderByDescending(t => t.UsersTasks.FirstOrDefault()?.User.Username),
+                _ => query // domyślnie bez sortowania
+            };
+
+            return query.ToList();
         }
 
         public async Task AddProjectTaskAsync(ProjectTaskInsertDto projectTaskInsert)
@@ -64,6 +87,17 @@ namespace Application.Services
                 .Where(t => t.TaskStatusId == 1 || t.TaskStatusId == 3);
 
             return todoTasks;
+        }
+
+        public async Task<int> GetInProgressTasksCountInSprintAsync(int sprintId)
+        {
+            var tasks = await _projectTaskRepository.GetAllTasksBySprintIdAsync(sprintId);
+            return tasks.Count(t => t.TaskStatusId == 1 || t.TaskStatusId == 3);
+        }
+        public async Task<int> GetDoneTasksCountInSprintAsync(int sprintId)
+        {
+            var tasks = await _projectTaskRepository.GetAllTasksBySprintIdAsync(sprintId);
+            return tasks.Count(t => t.TaskStatusId == 2);
         }
     }
 }

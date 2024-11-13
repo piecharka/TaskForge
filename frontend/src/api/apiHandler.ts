@@ -8,6 +8,7 @@ import { store } from '../stores/store';
 import { CommentInsertData } from '../models/comment';
 import { ProjectTaskPostData } from '../DTOs/ProjectTaskPostData';
 import { Sprint } from '../models/sprint';
+import { SortParams } from '../DTOs/SortParams';
 
 axios.defaults.baseURL = 'http://localhost:5194/api';
 
@@ -50,11 +51,14 @@ const Teams = {
 }
 
 const ProjectTasks = {
-    projectTaskListInTeam: (teamId: number) => requests.get<ProjectTask>(`/projecttasks/team/${teamId}`),
+    projectTaskListInTeam: (teamId: number, sortBy: string, sortOrder: string) =>
+        requests.get<ProjectTask>(`/projecttasks/team/${teamId}?SortBy=${sortBy}&SortOrder=${sortOrder}`),
     todoTasks: (username: string | undefined) => requests.get<ProjectTask>(`/projecttasks/users/${username}`),
     getTask: (taskId: number) => requests.get<ProjectTask>(`/projecttasks/${taskId}`),
     postTask: (taskData: ProjectTaskPostData) => requests.post<ProjectTask>(`/projecttasks`, taskData),
     getSprintTasks: (sprintId: number) => requests.get<ProjectTask>(`/projecttasks/sprint/${sprintId}`),
+    getInProgressTasksCount: (sprintId: number) => requests.get<number>(`/projecttasks/count/in-progress/${sprintId}`),
+    getDoneTasksCount: (sprintId: number) => requests.get<number>(`/projecttasks/count/done/${sprintId}`),
 }
 
 const ProjectTaskTypes = {
@@ -74,6 +78,7 @@ const Sprints = {
 const SprintEvents = {
     getSprintEventsByTeamId: (teamId: number) => requests.get(`/sprintevent/team/${teamId}`),
     getSprintEventsByUserId: (userId: number) => requests.get(`/sprintevent/user/${userId}`),
+    getClosestThreeEventsByTeamId: (teamId: number) => requests.get(`/sprintevent/team/closest/${teamId}`),
 }
 
 const apiHandler = {

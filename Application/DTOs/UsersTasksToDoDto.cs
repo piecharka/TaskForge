@@ -15,6 +15,8 @@ namespace Application.DTOs
 
         public int CreatedBy { get; set; }
 
+        public DateTime CreatedAt { get; set; }
+
         public DateTime TaskDeadline { get; set; }
 
         public int TaskTypeId { get; set; }

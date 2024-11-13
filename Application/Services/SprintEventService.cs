@@ -32,5 +32,16 @@ namespace Application.Services
         {
             return await _sprintEventRepository.GetSprintEventsByUserIdAsync(userId);
         }
+
+        public async Task<IEnumerable<SprintEvent>> GetClosestThreeEventsAsync(int teamId)
+        {
+            var events = await _sprintEventRepository.GetSprintEventsByTeamIdAsync(teamId);
+            
+            return events
+                .Where(e => e.SprintEventDate >= DateTime.Now)
+                .OrderBy(e => Math.Abs((e.SprintEventDate - DateTime.Now).TotalDays))
+                .Take(3);
+               
+        }
     }
 }

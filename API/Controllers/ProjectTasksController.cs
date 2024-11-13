@@ -12,6 +12,7 @@ using Application.Services;
 using Application.DTOs;
 using Domain.DTOs;
 using Microsoft.AspNetCore.Authorization;
+using Application;
 
 namespace API.Controllers
 {
@@ -29,9 +30,9 @@ namespace API.Controllers
 
         // GET: api/ProjectTasks
         [HttpGet("team/{teamId}")]
-        public async Task<ActionResult<IEnumerable<ProjectTaskDto>>> GetProjectTasksByTeamId(int teamId)
+        public async Task<ActionResult<IEnumerable<ProjectTaskDto>>> GetProjectTasksByTeamId(int teamId, [FromQuery] SortParams sortParameters)
         {
-            return Ok(await _projectTaskService.GetAllProjectTasksInTeamAsync(teamId));
+            return Ok(await _projectTaskService.GetAllProjectTasksInTeamAsync(teamId, sortParameters));
         }
 
         [HttpGet("sprint/{sprintId}")]
@@ -108,6 +109,18 @@ namespace API.Controllers
         public async Task<ActionResult<IEnumerable<UsersTasksToDoDto>>> GetTodoTasks(string username)
         {
             return Ok(await _projectTaskService.GetToDoTasksAsync(username));
+        }
+
+        [HttpGet("count/in-progress/{sprintId}")]
+        public async Task<ActionResult<int>> GetInProgressTasksCount(int sprintId)
+        {
+            return Ok(await _projectTaskService.GetInProgressTasksCountInSprintAsync(sprintId));
+        }
+
+        [HttpGet("count/done/{sprintId}")]
+        public async Task<ActionResult<int>> GetDoneTasksCount(int sprintId)
+        {
+            return Ok(await _projectTaskService.GetDoneTasksCountInSprintAsync(sprintId));
         }
     }
 }

@@ -10,13 +10,14 @@ import "../style/Calendar.css";
 import { ProjectTask } from "../models/projectTask";
 import { User } from "../models/user";
 import Select from "react-select";
+import { observer } from "mobx-react-lite";
 
-function TeamEventCalendar() {
+const TeamEventCalendar = observer(() => {
     const [events, setEvents] = useState<SprintEvent[]>([]);
     const [teamUsers, setTeamUsers] = useState<User[]>([]);
     const [tasks, setTasks] = useState<ProjectTask[]>([]);
     const [filteredUsername, setFilteredUsername] = useState<string>('');
-    const [ isEventCalendar, setIsEventCalendar ] = useState<boolean>(true);
+    const [isEventCalendar, setIsEventCalendar] = useState<boolean>(true);
     const { teamId } = useParams();
 
     useEffect(() => {
@@ -29,7 +30,7 @@ function TeamEventCalendar() {
         apiHandler.Users.teamUsers(Number(teamId))
             .then(response => setTeamUsers(response));
 
-    }, [teamId, filteredUsername]);
+    }, [teamId]);
 
     useEffect(() => {
         const fetchTasks = async () => {
@@ -95,26 +96,26 @@ function TeamEventCalendar() {
                     />
                 </div>
                 <FullCalendar
-                events={calendarTaskMap}
-                headerToolbar={{
-                    left: "today prev next eventsAndTasksToggle",
-                    center: "title",
-                    right: "dayGridMonth dayGridWeek dayGridDay",
-                }}
-                plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-                customButtons={{
-                    eventsAndTasksToggle: {
-                        text: "Events",
-                        click: function () {
-                            setIsEventCalendar(true);
+                    events={calendarTaskMap}
+                    headerToolbar={{
+                        left: "today prev next eventsAndTasksToggle",
+                        center: "title",
+                        right: "dayGridMonth dayGridWeek dayGridDay",
+                    }}
+                    plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+                    customButtons={{
+                        eventsAndTasksToggle: {
+                            text: "Events",
+                            click: function () {
+                                setIsEventCalendar(true);
+                            },
                         },
-                    },
-                }}
-                initialView="dayGridMonth"
-            /> </div>}
+                    }}
+                    initialView="dayGridMonth"
+                /> </div>}
         </div>
-        
+
     );
-}
+});
 
 export default TeamEventCalendar;
