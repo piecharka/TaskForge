@@ -43,5 +43,30 @@ namespace Persistence.Repositories
 
             return sprintEvents;
         }
+
+        public async Task AddSprintEventAsync(SprintEvent sprintEvent)
+        {
+            await _taskForgeDbContext.SprintEvents.AddAsync(sprintEvent);
+
+            await _taskForgeDbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteSprintEventAsync(int sprintEventId)
+        {
+            var entity = await _taskForgeDbContext.SprintEvents
+                .Where(se => se.SprintEventId == sprintEventId)
+                .FirstOrDefaultAsync();
+
+            if (entity != null)
+            {
+                _taskForgeDbContext.SprintEvents.Remove(entity);
+                await _taskForgeDbContext.SaveChangesAsync();
+            }
+            else
+            {
+                // Opcjonalnie, możesz rzucić wyjątek lub zwrócić odpowiedź, jeśli zespół nie istnieje
+                throw new KeyNotFoundException($"Team with id {sprintEventId} not found.");
+            }
+        }
     }
 }

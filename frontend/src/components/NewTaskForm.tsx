@@ -87,7 +87,6 @@ function NewTaskForm() {
 
     }, [teamId])
 
-
     const handleUserDropdown = (selectedOptions) => {
         setCheckedUsersIds(selectedOptions.map(option => option.value));
     };

@@ -8,7 +8,9 @@ import { store } from '../stores/store';
 import { CommentInsertData } from '../models/comment';
 import { ProjectTaskPostData } from '../DTOs/ProjectTaskPostData';
 import { Sprint } from '../models/sprint';
-import { SortParams } from '../DTOs/SortParams';
+import { SprintPostData } from '../DTOs/SprintPostData';
+import { SprintEventPostData } from '../DTOs/SprintEventPostData';
+
 
 axios.defaults.baseURL = 'http://localhost:5194/api';
 
@@ -59,6 +61,7 @@ const ProjectTasks = {
     getSprintTasks: (sprintId: number) => requests.get<ProjectTask>(`/projecttasks/sprint/${sprintId}`),
     getInProgressTasksCount: (sprintId: number) => requests.get<number>(`/projecttasks/count/in-progress/${sprintId}`),
     getDoneTasksCount: (sprintId: number) => requests.get<number>(`/projecttasks/count/done/${sprintId}`),
+    deleteTask: (taskId: number) => requests.del(`/projecttasks/${taskId}`),
 }
 
 const ProjectTaskTypes = {
@@ -72,13 +75,21 @@ const ProjectTaskStatuses = {
 const Sprints = {
     getCurrentTeamSprint: (teamId: number) => requests.get(`/sprint/team-current/${teamId}`),
     getTeamsSprints: (teamId: number) => requests.get(`/sprint/team/${teamId}`),
-    getSprintById : (sprintId: number) => requests.get<Sprint>(`/sprint/${sprintId}`)
+    getSprintById: (sprintId: number) => requests.get<Sprint>(`/sprint/${sprintId}`),
+    postSprint: (sprint: SprintPostData) => requests.post<Sprint>(`/sprint`, sprint),
+    deleteSprint: (sprintId: number) => requests.del(`/sprint/${sprintId}`),
 }
 
 const SprintEvents = {
     getSprintEventsByTeamId: (teamId: number) => requests.get(`/sprintevent/team/${teamId}`),
     getSprintEventsByUserId: (userId: number) => requests.get(`/sprintevent/user/${userId}`),
     getClosestThreeEventsByTeamId: (teamId: number) => requests.get(`/sprintevent/team/closest/${teamId}`),
+    postSprintEvent: (sprintEvent: SprintEventPostData) => requests.post<Sprint>(`/sprintevent`, sprintEvent),
+    deleteSprintEvent: (sprintEventId: number) => requests.del(`/sprintevent/${sprintEventId}`),
+}
+
+const SprintEventTypes = {
+    getSprintEventTypes: () => requests.get('/sprinteventtype'),
 }
 
 const apiHandler = {
@@ -90,7 +101,8 @@ const apiHandler = {
     ProjectTaskTypes,
     ProjectTaskStatuses,
     Sprints,
-    SprintEvents
+    SprintEvents,
+    SprintEventTypes
 }
 
 export default apiHandler;

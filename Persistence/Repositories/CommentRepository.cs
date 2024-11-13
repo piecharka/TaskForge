@@ -70,7 +70,6 @@ namespace Persistence.Repositories
             }
             else
             {
-                // Opcjonalnie, możesz rzucić wyjątek lub zwrócić odpowiedź, jeśli zespół nie istnieje
                 throw new KeyNotFoundException($"Comment with id {commentId} not found.");
             }
         }

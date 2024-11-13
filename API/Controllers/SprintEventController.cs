@@ -1,4 +1,7 @@
-﻿using Application.Interfaces.Services;
+﻿using Application.DTOs;
+using Application.Interfaces.Services;
+using Application.Services;
+using Domain.DTOs;
 using Domain.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -39,6 +42,22 @@ namespace API.Controllers
         public async Task<ActionResult<IEnumerable<SprintEvent>>> GetClosestThreeEvents(int teamId)
         {
             return Ok(await _sprintEventService.GetClosestThreeEventsAsync(teamId));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AddSprintEvent(SprintEventDto sprintEventDto)
+        {
+            await _sprintEventService.AddSprintEventAsync(sprintEventDto);
+
+            return CreatedAtAction("AddSprintEvent", new { id = sprintEventDto.SprintId }, sprintEventDto);
+        }
+
+        [HttpDelete("{sprintEventId}")]
+        public async Task<ActionResult> DeleteSprint(int sprintEventId)
+        {
+            await _sprintEventService.DeleteSprintEventAsync(sprintEventId);
+
+            return NoContent();
         }
     }
 }

@@ -13,5 +13,7 @@ namespace Domain.Interfaces.Repositories
         Task<Sprint> GetSprintByIdAsync(int id);
         Task<SprintDto> GetCurrentTeamSprintAsync(int teamId);
         Task<IEnumerable<SprintDto>> GetTeamSprintsAsync(int teamId);
+        Task AddSprintAsync(Sprint sprint);
+        Task DeleteSprintAsync(int sprintId);
     }
 }

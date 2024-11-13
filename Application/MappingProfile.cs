@@ -2,6 +2,7 @@
 using AutoMapper;
 using Domain;
 using Domain.DTOs;
+using Domain.Model;
 using Persistence.DTOs;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,8 @@ namespace Application
             CreateMap<UserRegisterDto, User>();
             CreateMap<CommentInsertDto, Comment>();
             CreateMap<CommentUpdateDto, Comment>();
+            CreateMap<SprintEventDto, SprintEvent>();
+            CreateMap<SprintDto, Sprint>();
         }
     }
 }

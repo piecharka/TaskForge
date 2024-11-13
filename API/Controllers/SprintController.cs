@@ -1,4 +1,7 @@
 ﻿using Application.Interfaces.Services;
+using Application.Services;
+using Domain;
+using Domain.DTOs;
 using Domain.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -34,6 +37,22 @@ namespace API.Controllers
         public async Task<ActionResult<IEnumerable<Sprint>>> GetTeamsSprints(int teamId)
         {
             return Ok(await _sprintService.GetSprintsAsync(teamId));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AddSprint(SprintDto sprintDto)
+        {
+            await _sprintService.AddSprintAsync(sprintDto);
+
+            return CreatedAtAction("AddSprint", new { id = sprintDto.SprintId }, sprintDto);
+        }
+
+        [HttpDelete("{sprintId}")]
+        public async Task<ActionResult> DeleteSprint(int sprintId)
+        {
+            await _sprintService.DeleteSprintAsync(sprintId);
+
+            return NoContent();
         }
     }
 }

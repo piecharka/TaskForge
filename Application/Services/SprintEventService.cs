@@ -1,4 +1,6 @@
-﻿using Application.Interfaces.Services;
+﻿using Application.DTOs;
+using Application.Interfaces.Services;
+using AutoMapper;
 using Domain.Interfaces.Repositories;
 using Domain.Model;
 using System;
@@ -12,10 +14,12 @@ namespace Application.Services
     public class SprintEventService : ISprintEventService
     {
         private readonly ISprintEventRepository _sprintEventRepository;
+        private readonly IMapper _mapper;
 
-        public SprintEventService(ISprintEventRepository sprintEventRepository)
+        public SprintEventService(ISprintEventRepository sprintEventRepository, IMapper mapper)
         {
             _sprintEventRepository = sprintEventRepository;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<SprintEvent>> GetSprintEventsAsync()
@@ -40,8 +44,18 @@ namespace Application.Services
             return events
                 .Where(e => e.SprintEventDate >= DateTime.Now)
                 .OrderBy(e => Math.Abs((e.SprintEventDate - DateTime.Now).TotalDays))
-                .Take(3);
-               
+                .Take(3);      
+        }
+
+        public async Task AddSprintEventAsync(SprintEventDto sprintEventDto)
+        {
+            var sprintEvent = _mapper.Map<SprintEventDto, SprintEvent>(sprintEventDto);
+            await _sprintEventRepository.AddSprintEventAsync(sprintEvent);
+        }
+
+        public async Task DeleteSprintEventAsync(int sprintId)
+        {
+            await _sprintEventRepository.DeleteSprintEventAsync(sprintId);
         }
     }
 }

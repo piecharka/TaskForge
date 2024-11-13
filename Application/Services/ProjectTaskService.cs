@@ -16,11 +16,19 @@ namespace Application.Services
     public class ProjectTaskService : IProjectTaskService
     {
         private readonly IProjectTaskRepository _projectTaskRepository;
+        private readonly ICommentRepository _commentRepository;
+        private readonly IUsersTaskRepository _usersTaskRepository;
         private readonly IMapper _mapper;
-        public ProjectTaskService(IProjectTaskRepository projectTaskRepository, IMapper mapper)
+        public ProjectTaskService
+            (IProjectTaskRepository projectTaskRepository, 
+            IMapper mapper,
+            ICommentRepository commentRepository,
+            IUsersTaskRepository usersTaskRepository)
         {
             _projectTaskRepository = projectTaskRepository;
             _mapper = mapper;
+            _commentRepository = commentRepository;
+            _usersTaskRepository = usersTaskRepository;
         }
 
         public async Task<IEnumerable<ProjectTaskDto>> GetAllProjectTasksInTeamAsync(int teamId, SortParams sortParams)
@@ -60,6 +68,18 @@ namespace Application.Services
 
         public async Task DeleteProjectTaskAsync(int id)
         {
+            var comments = await _commentRepository.GetAllTaskCommentsAsync(id);
+            var usersTasks = await _usersTaskRepository.GetUsersTaskByTaskIdAsync(id);
+
+            foreach (var comment in comments)
+            {
+                await _commentRepository.DeleteAsync(comment.CommentId);
+            }
+            foreach(var usersTask in usersTasks)
+            {
+                await _usersTaskRepository.DeleteUserTaskAsync(usersTask.UserTaskId);
+            }
+
             await _projectTaskRepository.DeleteAsync(id);
         }
 

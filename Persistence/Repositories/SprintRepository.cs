@@ -61,5 +61,30 @@ namespace Persistence.Repositories
                 .Where(s => s.TeamId == teamId)
                 .ToListAsync();
         }
+
+        public async Task AddSprintAsync(Sprint sprint)
+        {
+            await _forgeDbContext.Sprints.AddAsync(sprint);
+
+            await _forgeDbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteSprintAsync(int sprintId)
+        {
+            var entity = await _forgeDbContext.Sprints
+                .Where(s => s.SprintId == sprintId)
+                .FirstOrDefaultAsync();
+
+            if (entity != null)
+            {
+                _forgeDbContext.Sprints.Remove(entity);
+                await _forgeDbContext.SaveChangesAsync();
+            }
+            else
+            {
+                // Opcjonalnie, możesz rzucić wyjątek lub zwrócić odpowiedź, jeśli zespół nie istnieje
+                throw new KeyNotFoundException($"Team with id {sprintId} not found.");
+            }
+        }
     }
 }

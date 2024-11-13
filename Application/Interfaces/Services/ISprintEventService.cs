@@ -1,4 +1,5 @@
-﻿using Domain.Model;
+﻿using Application.DTOs;
+using Domain.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +14,7 @@ namespace Application.Interfaces.Services
         Task<IEnumerable<SprintEvent>> GetSprintEventsByTeamIdAsync(int teamId);
         Task<IEnumerable<SprintEvent>> GetSprintEventsByUserIdAsync(int userId);
         Task<IEnumerable<SprintEvent>> GetClosestThreeEventsAsync(int teamId);
+        Task AddSprintEventAsync(SprintEventDto sprintEventDto);
+        Task DeleteSprintEventAsync(int sprintEventId);
     }
 }

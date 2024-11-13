@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces.Services;
+using AutoMapper;
 using Domain.DTOs;
 using Domain.Interfaces.Repositories;
 using Domain.Model;
@@ -13,10 +14,12 @@ namespace Application.Services
     public class SprintService : ISprintService
     {
         private readonly ISprintRepository _sprintRepository;
+        private readonly IMapper _mapper;
 
-        public SprintService(ISprintRepository sprintRepository)
+        public SprintService(ISprintRepository sprintRepository, IMapper mapper)
         {
             _sprintRepository = sprintRepository;
+            _mapper = mapper;
         }
 
         public async Task<Sprint> GetSprintByIdAsync(int sprintId)
@@ -32,6 +35,17 @@ namespace Application.Services
         public async Task<IEnumerable<SprintDto>> GetSprintsAsync(int teamId)
         {
             return await _sprintRepository.GetTeamSprintsAsync(teamId);
+        }
+
+        public async Task AddSprintAsync(SprintDto sprintDto)
+        {
+            var sprint = _mapper.Map<Sprint>(sprintDto);
+            await _sprintRepository.AddSprintAsync(sprint);
+        }
+
+        public async Task DeleteSprintAsync(int sprintId)
+        {
+            await _sprintRepository.DeleteSprintAsync(sprintId);
         }
     }
 }
