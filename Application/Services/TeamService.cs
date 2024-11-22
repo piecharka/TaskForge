@@ -65,5 +65,10 @@ namespace Application.Services
         {
             return await _teamRepository.GetTeamsByUsername(username);
         }
+
+        public async Task DeleteUserFromTeamAsync(int userId, int teamId)
+        {
+           await _teamRepository.DeleteUserAsync(userId, teamId);
+        }
     }
 }

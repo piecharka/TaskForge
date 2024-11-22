@@ -49,7 +49,15 @@ const Users = {
 const Teams = {
     list: () => requests.get<Team[]>('/teams'),
     first: (id: number) => requests.get<Team>(`/teams/${id}`),
-    teamsByUsername: (username: string | undefined) => requests.get<Team[]>(`/teams/user/${username}`)
+    teamsByUsername: (username: string | undefined) => requests.get<Team[]>(`/teams/user/${username}`),
+    deleteUserFromTeam: (userId: number, teamId: number) => requests.del(`/teams/user?userId=${userId}&teamId=${teamId}`)
+}
+
+const Permission = {
+    getPermissionByUserId: (userId: number, teamId: number) => requests.get(`/permission/user?userId=${userId}&teamId=${teamId}`),
+    updateUsersPermission: (userId: number, teamId: number, permissionId: number) =>
+        requests.put(`/permission/user?userId=${userId}&teamId=${teamId}&permissionId=${permissionId}`, {}),
+    getPermissions: () => requests.get(`/permission`),
 }
 
 const ProjectTasks = {
@@ -59,6 +67,7 @@ const ProjectTasks = {
     getTask: (taskId: number) => requests.get<ProjectTask>(`/projecttasks/${taskId}`),
     postTask: (taskData: ProjectTaskPostData) => requests.post<ProjectTask>(`/projecttasks`, taskData),
     getSprintTasks: (sprintId: number) => requests.get<ProjectTask>(`/projecttasks/sprint/${sprintId}`),
+    getTodoTasksCount: (sprintId: number) => requests.get<number>(`/projecttasks/count/to-do/${sprintId}`),
     getInProgressTasksCount: (sprintId: number) => requests.get<number>(`/projecttasks/count/in-progress/${sprintId}`),
     getDoneTasksCount: (sprintId: number) => requests.get<number>(`/projecttasks/count/done/${sprintId}`),
     deleteTask: (taskId: number) => requests.del(`/projecttasks/${taskId}`),
@@ -97,6 +106,7 @@ const apiHandler = {
     Comments,
     Users,
     Teams,
+    Permission,
     ProjectTasks,
     ProjectTaskTypes,
     ProjectTaskStatuses,

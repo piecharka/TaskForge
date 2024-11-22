@@ -26,7 +26,6 @@ namespace Persistence.Repositories
                  .Include(t => t.UsersTasks)
                  .ThenInclude(ut => ut.User)
                  .Include(t => t.UsersTasks)
-                 .ThenInclude(ut => ut.TimeLogs)
                  .Select(t => new ProjectTaskDto
                  {
                      TaskId = t.TaskId,
@@ -79,13 +78,6 @@ namespace Persistence.Repositories
                              Email = ut.User.Email,
                              LastLogin = ut.User.LastLogin,
                          },
-                         TimeLogs = ut.TimeLogs.Select(tl => new TimeLogDto
-                         {
-                             LogId = tl.LogId,
-                             UserTaskId = tl.LogId,
-                             StartTime = tl.StartTime,
-                             EndTime = tl.EndTime
-                         }).ToList()
                      }).ToList()
                  })
                  .Where(pt => pt.TeamId == teamId)
@@ -98,7 +90,6 @@ namespace Persistence.Repositories
         {
             return await _forgeDbContext.UsersTasks
                 .Include(ut => ut.User)
-                .Include(ut => ut.TimeLogs)
                 .Where(ut => ut.UserId == userId)
                 .Select(ut => ut.Task)
                 .ToListAsync();
@@ -112,7 +103,6 @@ namespace Persistence.Repositories
                 .Include(ut => ut.Task)
                     .ThenInclude(t => t.TaskStatus)
                 .Include(ut => ut.User)
-                .Include(ut => ut.TimeLogs)
                 .Where(ut => ut.User.Username == username)
                 .Select(ut => ut.Task)
                 .ToListAsync();
@@ -131,7 +121,6 @@ namespace Persistence.Repositories
                 .Include(t => t.UsersTasks)
                 .ThenInclude(ut => ut.User)
                 .Include(t => t.UsersTasks)
-                .ThenInclude(ut => ut.TimeLogs)
                 .Select(t => new ProjectTaskDto
                 {
                     TaskId = t.TaskId,
@@ -184,13 +173,6 @@ namespace Persistence.Repositories
                             Email = ut.User.Email,
                             LastLogin = ut.User.LastLogin,
                         },
-                        TimeLogs = ut.TimeLogs.Select(tl => new TimeLogDto
-                        {
-                            LogId = tl.LogId,
-                            UserTaskId = tl.LogId,
-                            StartTime = tl.StartTime,
-                            EndTime = tl.EndTime
-                        }).ToList()
                     }).ToList(),
                     Sprint = new SprintGetDto
                     {
@@ -218,7 +200,6 @@ namespace Persistence.Repositories
                  .Include(pt => pt.UsersTasks)
                 .ThenInclude(ut => ut.User)
                 .Include(pt => pt.UsersTasks)
-                .ThenInclude(ut => ut.TimeLogs)
                  .Where(pt => pt.TaskId == id)
                  .Select(t => new ProjectTaskDto
                  {
@@ -272,13 +253,6 @@ namespace Persistence.Repositories
                              Email = ut.User.Email,
                              LastLogin = ut.User.LastLogin,
                          },
-                         TimeLogs = ut.TimeLogs.Select(tl => new TimeLogDto
-                         {
-                             LogId = tl.LogId,
-                             UserTaskId = tl.LogId,
-                             StartTime = tl.StartTime,
-                             EndTime = tl.EndTime
-                         }).ToList()
                      }).ToList()
                  })
                  .FirstOrDefaultAsync();
@@ -297,7 +271,6 @@ namespace Persistence.Repositories
                 .Include(pt => pt.UsersTasks)
                 .ThenInclude(ut => ut.User)
                 .Include(pt => pt.UsersTasks)
-                .ThenInclude(ut => ut.TimeLogs)
                 .Where(t => t.TaskId == id)
                 .FirstOrDefaultAsync();
 
@@ -350,7 +323,6 @@ namespace Persistence.Repositories
         {
             return await _forgeDbContext.UsersTasks
                 .Include(ut => ut.User)
-                .Include(ut => ut.TimeLogs)
                 .Where(ut => ut.Task.TaskId == taskId)
                 .Select(ut => new TaskUserGetDto
                 {

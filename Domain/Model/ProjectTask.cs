@@ -41,5 +41,6 @@ public partial class ProjectTask
     public virtual Team Team { get; set; }
 
     public virtual ICollection<UsersTask> UsersTasks { get; set; } = new List<UsersTask>();
+    public virtual ICollection<TimeLog> TimeLogs { get; set; } = new List<TimeLog>();
     public virtual Sprint Sprint { get; set; }
 }

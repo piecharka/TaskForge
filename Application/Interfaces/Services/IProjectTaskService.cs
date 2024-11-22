@@ -18,6 +18,7 @@ namespace Application.Interfaces.Services
         Task<IEnumerable<UsersTasksToDoDto>> GetToDoTasksAsync(string username);
         Task<ProjectTaskDto> GetTaskByIdAsync(int taskId);
         Task<IEnumerable<ProjectTaskDto>> GetTasksBySprintIdAsync(int sprintId);
+        Task<int> GetTodoTasksCountInSprintAsync(int sprintId);
         Task<int> GetInProgressTasksCountInSprintAsync(int sprintId);
         Task<int> GetDoneTasksCountInSprintAsync(int sprintId);
     }

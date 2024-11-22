@@ -19,6 +19,7 @@ export type User = {
     projectTasks: ProjectTask[];
     usersTasks: UsersTask[];
     teams: Team[];
+    permissionId: number;
 };
 
 export type UserLoginData = {

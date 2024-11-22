@@ -16,10 +16,28 @@ namespace API.Controllers
             _permissionService = permissionService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<Permission>> GetPermissionById(int id)
+        //[HttpGet]
+        //public async Task<ActionResult<Permission>> GetPermissionById(int id)
+        //{
+        //    return Ok( await _permissionService.GetPermissionByIdAsync(id));
+        //}
+
+        [HttpGet("user")]
+        public async Task<ActionResult<Permission>> GetPermissionByUserId(int userId, int teamId)
         {
-            return Ok( await _permissionService.GetPermissionById(id));
+            return Ok(await _permissionService.GetPermissionByUserIdAsync(userId, teamId));
+        }
+
+        [HttpPut("user")]
+        public async Task<ActionResult> UpdateUsersPermissionAsync(int userId, int teamId, int permissionId)
+        {
+            return Ok(await _permissionService.UpdateUsersPermissionAsync(userId, teamId, permissionId));
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<Permission>> GetPermissions()
+        {
+            return Ok(await _permissionService.GetPermissionsAsync());
         }
     }
 }

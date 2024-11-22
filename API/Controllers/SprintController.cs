@@ -27,6 +27,12 @@ namespace API.Controllers
             return Ok(await _sprintService.GetSprintByIdAsync(id));
         }
 
+        [HttpGet("team-previous/{teamId}")]
+        public async Task<ActionResult<Sprint>> GetPreviousSprint(int teamId)
+        {
+            return Ok(await _sprintService.GetPreviousSprintAsync(teamId));
+        }
+
         [HttpGet("team-current/{teamId}")]
         public async Task<ActionResult<Sprint>> GetCurrentSprint(int teamId)
         {

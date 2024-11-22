@@ -46,6 +46,23 @@ namespace Persistence.Repositories
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<SprintDto> GetPreviousTeamSprintAsync(int teamId)
+        {
+            return await _forgeDbContext.Sprints
+                .Where(s => s.TeamId == teamId && s.SprintEnd < DateTime.Now)
+                .OrderByDescending(s => s.SprintEnd)
+                .Select(s => new SprintDto
+                {
+                    SprintId = s.SprintId,
+                    SprintName = s.SprintName,
+                    SprintStart = s.SprintStart,
+                    SprintEnd = s.SprintEnd,
+                    GoalDescription = s.GoalDescription,
+                    TeamId = s.TeamId
+                })
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<IEnumerable<SprintDto>> GetTeamSprintsAsync(int teamId)
         {
             return await _forgeDbContext.Sprints

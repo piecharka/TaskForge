@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Interfaces.Repositories
+namespace Application.Interfaces.Services
 {
-    public interface ITimeLogRepository
+    public interface ITimeLogService
     {
         Task<TimeLog> GetTimeLogAsync(int timeLogId);
     }

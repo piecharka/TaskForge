@@ -111,6 +111,12 @@ namespace API.Controllers
             return Ok(await _projectTaskService.GetToDoTasksAsync(username));
         }
 
+        [HttpGet("count/to-do/{sprintId}")]
+        public async Task<ActionResult<int>> GetTodoTasksCount(int sprintId)
+        {
+            return Ok(await _projectTaskService.GetTodoTasksCountInSprintAsync(sprintId));
+        }
+
         [HttpGet("count/in-progress/{sprintId}")]
         public async Task<ActionResult<int>> GetInProgressTasksCount(int sprintId)
         {

@@ -42,6 +42,8 @@ public partial class TaskForgeDbContext : DbContext
 
     public virtual DbSet<TimeLog> TimeLogs { get; set; }
 
+    public virtual DbSet<LogType> LogTypes { get; set; }
+
     public virtual DbSet<User> Users { get; set; }
 
     public virtual DbSet<UsersTask> UsersTasks { get; set; }
@@ -243,6 +245,18 @@ public partial class TaskForgeDbContext : DbContext
                 .HasColumnName("event_type_name");
         });
 
+        modelBuilder.Entity<LogType>(entity =>
+        {
+            entity.HasKey(e => e.LogTypeId).HasName("PK__log_type__0F82CEA5AE509FD1");
+
+            entity.ToTable("log_type_id");
+
+            entity.Property(e => e.LogTypeId).HasColumnName("event_type_id");
+            entity.Property(e => e.LogTypeName)
+                .IsRequired()
+                .HasColumnName("log_type_name");
+        });
+
         modelBuilder.Entity<ProjectTaskType>(entity =>
         {
             entity.HasKey(e => e.TypeId).HasName("PK__project___3683B531D7884CB7");
@@ -423,23 +437,38 @@ public partial class TaskForgeDbContext : DbContext
 
         modelBuilder.Entity<TimeLog>(entity =>
         {
-            entity.HasKey(e => e.LogId).HasName("PK__time_log__9E2397E041250BBA");
+            entity.HasKey(e => e.LogId).HasName("PK__time_log__CBC508EC50398D2A");
 
             entity.ToTable("time_logs");
 
-            entity.Property(e => e.LogId).HasColumnName("log_id");
-            entity.Property(e => e.EndTime)
-                .HasColumnType("datetime")
-                .HasColumnName("end_time");
-            entity.Property(e => e.StartTime)
-                .HasColumnType("datetime")
-                .HasColumnName("start_time");
-            entity.Property(e => e.UserTaskId).HasColumnName("user_task_id");
+            entity.Property(e => e.LogId)
+                .HasColumnName("time_log_id")
+                .ValueGeneratedOnAdd();
 
-            entity.HasOne(d => d.UserTask).WithMany(p => p.TimeLogs)
-                .HasForeignKey(d => d.UserTaskId)
+            entity.Property(e => e.TaskId)
+                .HasColumnName("task_id")
+                .IsRequired();
+
+            entity.Property(e => e.LogTypeId)
+                .HasColumnName("log_type_id")
+                .IsRequired();
+
+            entity.Property(e => e.LogDate)
+                .HasColumnName("log_date")
+                .HasColumnType("datetime")
+                .HasDefaultValueSql("GETDATE()");
+
+            entity.HasOne(d => d.ProjectTask)
+                .WithMany(p => p.TimeLogs)
+                .HasForeignKey(d => d.TaskId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_time_log_user_task");
+                .HasConstraintName("FK_TimeLogs_Task");
+
+            entity.HasOne(d => d.LogType)
+                .WithMany(p => p.TimeLogs)
+                .HasForeignKey(d => d.LogTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_TimeLogs_LogType");
         });
 
         modelBuilder.Entity<User>(entity =>

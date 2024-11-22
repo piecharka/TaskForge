@@ -161,6 +161,10 @@ namespace Persistence.Repositories
                     Birthday = u.Birthday,
                     LastLogin = u.LastLogin,
                     IsActive = u.IsActive,
+                    PermissionId = u.TeamUsers
+                        .Where(tu => tu.UserId == u.UserId && tu.TeamId == teamId)
+                        .Select(tu => tu.PermissionId)
+                        .FirstOrDefault(),
                     Teams = u.Teams.Select(t => new UserTeamDto
                     {
                         TeamId = t.TeamId,

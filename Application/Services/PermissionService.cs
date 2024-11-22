@@ -17,9 +17,24 @@ namespace Application.Services
             _permissionRepository = permissionRepository;
         }
 
-        public async Task<Permission> GetPermissionById(int id)
+        public async Task<Permission> GetPermissionByIdAsync(int id)
         {
             return await _permissionRepository.GetByIdAsync(id);
+        }
+
+        public async Task<IEnumerable<Permission>> GetPermissionsAsync()
+        {
+            return await _permissionRepository.GetPermissionsAsync();
+        }
+
+        public async Task<Permission> GetPermissionByUserIdAsync(int userId, int teamId)
+        {
+            return await _permissionRepository.GetByUserIdAsync(userId, teamId);
+        }
+
+        public async Task<bool> UpdateUsersPermissionAsync(int userId, int teamId, int permissionId)
+        {
+            return await _permissionRepository.ChangeUsersPermissionAsync(userId, teamId, permissionId);
         }
     }
 }

@@ -109,11 +109,18 @@ namespace Application.Services
             return todoTasks;
         }
 
+        public async Task<int> GetTodoTasksCountInSprintAsync(int sprintId)
+        {
+            var tasks = await _projectTaskRepository.GetAllTasksBySprintIdAsync(sprintId);
+            return tasks.Count(t => t.TaskStatusId == 1);
+        }
+
         public async Task<int> GetInProgressTasksCountInSprintAsync(int sprintId)
         {
             var tasks = await _projectTaskRepository.GetAllTasksBySprintIdAsync(sprintId);
-            return tasks.Count(t => t.TaskStatusId == 1 || t.TaskStatusId == 3);
+            return tasks.Count(t => t.TaskStatusId == 3);
         }
+
         public async Task<int> GetDoneTasksCountInSprintAsync(int sprintId)
         {
             var tasks = await _projectTaskRepository.GetAllTasksBySprintIdAsync(sprintId);

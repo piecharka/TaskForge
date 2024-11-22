@@ -110,5 +110,13 @@ namespace API.Controllers
 
             return NoContent();
         }
+
+        [HttpDelete("user")]
+        public async Task<IActionResult> DeleteUserFromTeam(int userId, int teamId)
+        {
+            await _teamService.DeleteUserFromTeamAsync(userId, teamId);
+
+            return NoContent();
+        }
     }
 }

@@ -10,5 +10,8 @@ namespace Domain.Interfaces.Repositories
     public interface IPermissionRepository
     {
         Task<Permission> GetByIdAsync(int permissionId);
+        Task<Permission> GetByUserIdAsync(int userId, int teamId);
+        Task<bool> ChangeUsersPermissionAsync(int userId, int teamId, int permissionId);
+        Task<IEnumerable<Permission>> GetPermissionsAsync();
     }
 }

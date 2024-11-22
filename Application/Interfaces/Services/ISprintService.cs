@@ -12,6 +12,7 @@ namespace Application.Interfaces.Services
     {
         Task<Sprint> GetSprintByIdAsync(int sprintId);
         Task<SprintDto> GetCurrentSprintTeamAsync(int teamId);
+        Task<SprintDto> GetPreviousSprintAsync(int teamId);
         Task<IEnumerable<SprintDto>> GetSprintsAsync(int teamId);
         Task AddSprintAsync(SprintDto sprintDto);
         Task DeleteSprintAsync(int sprintId);

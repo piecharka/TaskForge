@@ -9,6 +9,9 @@ namespace Application.Interfaces.Services
 {
     public interface IPermissionService
     {
-        Task<Permission> GetPermissionById(int id);
+        Task<Permission> GetPermissionByIdAsync(int id);
+        Task<Permission> GetPermissionByUserIdAsync(int userId, int teamId);
+        Task<bool> UpdateUsersPermissionAsync(int userId, int teamId, int permissionId);
+        Task<IEnumerable<Permission>> GetPermissionsAsync();
     }
 }

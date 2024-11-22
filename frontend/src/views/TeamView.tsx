@@ -14,6 +14,7 @@ import TeamEventCalendar from "../components/TeamEventCalendar";
 import TeamSummary from "../components/TeamSummary";
 import AddSprintForm from "../components/AddSprintForm";
 import AddSprintEventForm from "../components/AddSprintEventForm";
+import TeamSettings from "../components/TeamSettings";
 
 const TeamView = observer(() => {
     const { teamId } = useParams<{ teamId: string }>();
@@ -71,7 +72,9 @@ const TeamView = observer(() => {
 
             {activeLink === "New Event" && <AddSprintEventForm /> }
 
-            {activeLink === "List" &&<TaskTable taskList={tasks} tableHeaders={tableHeaders} />}
+            {activeLink === "List" && <TaskTable taskList={tasks} tableHeaders={tableHeaders} />}
+
+            {activeLink === "Team settings" && <TeamSettings />}
         </div>
     );
 });

@@ -63,6 +63,7 @@ builder.Services.AddScoped<IPermissionService, PermissionService>();
 builder.Services.AddScoped<ISprintService, SprintService>();
 builder.Services.AddScoped<ISprintEventTypeService, SprintEventTypeService>();
 builder.Services.AddScoped<ISprintEventService, SprintEventService>();
+builder.Services.AddScoped<ITimeLogService, TimeLogService>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITeamRepository, TeamRepository>();

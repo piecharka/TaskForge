@@ -63,7 +63,33 @@ namespace Persistence
             }
             else
             {
-                // Opcjonalnie, możesz rzucić wyjątek lub zwrócić odpowiedź, jeśli zespół nie istnieje
+                throw new KeyNotFoundException($"Team with id {teamId} not found.");
+            }
+        }
+
+        public async Task DeleteUserAsync(int userId, int teamId)
+        {
+            var team = await _forgeDbContext.Teams
+                    .Include(t => t.TeamUsers)
+                    .FirstOrDefaultAsync(t => t.TeamId == teamId);
+
+            if (team != null)
+            {
+                var teamUser = team.TeamUsers.FirstOrDefault(tu => tu.UserId == userId);
+
+                if (teamUser != null)
+                {
+                    team.TeamUsers.Remove(teamUser);
+
+                    await _forgeDbContext.SaveChangesAsync();
+                }
+                else
+                {     
+                    throw new KeyNotFoundException($"User with id {userId} not found in team {teamId}.");
+                }
+            }
+            else
+            {
                 throw new KeyNotFoundException($"Team with id {teamId} not found.");
             }
         }

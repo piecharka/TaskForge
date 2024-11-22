@@ -32,6 +32,11 @@ namespace Application.Services
             return await _sprintRepository.GetCurrentTeamSprintAsync(teamId);
         }
 
+        public async Task<SprintDto> GetPreviousSprintAsync(int teamId)
+        {
+            return await _sprintRepository.GetPreviousTeamSprintAsync(teamId);
+        }
+
         public async Task<IEnumerable<SprintDto>> GetSprintsAsync(int teamId)
         {
             return await _sprintRepository.GetTeamSprintsAsync(teamId);
