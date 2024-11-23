@@ -10,5 +10,6 @@ namespace Application.Interfaces.Services
     public interface ITimeLogService
     {
         Task<TimeLog> GetTimeLogAsync(int timeLogId);
+        Task<int> GetOverdueDeadlineCountAsync(int sprintId);
     }
 }

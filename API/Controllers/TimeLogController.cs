@@ -20,5 +20,11 @@ namespace API.Controllers
         {
             return Ok(await _timeLogService.GetTimeLogAsync(timeLogId));
         }
+
+        [HttpGet("overdue-count/{sprintId}")]
+        public async Task<ActionResult<int>> GetOverdueDeadlineLogs(int sprintId)
+        {
+            return Ok(await _timeLogService.GetOverdueDeadlineCountAsync(sprintId));
+        }
     }
 }

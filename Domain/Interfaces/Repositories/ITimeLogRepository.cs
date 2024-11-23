@@ -9,5 +9,6 @@ namespace Domain.Interfaces.Repositories
     public interface ITimeLogRepository
     {
         Task<TimeLog> GetTimeLogAsync(int timeLogId);
+        Task<IEnumerable<TimeLog>> GetSprintOverdueTimeLogsAsync(int teamId);
     }
 }

@@ -21,5 +21,12 @@ namespace Application.Services
         {
             return await _timeLogRepository.GetTimeLogAsync(timeLogId);
         }
+
+        public async Task<int> GetOverdueDeadlineCountAsync(int sprintId)
+        {
+            var timeLogs = await _timeLogRepository.GetSprintOverdueTimeLogsAsync(sprintId);
+
+            return timeLogs.Count();
+        }
     }
 }

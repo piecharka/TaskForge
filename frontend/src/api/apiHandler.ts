@@ -53,6 +53,10 @@ const Teams = {
     deleteUserFromTeam: (userId: number, teamId: number) => requests.del(`/teams/user?userId=${userId}&teamId=${teamId}`)
 }
 
+const TimeLogs = {
+    sprintOverdueLogsCount : (sprintId: number) => requests.get(`/timelog/overdue-count/${sprintId}`),
+}
+
 const Permission = {
     getPermissionByUserId: (userId: number, teamId: number) => requests.get(`/permission/user?userId=${userId}&teamId=${teamId}`),
     updateUsersPermission: (userId: number, teamId: number, permissionId: number) =>
@@ -67,6 +71,7 @@ const ProjectTasks = {
     getTask: (taskId: number) => requests.get<ProjectTask>(`/projecttasks/${taskId}`),
     postTask: (taskData: ProjectTaskPostData) => requests.post<ProjectTask>(`/projecttasks`, taskData),
     getSprintTasks: (sprintId: number) => requests.get<ProjectTask>(`/projecttasks/sprint/${sprintId}`),
+    getTasksCount: (sprintId: number) => requests.get<number>(`/projecttasks/count/${sprintId}`),
     getTodoTasksCount: (sprintId: number) => requests.get<number>(`/projecttasks/count/to-do/${sprintId}`),
     getInProgressTasksCount: (sprintId: number) => requests.get<number>(`/projecttasks/count/in-progress/${sprintId}`),
     getDoneTasksCount: (sprintId: number) => requests.get<number>(`/projecttasks/count/done/${sprintId}`),
@@ -106,6 +111,7 @@ const apiHandler = {
     Comments,
     Users,
     Teams,
+    TimeLogs,
     Permission,
     ProjectTasks,
     ProjectTaskTypes,

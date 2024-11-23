@@ -23,6 +23,14 @@ namespace Persistence.Repositories
                 .Where(t => t.LogId == timeLogId)
                 .FirstOrDefaultAsync();
         }
+
+        public async Task<IEnumerable<TimeLog>> GetSprintOverdueTimeLogsAsync(int sprintId)
+        {
+            return await _taskForgeDbContext.TimeLogs
+                .Include(t => t.ProjectTask)
+                .Where(t => t.ProjectTask.SprintId == sprintId && t.LogTypeId == 1)
+                .ToListAsync();
+        }
         
     }
 }
