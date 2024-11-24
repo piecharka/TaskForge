@@ -84,8 +84,6 @@ namespace Persistence.Repositories
                  .ToListAsync();
         }
 
-     
-
         public async Task<ICollection<ProjectTask>> GetAllTasksByUserIdAsync(int userId)
         {
             return await _forgeDbContext.UsersTasks
@@ -317,6 +315,31 @@ namespace Persistence.Repositories
                 .Update(projectTask);
 
             await _forgeDbContext.SaveChangesAsync();
+        }
+
+        public async Task AddUsersToTaskAsync(int taskId, List<int> userIds)
+        {
+            bool isTask = await _forgeDbContext.ProjectTasks
+                    .AnyAsync(t => t.TaskId == taskId );
+
+            if (isTask)
+            {
+                for (int i = 0; i < userIds.Count; i++)
+                {
+                    bool exists = await _forgeDbContext.UsersTasks
+                        .AnyAsync(ut => ut.TaskId == taskId && ut.UserId == userIds[i]);
+                    if (!exists)
+                    {
+                        await _forgeDbContext.UsersTasks.AddAsync(new UsersTask
+                        {
+                            TaskId = taskId,
+                            UserId = userIds[i]
+                        });
+                    }
+                }
+                await _forgeDbContext.SaveChangesAsync();
+            }
+            
         }
 
         public async Task<ICollection<TaskUserGetDto>> GetTaskUsersByTaskIdAsync(int taskId)

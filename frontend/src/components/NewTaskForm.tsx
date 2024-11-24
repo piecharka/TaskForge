@@ -144,6 +144,7 @@ function NewTaskForm() {
                   <Select
                       options={userOptions}
                       isMulti
+                      isClearable
                       onChange={handleUserDropdown}
                       placeholder="Select users"
                       styles={customSelectStyles }

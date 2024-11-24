@@ -10,6 +10,7 @@ import { ProjectTaskPostData } from '../DTOs/ProjectTaskPostData';
 import { Sprint } from '../models/sprint';
 import { SprintPostData } from '../DTOs/SprintPostData';
 import { SprintEventPostData } from '../DTOs/SprintEventPostData';
+import { TaskUserPostData } from '../DTOs/TaskUserPostData';
 
 
 axios.defaults.baseURL = 'http://localhost:5194/api';
@@ -69,12 +70,14 @@ const ProjectTasks = {
         requests.get<ProjectTask>(`/projecttasks/team/${teamId}?SortBy=${sortBy}&SortOrder=${sortOrder}`),
     todoTasks: (username: string | undefined) => requests.get<ProjectTask>(`/projecttasks/users/${username}`),
     getTask: (taskId: number) => requests.get<ProjectTask>(`/projecttasks/${taskId}`),
-    postTask: (taskData: ProjectTaskPostData) => requests.post<ProjectTask>(`/projecttasks`, taskData),
     getSprintTasks: (sprintId: number) => requests.get<ProjectTask>(`/projecttasks/sprint/${sprintId}`),
+    getUsersAssigned: (taskId: number) => requests.get<User[]>(`/projecttasks/user/${taskId}`),
     getTasksCount: (sprintId: number) => requests.get<number>(`/projecttasks/count/${sprintId}`),
     getTodoTasksCount: (sprintId: number) => requests.get<number>(`/projecttasks/count/to-do/${sprintId}`),
     getInProgressTasksCount: (sprintId: number) => requests.get<number>(`/projecttasks/count/in-progress/${sprintId}`),
     getDoneTasksCount: (sprintId: number) => requests.get<number>(`/projecttasks/count/done/${sprintId}`),
+    postTask: (taskData: ProjectTaskPostData) => requests.post<ProjectTask>(`/projecttasks`, taskData),
+    assignUserToTask: (taskData : TaskUserPostData) => requests.post(`projecttasks/users`, taskData),
     deleteTask: (taskId: number) => requests.del(`/projecttasks/${taskId}`),
 }
 

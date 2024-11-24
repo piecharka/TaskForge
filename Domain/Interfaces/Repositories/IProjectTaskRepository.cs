@@ -13,6 +13,7 @@ namespace Domain.Interfaces.Repositories
         Task<IEnumerable<ProjectTaskDto>> GetAllInTeamAsync(int teamId);
         Task<ProjectTaskDto> GetByIdAsync(int id);
         Task InsertAsync(ProjectTask user, List<int> userIds);
+        Task AddUsersToTaskAsync(int taskId, List<int> userIds);
         Task UpdateAsync(ProjectTask user);
         Task DeleteAsync(int teamId);
         Task<ICollection<TaskUserGetDto>> GetTaskUsersByTaskIdAsync(int taskId);

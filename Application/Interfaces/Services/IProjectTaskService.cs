@@ -13,6 +13,7 @@ namespace Application.Interfaces.Services
     {
         Task<IEnumerable<ProjectTaskDto>> GetAllProjectTasksInTeamAsync(int teamId, SortParams sortParams);
         public Task AddProjectTaskAsync(ProjectTaskInsertDto projectTaskInsert);
+        Task AddUsersToTaskAsync(UserTasksInsertDto userTaskInsert);
         public Task DeleteProjectTaskAsync(int teamId);
         Task<IEnumerable<TaskUserGetDto>> GetTaskUsersAsync(int taskId);
         Task<IEnumerable<UsersTasksToDoDto>> GetToDoTasksAsync(string username);

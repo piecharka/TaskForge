@@ -66,6 +66,11 @@ namespace Application.Services
             await _projectTaskRepository.InsertAsync(projectTask, projectTaskInsert.UserIds);
         }
 
+        public async Task AddUsersToTaskAsync(UserTasksInsertDto userTaskInsert)
+        {
+            await _projectTaskRepository.AddUsersToTaskAsync(userTaskInsert.TaskId, userTaskInsert.UserIds);
+        }
+
         public async Task DeleteProjectTaskAsync(int id)
         {
             var comments = await _commentRepository.GetAllTaskCommentsAsync(id);
