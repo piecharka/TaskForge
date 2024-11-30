@@ -12,6 +12,7 @@ namespace Domain.Interfaces.Repositories
         Task<IEnumerable<SprintEvent>> GetSprintEventsAsync();
         Task<IEnumerable<SprintEvent>> GetSprintEventsByTeamIdAsync(int teamId);
         Task<IEnumerable<SprintEvent>> GetSprintEventsByUserIdAsync(int userId);
+        Task<SprintEvent> GetSprintEventByIdAsync(int eventId);
         Task AddSprintEventAsync(SprintEvent sprintEvent);
         Task DeleteSprintEventAsync(int sprintEventId);
     }

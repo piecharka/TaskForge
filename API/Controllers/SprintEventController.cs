@@ -26,6 +26,12 @@ namespace API.Controllers
             return Ok(await _sprintEventService.GetSprintEventsAsync());
         }
 
+        [HttpGet("{eventId}")]
+        public async Task<ActionResult<IEnumerable<SprintEvent>>> GetSprintEvents(int eventId)
+        {
+            return Ok(await _sprintEventService.GetSprintEventByIdAsync(eventId));
+        }
+
         [HttpGet("team/{teamId}")]
         public async Task<ActionResult<IEnumerable<SprintEvent>>> GetSprintEventsByTeamId(int teamId)
         {

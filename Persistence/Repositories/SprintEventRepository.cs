@@ -29,6 +29,13 @@ namespace Persistence.Repositories
                 .ToListAsync();
         }
 
+        public async Task<SprintEvent> GetSprintEventByIdAsync(int eventId)
+        {
+            return await _taskForgeDbContext.SprintEvents
+                .Where(e => e.SprintEventId == eventId)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<IEnumerable<SprintEvent>> GetSprintEventsByUserIdAsync(int userId)
         {
             var userTeams = await _taskForgeDbContext.Users

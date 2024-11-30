@@ -185,6 +185,19 @@ namespace Persistence.Repositories
                 .ToListAsync();
         }
 
+        public async Task<ICollection<ProjectTask>> GetTasksAssignedInSprintAsync(int sprintId, int userId)
+        {
+            return await _forgeDbContext.UsersTasks
+                .Include(ut => ut.Task)
+                    .ThenInclude(t => t.Team)
+                .Include(ut => ut.Task)
+                    .ThenInclude(t => t.TaskStatus)
+                .Include(ut => ut.User)
+                .Where(ut => ut.User.UserId == userId && ut.Task.SprintId == sprintId)
+                .Select(ut => ut.Task)
+                .ToListAsync();
+        }
+
         public async Task<ProjectTaskDto> GetByIdAsync(int id)
         {
             return await _forgeDbContext.ProjectTasks
@@ -355,6 +368,16 @@ namespace Persistence.Repositories
                     LastLogin = ut.User.LastLogin,
                 })
                 .ToListAsync();
+        }
+
+        public async Task UpdateProjectTaskStatusAsync(int taskId, int statusId)
+        {
+            var task = await _forgeDbContext.ProjectTasks.Where(t => t.TaskId == taskId)
+                .FirstOrDefaultAsync();
+            task.TaskStatusId = statusId;
+
+            _forgeDbContext.Update(task);
+            await _forgeDbContext.SaveChangesAsync();
         }
     }
 }

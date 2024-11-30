@@ -18,17 +18,23 @@ namespace Application.Services
         private readonly IProjectTaskRepository _projectTaskRepository;
         private readonly ICommentRepository _commentRepository;
         private readonly IUsersTaskRepository _usersTaskRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly ITimeLogRepository _timeLogRepository;
         private readonly IMapper _mapper;
         public ProjectTaskService
             (IProjectTaskRepository projectTaskRepository, 
             IMapper mapper,
             ICommentRepository commentRepository,
-            IUsersTaskRepository usersTaskRepository)
+            IUsersTaskRepository usersTaskRepository,
+            IUserRepository userRepository,
+            ITimeLogRepository timeLogRepository)
         {
             _projectTaskRepository = projectTaskRepository;
             _mapper = mapper;
             _commentRepository = commentRepository;
             _usersTaskRepository = usersTaskRepository;
+            _userRepository = userRepository;
+            _timeLogRepository = timeLogRepository;
         }
 
         public async Task<IEnumerable<ProjectTaskDto>> GetAllProjectTasksInTeamAsync(int teamId, SortParams sortParams)
@@ -136,6 +142,38 @@ namespace Application.Services
         {
             var tasks = await _projectTaskRepository.GetAllTasksBySprintIdAsync(sprintId);
             return tasks.Count(t => t.TaskStatusId == 2);
+        }
+
+        public async Task<List<UserTaskCountDto>> GetAllUserTasksCountInSprintAsync(int teamId, int sprintId)
+        {
+            var usersInTeam = await _userRepository.GetTeamUsersAsync(teamId);
+            var userTaskCountList = new List<UserTaskCountDto>();
+            foreach(var user in usersInTeam)
+            {
+                var userTasks = await _projectTaskRepository.GetTasksAssignedInSprintAsync(sprintId, user.UserId);
+                userTaskCountList.Add(new UserTaskCountDto
+                {
+                    UserId = user.UserId,
+                    Username = user.Username,
+                    TaskCount = userTasks.Count(),
+                });
+            }
+
+            return userTaskCountList;   
+        }
+
+        public async Task UpdateProjectTaskStatusAsync(int taskId, int statusId)
+        {
+            await _projectTaskRepository.UpdateProjectTaskStatusAsync(taskId, statusId);
+            if(statusId == 2)
+            {
+                await _timeLogRepository.AddTimeLog(new TimeLog
+                {
+                    LogDate = DateTime.Now,
+                    LogTypeId = 2,
+                    TaskId = taskId,
+                });
+            }
         }
     }
 }

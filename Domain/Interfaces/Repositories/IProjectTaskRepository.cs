@@ -20,5 +20,7 @@ namespace Domain.Interfaces.Repositories
         Task<ICollection<ProjectTask>> GetAllTasksByUserIdAsync(int userId);
         Task<ICollection<ProjectTask>> GetAllTasksByUsernameAsync(string username);
         Task<ICollection<ProjectTaskDto>> GetAllTasksBySprintIdAsync(int sprintId);
+        Task<ICollection<ProjectTask>> GetTasksAssignedInSprintAsync(int sprintId, int userId);
+        Task UpdateProjectTaskStatusAsync(int taskId, int statusId);
     }
 }

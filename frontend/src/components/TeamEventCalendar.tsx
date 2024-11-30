@@ -4,13 +4,14 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { useEffect, useState } from "react";
 import apiHandler from "../api/apiHandler";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { SprintEvent } from "../models/sprintEvent";
 import "../style/Calendar.css";
 import { ProjectTask } from "../models/projectTask";
 import { User } from "../models/user";
 import Select from "react-select";
 import { observer } from "mobx-react-lite";
+import { EventClickArg } from "fullcalendar/index.js";
 
 const TeamEventCalendar = observer(() => {
     const [events, setEvents] = useState<SprintEvent[]>([]);
@@ -19,6 +20,7 @@ const TeamEventCalendar = observer(() => {
     const [filteredUsername, setFilteredUsername] = useState<string>('');
     const [isEventCalendar, setIsEventCalendar] = useState<boolean>(true);
     const { teamId } = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
         apiHandler.SprintEvents.getSprintEventsByTeamId(Number(teamId))
@@ -47,11 +49,13 @@ const TeamEventCalendar = observer(() => {
 
 
     const calendarEventMap = events.map(e => ({
+        id: e.sprintEventId,
         title: e.sprintEventName,
         start: e.sprintEventDate,
         end: e.sprintEventDate,
     }));
     const calendarTaskMap = tasks.map(t => ({
+        id: t.taskId,
         title: t.taskName,
         start: t.createdAt,
         end: t.taskDeadline,
@@ -61,6 +65,10 @@ const TeamEventCalendar = observer(() => {
         value: user.username,
         label: user.username,
     }));
+
+    const handleEventClick = (clickInfo : EventClickArg) => {
+        navigate(`/events/${clickInfo.event.id}`);
+    }
 
     return (
         <div>
@@ -81,6 +89,7 @@ const TeamEventCalendar = observer(() => {
                     },
                 }}
                 initialView="dayGridMonth"
+                eventClick={handleEventClick}
             />}
             {!isEventCalendar && <div>
                 <div>

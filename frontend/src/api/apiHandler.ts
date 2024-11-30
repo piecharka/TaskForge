@@ -27,7 +27,8 @@ axios.interceptors.request.use(config => {
 const requests = {
     get: <T> (url: string) => axios.get<T>(url).then(responseBody),
     post: <T> (url: string, body: object) => axios.post<T>(url, body).then(responseBody),
-    put: <T> (url: string, body: object) => axios.put<T>(url, body).then(responseBody),
+    put: <T>(url: string, body: object) => axios.put<T>(url, body).then(responseBody),
+    put2: <T>(url: string) => axios.put<T>(url).then(responseBody),
     del: <T> (url: string) => axios.delete<T>(url).then(responseBody),
 
 }
@@ -76,9 +77,12 @@ const ProjectTasks = {
     getTodoTasksCount: (sprintId: number) => requests.get<number>(`/projecttasks/count/to-do/${sprintId}`),
     getInProgressTasksCount: (sprintId: number) => requests.get<number>(`/projecttasks/count/in-progress/${sprintId}`),
     getDoneTasksCount: (sprintId: number) => requests.get<number>(`/projecttasks/count/done/${sprintId}`),
+    getUserTasksInSprintCount: (teamId: number, sprintId: number) => requests.get<number>
+        (`/projecttasks/count/usertasks?teamId=${teamId}&sprintId=${sprintId}`),
     postTask: (taskData: ProjectTaskPostData) => requests.post<ProjectTask>(`/projecttasks`, taskData),
     assignUserToTask: (taskData : TaskUserPostData) => requests.post(`projecttasks/users`, taskData),
     deleteTask: (taskId: number) => requests.del(`/projecttasks/${taskId}`),
+    updateTaskStatus: (taskId: number, statusId: number) => requests.put2(`projecttasks/status?taskId=${taskId}&statusId=${statusId}`)
 }
 
 const ProjectTaskTypes = {
@@ -100,6 +104,7 @@ const Sprints = {
 const SprintEvents = {
     getSprintEventsByTeamId: (teamId: number) => requests.get(`/sprintevent/team/${teamId}`),
     getSprintEventsByUserId: (userId: number) => requests.get(`/sprintevent/user/${userId}`),
+    getSprintEventById: (eventId: number) => requests.get(`/sprintevent/${eventId}`),
     getClosestThreeEventsByTeamId: (teamId: number) => requests.get(`/sprintevent/team/closest/${teamId}`),
     postSprintEvent: (sprintEvent: SprintEventPostData) => requests.post<Sprint>(`/sprintevent`, sprintEvent),
     deleteSprintEvent: (sprintEventId: number) => requests.del(`/sprintevent/${sprintEventId}`),

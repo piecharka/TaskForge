@@ -8,12 +8,14 @@ import CommentBar from "../components/CommentBar";
 import AddCommentBar from "../components/AddCommentBar";
 import { User } from "../models/user";
 import Select from "react-select";
+import { ProjectTaskStatus } from "../models/projectTaskStatus";
 
 function ProjectTaskView() {
     const [task, setTask] = useState<ProjectTask>();
     const [comments, setComments] = useState<Comment[]>();
     const [usersAssigned, setUsersAssigned] = useState<User[]>([]);
     const [teamUsers, setTeamUsers] = useState<User[]>([]);
+    const [statuses, setStatuses] = useState<ProjectTaskStatus[]>([]);
     const { taskId } = useParams<{ taskId: string }>();
     const navigate = useNavigate()
 
@@ -39,6 +41,9 @@ function ProjectTaskView() {
         apiHandler.Comments.taskComments(Number(taskId))
             .then(response => setComments(response));
 
+        apiHandler.ProjectTaskStatuses.projectTaskStatusesList()
+            .then(response => setStatuses(response));
+
     }, [taskId, fetchUsersAndUpdateLists]);
 
     const deleteButtonHandle = () => {
@@ -51,6 +56,11 @@ function ProjectTaskView() {
         label: user.username
     }))
 
+    const statusOptions = statuses.map(status => ({
+        value: status.statusId,
+        label: status.statusName
+    })) 
+
     const handleUserDropdown = async (selectedOption: { value: number; label: string }) => {
         if (selectedOption) {
             await apiHandler.ProjectTasks.assignUserToTask({
@@ -62,6 +72,14 @@ function ProjectTaskView() {
             if (selectRef.current) {
                 selectRef.current.clearValue();
             }
+        }
+    };
+
+    const handleStatusDropdown = async (selectedOption: { value: number; label: string }) => {
+        if (selectedOption) {
+            await apiHandler.ProjectTasks.updateTaskStatus(Number(taskId), selectedOption.value);
+
+            await fetchUsersAndUpdateLists();
         }
     };
 
@@ -80,6 +98,11 @@ function ProjectTaskView() {
                         onChange={handleUserDropdown}
                         placeholder="Select users"
                     />
+                    <Select
+                        options={statusOptions}
+                        onChange={handleStatusDropdown}
+                        placeholder="Select status"
+                    />
                     <span>{new Date(task.taskDeadline).toLocaleString("pl-PL", {
                         year: "numeric",
                         month: "2-digit",
@@ -88,6 +111,7 @@ function ProjectTaskView() {
                         minute: "2-digit",
                         second: "2-digit"
                     })}</span>
+                    <p>{task.taskStatus.statusName}</p>
                     <p>{task.taskDescription}</p>
                        
                   </div>
@@ -104,7 +128,3 @@ function ProjectTaskView() {
 }
 
 export default ProjectTaskView;
-
-function useCallBack(arg0: () => Promise<void>) {
-    throw new Error("Function not implemented.");
-}

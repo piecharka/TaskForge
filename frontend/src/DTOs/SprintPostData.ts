@@ -6,4 +6,8 @@ export type SprintPostData = {
     sprintEnd: Date;
     goalDescription: string;
     teamId: number;
+    sprintPlanning: Date;
+    sprintReview: Date;
+    sprintRetro: Date;
+    createdBy: number;
 };

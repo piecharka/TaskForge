@@ -31,6 +31,12 @@ namespace Persistence.Repositories
                 .Where(t => t.ProjectTask.SprintId == sprintId && t.LogTypeId == 1)
                 .ToListAsync();
         }
+
+        public async Task AddTimeLog(TimeLog timeLog)
+        {
+            _taskForgeDbContext.TimeLogs.Add(timeLog);
+            await _taskForgeDbContext.SaveChangesAsync();
+        }
         
     }
 }

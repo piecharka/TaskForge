@@ -142,5 +142,19 @@ namespace API.Controllers
         {
             return Ok(await _projectTaskService.GetDoneTasksCountInSprintAsync(sprintId));
         }
+
+        [HttpGet("count/usertasks")]
+        public async Task<ActionResult<UserTaskCountDto>> GetDoneTasksCount(int teamId, int sprintId)
+        {
+            return Ok(await _projectTaskService.GetAllUserTasksCountInSprintAsync(teamId, sprintId));
+        }
+
+        [HttpPut("status")]
+        public async Task<ActionResult> UpdateProjectTaskStatus(int taskId, int statusId)
+        {
+            await _projectTaskService.UpdateProjectTaskStatusAsync(taskId, statusId);
+
+            return NoContent();
+        }
     }
 }

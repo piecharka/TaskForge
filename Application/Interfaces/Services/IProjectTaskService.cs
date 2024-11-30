@@ -23,5 +23,7 @@ namespace Application.Interfaces.Services
         Task<int> GetTodoTasksCountInSprintAsync(int sprintId);
         Task<int> GetInProgressTasksCountInSprintAsync(int sprintId);
         Task<int> GetDoneTasksCountInSprintAsync(int sprintId);
+        Task<List<UserTaskCountDto>> GetAllUserTasksCountInSprintAsync(int teamId, int sprintId);
+        Task UpdateProjectTaskStatusAsync(int taskId, int statusId);
     }
 }

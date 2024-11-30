@@ -31,6 +31,10 @@ namespace Application.Services
         {
             return await _sprintEventRepository.GetSprintEventsByTeamIdAsync(teamId);
         }
+        public async Task<SprintEvent> GetSprintEventByIdAsync(int eventId)
+        {
+            return await _sprintEventRepository.GetSprintEventByIdAsync(eventId);
+        }
 
         public async Task<IEnumerable<SprintEvent>> GetSprintEventsByUserIdAsync(int userId)
         {
