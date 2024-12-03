@@ -37,6 +37,13 @@ namespace Persistence.Repositories
             _taskForgeDbContext.TimeLogs.Add(timeLog);
             await _taskForgeDbContext.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<TimeLog>> GetSprintTimeLogByDateAsync(DateTime date, int sprintId, int timeLogTypeId)
+        {
+            return await _taskForgeDbContext.TimeLogs
+                .Where(t => t.LogDate.Date == date.Date && t.ProjectTask.SprintId == sprintId && t.LogTypeId == timeLogTypeId)
+                .ToListAsync();
+        }
         
     }
 }

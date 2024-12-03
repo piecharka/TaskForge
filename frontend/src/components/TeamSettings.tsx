@@ -3,6 +3,7 @@ import apiHandler from "../api/apiHandler";
 import { User } from "../models/user";
 import { useParams } from "react-router-dom";
 import { Permission } from "../models/permission";
+import "../style/TeamSettings.css"
 
 function TeamSettings() {
     const [teamUsers, setTeamUsers] = useState<User[]>([]);
@@ -77,7 +78,7 @@ function TeamSettings() {
                               {changePermissionView === t.userId && <button onClick={() => handleChangingPermission(t.userId)}>Submit changes</button> }
                           </td>
                           <td className="task-cell">
-                              <button onClick={() => handleDeleting(t.userId) }>Delete user</button>
+                              <button className="delete-btn" onClick={() => handleDeleting(t.userId) }>Delete user</button>
                           </td>
                       </tr>
                   ))}

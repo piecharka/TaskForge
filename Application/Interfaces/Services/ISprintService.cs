@@ -1,4 +1,5 @@
-﻿using Domain.DTOs;
+﻿using Application.DTOs;
+using Domain.DTOs;
 using Domain.Model;
 using System;
 using System.Collections.Generic;
@@ -16,5 +17,6 @@ namespace Application.Interfaces.Services
         Task<IEnumerable<SprintDto>> GetSprintsAsync(int teamId);
         Task AddSprintAsync(SprintDto sprintDto);
         Task DeleteSprintAsync(int sprintId);
+        Task<ICollection<SprintTaskCountDto>> GetTaskCountPerSprintDayAsync(int sprintId);
     }
 }

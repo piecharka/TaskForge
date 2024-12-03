@@ -11,5 +11,6 @@ namespace Domain.Interfaces.Repositories
         Task<TimeLog> GetTimeLogAsync(int timeLogId);
         Task<IEnumerable<TimeLog>> GetSprintOverdueTimeLogsAsync(int teamId);
         Task AddTimeLog(TimeLog timeLog);
+        Task<IEnumerable<TimeLog>> GetSprintTimeLogByDateAsync(DateTime date, int sprintId, int timeLogTypeId);
     }
 }

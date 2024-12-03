@@ -45,6 +45,12 @@ namespace API.Controllers
             return Ok(await _sprintService.GetSprintsAsync(teamId));
         }
 
+        [HttpGet("task-count/{sprintId}")]
+        public async Task<ActionResult<IEnumerable<Sprint>>> GetTaskCountPerSprintDay(int sprintId)
+        {
+            return Ok(await _sprintService.GetTaskCountPerSprintDayAsync(sprintId));
+        }
+
         [HttpPost]
         public async Task<ActionResult> AddSprint(SprintDto sprintDto)
         {

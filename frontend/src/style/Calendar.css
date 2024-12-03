@@ -2,3 +2,24 @@
     display: flex;
     flex-direction: row;
 }
+
+.fc {
+    max-width: 1600px; /* Zmniejsz szerokoœæ kalendarza */
+    margin: 0 auto; /* Wycentruj kalendarz */
+}
+
+.fc-toolbar {
+    font-size: 14px; /* Zmniejsz rozmiar czcionki nag³ówka */
+}
+
+.fc-daygrid-day-frame {
+    padding: 5px; /* Zmniejsz odstêpy w dniach */
+}
+
+.fc .fc-daygrid-day-number {
+    font-size: 12px; /* Zmniejsz rozmiar czcionki daty */
+}
+
+.fc-event {
+    font-size: 12px; /* Zmniejsz rozmiar tekstu wydarzenia */
+}

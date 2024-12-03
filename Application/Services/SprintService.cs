@@ -1,4 +1,5 @@
-﻿using Application.Interfaces.Services;
+﻿using Application.DTOs;
+using Application.Interfaces.Services;
 using AutoMapper;
 using Domain.DTOs;
 using Domain.Interfaces.Repositories;
@@ -15,13 +16,21 @@ namespace Application.Services
     {
         private readonly ISprintRepository _sprintRepository;
         private readonly ISprintEventRepository _sprintEventRepository;
+        private readonly ITimeLogRepository _timeLogRepository;
+        private readonly IProjectTaskRepository _projectTaskRepository;
         private readonly IMapper _mapper;
 
-        public SprintService(ISprintRepository sprintRepository, IMapper mapper, ISprintEventRepository sprintEventRepository)
+        public SprintService(ISprintRepository sprintRepository, 
+            IMapper mapper, 
+            ISprintEventRepository sprintEventRepository, 
+            ITimeLogRepository timeLogRepository,
+            IProjectTaskRepository projectTaskRepository)
         {
             _sprintRepository = sprintRepository;
             _mapper = mapper;
             _sprintEventRepository = sprintEventRepository;
+            _timeLogRepository = timeLogRepository;
+            _projectTaskRepository = projectTaskRepository;
         }
 
         public async Task<Sprint> GetSprintByIdAsync(int sprintId)
@@ -113,9 +122,50 @@ namespace Application.Services
             }
         }
 
+        public async Task<ICollection<SprintTaskCountDto>> GetTaskCountPerSprintDayAsync(int sprintId)
+        {
+            var sprint = await _sprintRepository.GetSprintByIdAsync(sprintId);
+            var tasks = await _projectTaskRepository.GetAllTasksBySprintIdAsync(sprintId);
+
+            var sprintTaskCount = new List<SprintTaskCountDto>();
+            var taskCount = tasks.Count();
+            var doneTasks = new List<int>();
+            for(var date = sprint.SprintStart; date <= sprint.SprintEnd; date = date.AddDays(1))
+            {
+                var timeLogs = await _timeLogRepository.GetSprintTimeLogByDateAsync(date, sprintId, 2);
+                
+                foreach(var timelog in timeLogs)
+                {
+                    if(IsInTaskList(tasks, timelog.TaskId) && !doneTasks.Contains(timelog.TaskId))
+                    {
+                        taskCount--;
+                        doneTasks.Add(timelog.TaskId);
+                    }
+                }
+
+                sprintTaskCount.Add(new SprintTaskCountDto
+                {
+                    Day = date,
+                    TasksRemaining = taskCount,
+                });
+            }
+
+            return sprintTaskCount;
+        }
+
         public async Task DeleteSprintAsync(int sprintId)
         {
             await _sprintRepository.DeleteSprintAsync(sprintId);
+        }
+
+        private bool IsInTaskList(ICollection<ProjectTaskDto> projectTaskList, int taskId)
+        {
+            foreach(var task in projectTaskList)
+            {
+                if (task.TaskId == taskId) return true;
+            }
+
+            return false;
         }
     }
 }

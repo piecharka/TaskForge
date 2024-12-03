@@ -11,6 +11,7 @@ import { Sprint } from '../models/sprint';
 import { SprintPostData } from '../DTOs/SprintPostData';
 import { SprintEventPostData } from '../DTOs/SprintEventPostData';
 import { TaskUserPostData } from '../DTOs/TaskUserPostData';
+import { SprintTaskCountData } from '../DTOs/SprintTaskCountData';
 
 
 axios.defaults.baseURL = 'http://localhost:5194/api';
@@ -97,6 +98,7 @@ const Sprints = {
     getCurrentTeamSprint: (teamId: number) => requests.get(`/sprint/team-current/${teamId}`),
     getTeamsSprints: (teamId: number) => requests.get(`/sprint/team/${teamId}`),
     getSprintById: (sprintId: number) => requests.get<Sprint>(`/sprint/${sprintId}`),
+    getDailyTaskCount: (sprintId: number) => requests.get<SprintTaskCountData[]>(`/sprint/task-count/${sprintId}`),
     postSprint: (sprint: SprintPostData) => requests.post<Sprint>(`/sprint`, sprint),
     deleteSprint: (sprintId: number) => requests.del(`/sprint/${sprintId}`),
 }
