@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Interfaces.Repositories
 {
-    public interface INotficationStatusRepository : IGenericRepository<NotficationStatus>
+    public interface INotficationStatusRepository : IGenericRepository<NotificationStatus>
     {
     }
 }

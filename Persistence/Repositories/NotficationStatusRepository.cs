@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Persistence.Repositories
 {
-    public class NotficationStatusRepository : GenericRepository<NotficationStatus>, INotficationStatusRepository
+    public class NotficationStatusRepository : GenericRepository<NotificationStatus>, INotficationStatusRepository
     {
         public NotficationStatusRepository(TaskForgeDbContext context) : base(context) { }
     }

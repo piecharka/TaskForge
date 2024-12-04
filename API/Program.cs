@@ -64,12 +64,13 @@ builder.Services.AddScoped<ISprintService, SprintService>();
 builder.Services.AddScoped<ISprintEventTypeService, SprintEventTypeService>();
 builder.Services.AddScoped<ISprintEventService, SprintEventService>();
 builder.Services.AddScoped<ITimeLogService, TimeLogService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITeamRepository, TeamRepository>();
 builder.Services.AddScoped<IAttachmentRepository, AttachmentRepository>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
-builder.Services.AddScoped<INotficationRepository, NotficationRepository>();
+builder.Services.AddScoped<INotficationRepository, NotificationRepository>();
 builder.Services.AddScoped<INotficationStatusRepository, NotficationStatusRepository>();
 builder.Services.AddScoped<IProjectTaskRepository, ProjectTaskRepository>();
 builder.Services.AddScoped<ITaskStatusRepository, TaskStatusRepository>();

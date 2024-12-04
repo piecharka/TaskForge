@@ -9,3 +9,57 @@
     background-color: #1B1B1E;
     color: white;
 }
+
+.task-title{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4rem;
+}
+
+.btn {
+    border: none;
+    border-radius: 0.3rem; /* Mniejsze zaokr¹glenie */
+    padding: 0.3rem 0.8rem; /* Zmniejszony padding */
+    cursor: pointer;
+    font-size: 0.9rem; /* Mniejszy tekst */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    flex-shrink: 0;
+    width: auto;
+    height: 2rem; /* Ograniczenie wysokoœci */
+    line-height: 1.5; /* Lepsze wyrównanie tekstu wewn¹trz */
+    color: white;
+}
+
+.assign-btn {
+    background-color: #58A4B0;
+}
+
+.assign-btn:hover{
+    background-color: #4b8e99;
+    transform: scale(1.05);
+}
+
+.status-btn {
+    background-color: #0c7c59;
+}
+
+.status-btn:hover{
+    background-color: #096b4c;
+    transform: scale(1.05);
+}
+
+.delete-btn {
+    background-color: #D64933;
+}
+
+
+    .delete-btn:hover {
+        background-color: #B83E29; /* Ciemniejszy odcieñ dla efektu hover */
+        transform: scale(1.05); /* Delikatne powiêkszenie */
+    }
+
+    .delete-btn:active {
+        background-color: #933123; /* Jeszcze ciemniejszy odcieñ po klikniêciu */
+        transform: scale(0.95); /* Efekt „wciœniêcia” */
+    }

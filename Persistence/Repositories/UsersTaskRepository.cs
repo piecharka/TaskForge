@@ -24,7 +24,7 @@ namespace Persistence.Repositories
                 .ToListAsync();
         }
 
-        public async Task DeleteUserTaskAsync(int userTaskId)
+        public async Task DeleteUserTaskByIdAsync(int userTaskId)
         {
             var entity = await _taskForgeDbContext.UsersTasks
                 .Where(t => t.UserTaskId == userTaskId)
@@ -39,6 +39,23 @@ namespace Persistence.Repositories
             {
                 // Opcjonalnie, możesz rzucić wyjątek lub zwrócić odpowiedź, jeśli zespół nie istnieje
                 throw new KeyNotFoundException($"Usertask with id {userTaskId} not found.");
+            }
+        }
+
+        public async Task DeleteUserTaskAsync(int taskId, int userId)
+        {
+            var entity = await _taskForgeDbContext.UsersTasks
+                .Where(t => t.TaskId == taskId && t.UserId == userId)
+                .FirstOrDefaultAsync();
+
+            if (entity != null)
+            {
+                _taskForgeDbContext.UsersTasks.Remove(entity);
+                await _taskForgeDbContext.SaveChangesAsync();
+            }
+            else
+            {
+                throw new KeyNotFoundException($"Usertask with userId {userId} and taskId {taskId} not found.");
             }
         }
 

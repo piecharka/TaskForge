@@ -77,6 +77,11 @@ namespace Application.Services
             await _projectTaskRepository.AddUsersToTaskAsync(userTaskInsert.TaskId, userTaskInsert.UserIds);
         }
 
+        public async Task DeleteUserFromTaskAsync(int taskId, int userId)
+        {
+            await _usersTaskRepository.DeleteUserTaskAsync(taskId, userId);
+        }
+
         public async Task DeleteProjectTaskAsync(int id)
         {
             var comments = await _commentRepository.GetAllTaskCommentsAsync(id);
@@ -88,7 +93,7 @@ namespace Application.Services
             }
             foreach(var usersTask in usersTasks)
             {
-                await _usersTaskRepository.DeleteUserTaskAsync(usersTask.UserTaskId);
+                await _usersTaskRepository.DeleteUserTaskByIdAsync(usersTask.UserTaskId);
             }
 
             await _projectTaskRepository.DeleteAsync(id);

@@ -97,6 +97,14 @@ namespace API.Controllers
             return CreatedAtAction("AddUserTask", new { id = userTasksInsert.TaskId }, userTasksInsert);
         }
 
+        [HttpDelete("users")]
+        public async Task<ActionResult> DeleteUserTask(int taskId, int userId)
+        {
+            await _projectTaskService.DeleteUserFromTaskAsync(taskId, userId);
+
+            return CreatedAtAction("DeleteUserTask", new { taskId, userId });
+        }
+
         // DELETE: api/ProjectTasks/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProjectTask(int id)

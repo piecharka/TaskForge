@@ -81,7 +81,8 @@ const ProjectTasks = {
     getUserTasksInSprintCount: (teamId: number, sprintId: number) => requests.get<number>
         (`/projecttasks/count/usertasks?teamId=${teamId}&sprintId=${sprintId}`),
     postTask: (taskData: ProjectTaskPostData) => requests.post<ProjectTask>(`/projecttasks`, taskData),
-    assignUserToTask: (taskData : TaskUserPostData) => requests.post(`projecttasks/users`, taskData),
+    assignUserToTask: (taskData: TaskUserPostData) => requests.post(`projecttasks/users`, taskData),
+    deleteUserFromTask: (taskId: number, userId: number) => requests.del(`projecttasks/users?taskId=${taskId}&userId=${userId}`),
     deleteTask: (taskId: number) => requests.del(`/projecttasks/${taskId}`),
     updateTaskStatus: (taskId: number, statusId: number) => requests.put2(`projecttasks/status?taskId=${taskId}&statusId=${statusId}`)
 }
@@ -116,12 +117,20 @@ const SprintEventTypes = {
     getSprintEventTypes: () => requests.get('/sprinteventtype'),
 }
 
+const Notifications = {
+    getUsersNotifications: (userId: number) => requests.get(`/notification/user/${userId}`),
+    deleteNotification: async (notificationId: number) => requests.del(`/notification/${notificationId}`),
+    updateNotificiationStatus: async (notificationId: number, statusId: number) =>
+        requests.put2(`/notification?notificationId=${notificationId}&statusId=${statusId}`),
+}
+
 const apiHandler = {
     Account,
     Comments,
     Users,
     Teams,
     TimeLogs,
+    Notifications,
     Permission,
     ProjectTasks,
     ProjectTaskTypes,

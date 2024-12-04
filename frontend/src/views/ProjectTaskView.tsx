@@ -12,10 +12,13 @@ import { ProjectTaskStatus } from "../models/projectTaskStatus";
 
 function ProjectTaskView() {
     const [task, setTask] = useState<ProjectTask>();
-    const [comments, setComments] = useState<Comment[]>();
     const [usersAssigned, setUsersAssigned] = useState<User[]>([]);
     const [teamUsers, setTeamUsers] = useState<User[]>([]);
     const [statuses, setStatuses] = useState<ProjectTaskStatus[]>([]);
+    const [statusChange, setStatusChange] = useState<boolean>(false); 
+    const [assigning, setAssigning] = useState<boolean>(false);
+    const [selectedStatus, setSelectedStatus] = useState<{ value: number; label: string } | null>(null);
+    const [selectedUsers, setSelectedUsers] = useState<{ value: number; label: string }[]>([]);
     const { taskId } = useParams<{ taskId: string }>();
     const navigate = useNavigate()
 
@@ -25,8 +28,18 @@ function ProjectTaskView() {
         const assignedUsers = await apiHandler.ProjectTasks.getUsersAssigned(Number(taskId));
         setUsersAssigned(assignedUsers);
 
+        setSelectedUsers(assignedUsers.map(user => ({
+            value: user.userId,
+            label: user.username
+        })));
+
         const taskDetails = await apiHandler.ProjectTasks.getTask(Number(taskId));
         setTask(taskDetails);
+
+        setSelectedStatus({
+            value: taskDetails.taskStatus.statusId,
+            label: taskDetails.taskStatus.statusName
+        });
 
         const allTeamUsers = await apiHandler.Users.teamUsers(taskDetails.teamId);
         const filteredUsers = allTeamUsers.filter(
@@ -37,9 +50,6 @@ function ProjectTaskView() {
 
     useEffect(() => {
         fetchUsersAndUpdateLists();
-
-        apiHandler.Comments.taskComments(Number(taskId))
-            .then(response => setComments(response));
 
         apiHandler.ProjectTaskStatuses.projectTaskStatusesList()
             .then(response => setStatuses(response));
@@ -61,18 +71,29 @@ function ProjectTaskView() {
         label: status.statusName
     })) 
 
-    const handleUserDropdown = async (selectedOption: { value: number; label: string }) => {
-        if (selectedOption) {
-            await apiHandler.ProjectTasks.assignUserToTask({
-                taskId: Number(taskId),
-                userIds: [selectedOption.value],
-            });
+    const handleUserDropdown = async (selectedOptions: { value: number; label: string }[]) => {
+        const newUserIds = selectedOptions.map(option => option.value);
+        const removedUser = selectedUsers.find(user => !newUserIds.includes(user.value));
 
-            await fetchUsersAndUpdateLists();
-            if (selectRef.current) {
-                selectRef.current.clearValue();
+        // Dodanie nowego u¿ytkownika (jeœli s¹ ró¿nice)
+        if (newUserIds.length > selectedUsers.length) {
+            const addedUser = newUserIds.find(id => !selectedUsers.some(user => user.value === id));
+            if (addedUser) {
+                await apiHandler.ProjectTasks.assignUserToTask({
+                    taskId: Number(taskId),
+                    userIds: [addedUser]
+                });
             }
         }
+
+        // Usuniêcie pojedynczego u¿ytkownika
+        if (removedUser) {
+            await apiHandler.ProjectTasks.deleteUserFromTask(Number(taskId), removedUser.value);
+        }
+
+        // Aktualizacja stanu
+        setSelectedUsers(selectedOptions);
+        await fetchUsersAndUpdateLists();
     };
 
     const handleStatusDropdown = async (selectedOption: { value: number; label: string }) => {
@@ -85,24 +106,30 @@ function ProjectTaskView() {
 
     return (
       <div>
-            <button onClick={deleteButtonHandle}> Delete task</button>
               {task && 
                   <div className="">
-                    <h1>{task.taskName}</h1>
+                    <div className="task-title">
+                        <h1>{task.taskName}</h1>
+                        <button className="btn status-btn" onClick={() => setStatusChange(flag => !flag)}>Change status</button>
+                        <button className="btn assign-btn" onClick={() => setAssigning(flag => !flag) }>Change assignees</button>
+                        <button className="btn delete-btn" onClick={deleteButtonHandle}> Delete task</button>
+                    </div>
                     <div>
                         {usersAssigned.map(u => (<span>{u.username}</span>))}
                     </div>
-                    <Select
-                        ref={selectRef}
+                    {assigning && <Select
                         options={userOptions}
+                        isMulti
+                        isClearable
+                        value={selectedUsers} // Wybrane wartoœci
                         onChange={handleUserDropdown}
                         placeholder="Select users"
-                    />
-                    <Select
+                    />}
+                    {statusChange && <Select
                         options={statusOptions}
                         onChange={handleStatusDropdown}
-                        placeholder="Select status"
-                    />
+                        value={selectedStatus}
+                    />}
                     <span>{new Date(task.taskDeadline).toLocaleString("pl-PL", {
                         year: "numeric",
                         month: "2-digit",
@@ -116,13 +143,7 @@ function ProjectTaskView() {
                        
                   </div>
               }
-            
-            {comments && comments.map(c => (
-             <div>
-                <CommentBar comment={c} />
-            </div>
-            ))}
-            <AddCommentBar />
+                <CommentBar/>
       </div>
   );
 }

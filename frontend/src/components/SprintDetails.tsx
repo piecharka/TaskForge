@@ -4,6 +4,7 @@ import { Sprint } from "../models/sprint";
 import { useParams } from "react-router-dom";
 import { Bar, BarChart, CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
 import { SprintTaskCountData } from "../DTOs/SprintTaskCountData";
+import "../style/SprintDetails.css"
 
 function SprintDetails() {
     const [currentSprint, setCurrentSprint] = useState<Sprint>();
@@ -45,10 +46,22 @@ function SprintDetails() {
         apiHandler.Sprints.getSprintById(Number(e.target.value))
             .then((sprint) => {
                 setCurrentSprint(sprint);
-                //if (sprint) {
-                //    apiHandler.ProjectTasks.getSprintTasks(sprint.sprintId)
-                //        .then(taskList => setTaskList(taskList))
-                //}
+                if (sprint) {
+                    apiHandler.TimeLogs.sprintOverdueLogsCount(sprint.sprintId)
+                        .then(c => setSprintOverdueLogsCount(c));
+
+                    apiHandler.ProjectTasks.getTasksCount(sprint.sprintId)
+                        .then(c => setTasksCount(c));
+
+                    apiHandler.Sprints.getDailyTaskCount(sprint.sprintId)
+                        .then(c => {
+                            const formattedData = c.map(item => ({
+                                ...item,
+                                day: new Date(item.day).toLocaleDateString("pl-PL", { year: "numeric", month: "2-digit", day: "2-digit" })
+                            }));
+                            setBurnDownData(formattedData);
+                        });
+                }
             })
     }
 
@@ -59,7 +72,7 @@ function SprintDetails() {
 
   return (
       <div>
-          <select id="sprint" name="sprint" value={currentSprint?.sprintId} onChange={handleSprintDropdownChange}>
+          <select className="sprint-select" id="sprint" name="sprint" value={currentSprint?.sprintId} onChange={handleSprintDropdownChange}>
               {sprintList && sprintList.map(s => {
                   return <option key={s.sprintId} value={s.sprintId}>{s.sprintName}</option>
               })}

@@ -1,0 +1,40 @@
+.notification-list {
+    padding: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+    border: 1px solid white;
+    border-radius: 8px;
+}
+
+.notification-item {
+    display: flex;
+    justify-content: space-between; /* Rozsuwa elementy na boki */
+    align-items: center; /* Wyœrodkowanie pionowe */
+    padding: 1rem;
+    transition: box-shadow 0.3s ease;
+}
+
+
+.notification-message {
+    font-size: 1rem;
+    color: white;
+    margin-bottom: 0.5rem;
+}
+
+.notification-time {
+    font-size: 0.875rem;
+    color: #58A4B0;
+}
+
+.not-read {
+    background-color: #1d2128;
+}
+
+svg {
+    height: 20px; /* Dodaj wysokoœæ dla proporcji */
+    flex-shrink: 0; /* Zapobiega kurczeniu siê ikony */
+    cursor: pointer; /* Dodaje wskaŸnik kursora */
+}
+.notification-item div {
+    flex-grow: 1;
+}

@@ -28,6 +28,8 @@ namespace Application
             CreateMap<CommentUpdateDto, Comment>();
             CreateMap<SprintEventDto, SprintEvent>();
             CreateMap<SprintDto, Sprint>();
+            CreateMap<Notification, NotificationDto>();
+            CreateMap<NotificationStatus, NotificationStatusDto>();
         }
     }
 }

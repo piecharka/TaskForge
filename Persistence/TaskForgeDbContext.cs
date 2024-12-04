@@ -22,9 +22,9 @@ public partial class TaskForgeDbContext : DbContext
 
     public virtual DbSet<Comment> Comments { get; set; }
 
-    public virtual DbSet<Notfication> Notfications { get; set; }
+    public virtual DbSet<Notification> Notifications { get; set; }
 
-    public virtual DbSet<NotficationStatus> NotficationStatuses { get; set; }
+    public virtual DbSet<NotificationStatus> NotificationStatuses { get; set; }
 
     public virtual DbSet<Permission> Permissions { get; set; }
     public virtual DbSet<ProjectTask> ProjectTasks { get; set; }
@@ -110,35 +110,35 @@ public partial class TaskForgeDbContext : DbContext
                 .HasConstraintName("fk_comment_written_by");
         });
 
-        modelBuilder.Entity<Notfication>(entity =>
+        modelBuilder.Entity<Notification>(entity =>
         {
-            entity.HasKey(e => e.NotficationId).HasName("PK__notficat__679A37D0C9CD7CFC");
+            entity.HasKey(e => e.NotificationId).HasName("PK__notficat__679A37D0C9CD7CFC");
 
             entity.ToTable("notfications");
 
-            entity.Property(e => e.NotficationId).HasColumnName("notfication_id");
+            entity.Property(e => e.NotificationId).HasColumnName("notfication_id");
             entity.Property(e => e.Message)
                 .IsRequired()
                 .HasMaxLength(100)
                 .HasColumnName("message");
-            entity.Property(e => e.NotficationStatusId).HasColumnName("notfication_status_id");
+            entity.Property(e => e.NotificationStatusId).HasColumnName("notfication_status_id");
             entity.Property(e => e.SentAt)
                 .HasColumnType("datetime")
                 .HasColumnName("sent_at");
             entity.Property(e => e.UserId).HasColumnName("user_id");
 
-            entity.HasOne(d => d.NotficationStatus).WithMany(p => p.Notfications)
-                .HasForeignKey(d => d.NotficationStatusId)
+            entity.HasOne(d => d.NotificationStatus).WithMany(p => p.Notifications)
+                .HasForeignKey(d => d.NotificationStatusId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_notfication_status");
 
-            entity.HasOne(d => d.User).WithMany(p => p.Notfications)
+            entity.HasOne(d => d.User).WithMany(p => p.Notifications)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_user_notfication");
         });
 
-        modelBuilder.Entity<NotficationStatus>(entity =>
+        modelBuilder.Entity<NotificationStatus>(entity =>
         {
             entity.HasKey(e => e.StatusId).HasName("PK__notficat__3683B531A31494F8");
 

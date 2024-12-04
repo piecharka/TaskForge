@@ -35,9 +35,9 @@ namespace Domain.DTOs
 
         public virtual TaskUserGetDto CreatedByNavigation { get; set; } 
 
-        public virtual ProjectTaskStatus TaskStatus { get; set; }
+        public virtual ProjectTaskStatusDto TaskStatus { get; set; }
 
-        public virtual ProjectTaskType TaskType { get; set; }
+        public virtual ProjectTaskTypeDto TaskType { get; set; }
 
         public virtual ICollection<UserTaskDto> UsersTasks { get; set; } = new List<UserTaskDto>();
         public virtual SprintGetDto Sprint { get; set; }
@@ -122,5 +122,19 @@ namespace Domain.DTOs
         public DateTime SprintStart { get; set; }
         public DateTime SprintEnd { get; set; }
         public string GoalDescription { get; set; }
+    }
+
+    public class ProjectTaskStatusDto
+    {
+        public int StatusId { get; set; }
+
+        public string StatusName { get; set; }
+    }
+
+    public class ProjectTaskTypeDto
+    {
+        public int TypeId { get; set; }
+
+        public string TypeName { get; set; }
     }
 }

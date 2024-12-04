@@ -16,7 +16,7 @@ namespace Persistence.Repositories
         public async Task<IEnumerable<ProjectTaskDto>> GetAllInTeamAsync(int teamId)
         {
             return await _forgeDbContext.ProjectTasks
-                 .Include(t => t.Attachments) 
+                 .Include(t => t.Attachments)
                  .Include(t => t.Comments)
                  .ThenInclude(c => c.WrittenByNavigation)
                  .Include(t => t.CreatedByNavigation)
@@ -26,6 +26,7 @@ namespace Persistence.Repositories
                  .Include(t => t.UsersTasks)
                  .ThenInclude(ut => ut.User)
                  .Include(t => t.UsersTasks)
+                 .Include(t => t.Sprint)
                  .Select(t => new ProjectTaskDto
                  {
                      TaskId = t.TaskId,
@@ -64,8 +65,16 @@ namespace Persistence.Repositories
                          Email = t.CreatedByNavigation.Email,
                          LastLogin = t.CreatedByNavigation.LastLogin,
                      },
-                     TaskStatus = t.TaskStatus,
-                     TaskType = t.TaskType,
+                     TaskStatus = new ProjectTaskStatusDto
+                     {
+                         StatusId = t.TaskStatus.StatusId,
+                         StatusName = t.TaskStatus.StatusName,
+                     },
+                     TaskType = new ProjectTaskTypeDto
+                     {
+                         TypeId = t.TaskType.TypeId,
+                         TypeName = t.TaskType.TypeName,
+                     },
                      UsersTasks = t.UsersTasks.Select(ut => new UserTaskDto
                      {
                          UserTaskId = ut.UserTaskId,
@@ -78,7 +87,15 @@ namespace Persistence.Repositories
                              Email = ut.User.Email,
                              LastLogin = ut.User.LastLogin,
                          },
-                     }).ToList()
+                     }).ToList(),
+                     Sprint = new SprintGetDto
+                     {
+                         SprintId = t.Sprint.SprintId,
+                         SprintName = t.Sprint.SprintName,
+                         GoalDescription = t.Sprint.GoalDescription,
+                         SprintStart = t.Sprint.SprintStart,
+                         SprintEnd = t.Sprint.SprintEnd,
+                     }
                  })
                  .Where(pt => pt.TeamId == teamId)
                  .ToListAsync();
@@ -157,8 +174,16 @@ namespace Persistence.Repositories
                         Email = t.CreatedByNavigation.Email,
                         LastLogin = t.CreatedByNavigation.LastLogin,
                     },
-                    TaskStatus = t.TaskStatus,
-                    TaskType = t.TaskType,
+                    TaskStatus = new ProjectTaskStatusDto
+                    {
+                        StatusId = t.TaskStatus.StatusId,
+                        StatusName = t.TaskStatus.StatusName,
+                    },
+                    TaskType = new ProjectTaskTypeDto
+                    {
+                        TypeId = t.TaskType.TypeId,
+                        TypeName = t.TaskType.TypeName,
+                    },
                     UsersTasks = t.UsersTasks.Select(ut => new UserTaskDto
                     {
                         UserTaskId = ut.UserTaskId,
@@ -250,8 +275,16 @@ namespace Persistence.Repositories
                          Email = t.CreatedByNavigation.Email,
                          LastLogin = t.CreatedByNavigation.LastLogin,
                      },
-                     TaskStatus = t.TaskStatus,
-                     TaskType = t.TaskType,
+                     TaskStatus = new ProjectTaskStatusDto
+                     {
+                         StatusId = t.TaskStatus.StatusId,
+                         StatusName = t.TaskStatus.StatusName,
+                     },
+                     TaskType = new ProjectTaskTypeDto
+                     {
+                         TypeId = t.TaskType.TypeId,
+                         TypeName = t.TaskType.TypeName,
+                     },
                      UsersTasks = t.UsersTasks.Select(ut => new UserTaskDto
                      {
                          UserTaskId = ut.UserTaskId,

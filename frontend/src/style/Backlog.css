@@ -29,3 +29,24 @@
 .task p{
     margin: 0;
 }
+
+.sprint-select {
+    background-color: #58A4B0; 
+    color: white; 
+    padding: 10px 16px; 
+    border: none; 
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    outline: none; 
+    transition: background-color 0.3s ease-in-out;
+    margin: 5px 0;
+}
+
+    .sprint-select:hover {
+        background-color: #4b8e99; 
+    }
+
+    .sprint-select option {
+        color: white;
+    }

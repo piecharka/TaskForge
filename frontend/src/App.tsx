@@ -15,6 +15,7 @@ import AuthCheck from './components/AuthCheck';
 import UserDetailsView from './views/UserDetailsView';
 import UserCalendar from './components/UserCalendar';
 import EventDetails from './components/EventDetails';
+import NotificationList from './components/NotificationList';
 
 const App = observer(() => {
     const { userStore } = useStore();
@@ -38,6 +39,7 @@ const App = observer(() => {
                     <Route path="/users/:userId" element={<AuthCheck><UserDetailsView /> </AuthCheck>} />
                     <Route path="/calendar" element={<AuthCheck><UserCalendar /></AuthCheck>} />
                     <Route path="/events/:eventId" element={<AuthCheck><EventDetails /></AuthCheck>} />
+                    <Route path="/notifications" element={<AuthCheck><NotificationList /></AuthCheck>} />
                     
                 </Routes>
             </div>

@@ -40,7 +40,7 @@ function Backlog() {
 
     return (
         <div>
-         <select id="sprint" name="sprint" value={currentSprint?.sprintId} onChange={handleSprintDropdownChange}>
+         <select className="sprint-select" id="sprint" name="sprint" value={currentSprint?.sprintId} onChange={handleSprintDropdownChange}>
                 {teamSprints.map(s => {
                     return <option key={s.sprintId} value={s.sprintId}>{s.sprintName}</option>
                 }) }

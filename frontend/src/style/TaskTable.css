@@ -5,7 +5,6 @@
 }
 
 .task-table {
-    width: 47rem;
     border-collapse: collapse;
     color: white;
 }
@@ -17,9 +16,38 @@
 .header-cell {
     padding: 0.8rem 1rem;
     text-align: left;
-
 }
 
 .task-cell {
     padding: 10px 15px; 
+}
+
+.highlight-row {
+    background-color: #3f7982; /* Jasnoniebieskie t³o */
+    transition: background-color 0.3s ease-in-out;
+}
+
+    .highlight-row:hover {
+        background-color: #33646c; /* Podœwietlenie na hover */
+    }
+
+.row-link{
+    color: white;
+    text-decoration: none;
+}
+
+    .row-link:hover {
+        color: #0C7C59;
+    }
+
+.checkbox-input{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.fade-out {
+    background-color: transparent;
+    transition: background-color 0.3s ease-in-out;
 }

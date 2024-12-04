@@ -9,6 +9,7 @@ namespace Domain.Interfaces.Repositories
     public interface IUsersTaskRepository
     {
         Task<IEnumerable<UsersTask>> GetUsersTaskByTaskIdAsync(int taskId);
-        Task DeleteUserTaskAsync(int userTaskId);
+        Task DeleteUserTaskByIdAsync(int userTaskId);
+        Task DeleteUserTaskAsync(int taskId, int userId);
     }
 }

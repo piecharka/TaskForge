@@ -1,4 +1,4 @@
-import { NotificationStatus } from "./notficationStatus";
+import { NotificationStatus } from "./notificationStatus";
 import { User } from "./user";
 
 export type Notification = {

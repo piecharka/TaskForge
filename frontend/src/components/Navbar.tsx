@@ -47,11 +47,19 @@ const Navbar = observer(() => {
                       </Link>
                   </li>
               }
+                  {userStore.isLoggedIn && 
+                  <li className="nav-item">
+                      <Link to="/notifications" className="nav-link">
+                        <span className="link-text">Notifications</span>
+                      </Link>
+                  </li>}
 
                   <div className="nav-team"><li className="nav-item">
                   <Link to="#" className="nav-link" onClick={teamOnClick}>
                           <span className="link-text">Teams</span>
                   </Link>
+
+              
                   
                 </li>
               </div>
