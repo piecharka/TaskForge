@@ -61,7 +61,7 @@ public partial class TaskForgeDbContext : DbContext
             entity.ToTable("attachments");
 
             entity.Property(e => e.AttachmentId)
-                .ValueGeneratedNever()
+                .ValueGeneratedOnAdd()
                 .HasColumnName("attachment_id");
             entity.Property(e => e.AddedBy).HasColumnName("added_by");
             entity.Property(e => e.FilePath)

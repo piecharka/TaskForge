@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Domain;
-using Persistence;
+﻿using Microsoft.AspNetCore.Mvc;
 using Application.Interfaces.Services;
-using Application.Services;
 using Application.DTOs;
-using Domain.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Application;
+using Domain;
 
 namespace API.Controllers
 {
@@ -30,9 +21,10 @@ namespace API.Controllers
 
         // GET: api/ProjectTasks
         [HttpGet("team/{teamId}")]
-        public async Task<ActionResult<IEnumerable<ProjectTaskDto>>> GetProjectTasksByTeamId(int teamId, [FromQuery] SortParams sortParameters)
+        public async Task<ActionResult<IEnumerable<ProjectTaskDto>>> GetProjectTasksByTeamId
+            (int teamId, [FromQuery] SortParams sortParameters, [FromQuery] Dictionary<string, string> filters)
         {
-            return Ok(await _projectTaskService.GetAllProjectTasksInTeamAsync(teamId, sortParameters));
+            return Ok(await _projectTaskService.GetAllProjectTasksInTeamAsync(teamId, sortParameters, filters));
         }
 
         [HttpGet("sprint/{sprintId}")]

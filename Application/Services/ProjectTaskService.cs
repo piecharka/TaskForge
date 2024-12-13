@@ -2,7 +2,6 @@
 using Application.Interfaces.Services;
 using AutoMapper;
 using Domain;
-using Domain.DTOs;
 using Domain.Interfaces.Repositories;
 using System;
 using System.Collections.Generic;
@@ -37,7 +36,8 @@ namespace Application.Services
             _timeLogRepository = timeLogRepository;
         }
 
-        public async Task<IEnumerable<ProjectTaskDto>> GetAllProjectTasksInTeamAsync(int teamId, SortParams sortParams)
+        public async Task<IEnumerable<ProjectTaskDto>> GetAllProjectTasksInTeamAsync
+            (int teamId, SortParams sortParams, Dictionary<string, string> filters)
         {
             var query = await _projectTaskRepository.GetAllInTeamAsync(teamId);
 
@@ -58,10 +58,32 @@ namespace Application.Services
                 "attached to" => sortParams.SortOrder == "asc" ?
                     query.OrderBy(t => t.UsersTasks.FirstOrDefault()?.User.Username) :
                     query.OrderByDescending(t => t.UsersTasks.FirstOrDefault()?.User.Username),
-                _ => query // domyślnie bez sortowania
+                _ => query 
             };
 
-            return query.ToList();
+            foreach (var filter in filters)
+            {
+                query = filter.Key.ToLower() switch
+                {
+                    "id" => int.TryParse(filter.Value, out var idValue)
+                    ? query.Where(t => t.TaskId == idValue)
+                    : query, 
+                    "title" => query.Where(t => t.TaskName.Contains(filter.Value, StringComparison.OrdinalIgnoreCase)),
+                    "deadline" => DateTime.TryParse(filter.Value, out var deadlineValue)
+                        ? query.Where(t => t.TaskDeadline.Date == deadlineValue.Date)
+                        : query,
+                    "sprint" => query.Where(t => t.Sprint.SprintName.Contains(filter.Value, StringComparison.OrdinalIgnoreCase)),
+                    "status" => query.Where(t => t.TaskStatus.StatusName.Contains(filter.Value, StringComparison.OrdinalIgnoreCase)),
+                    "created by" => query.Where(t => t.CreatedByNavigation.Username.Contains(filter.Value, StringComparison.OrdinalIgnoreCase)),
+                    "type" => query.Where(t => t.TaskType.TypeName.Contains(filter.Value, StringComparison.OrdinalIgnoreCase)),
+                    "attached to" => query.Where(t => t.UsersTasks.Any(ut => ut.User.Username.Contains(filter.Value, StringComparison.OrdinalIgnoreCase))),
+                    _ => query
+                };
+            }
+
+            var taskDto = _mapper.Map<IEnumerable<ProjectTask>, IEnumerable<ProjectTaskDto>>(query);
+
+            return taskDto;
         }
 
         public async Task AddProjectTaskAsync(ProjectTaskInsertDto projectTaskInsert)
@@ -101,17 +123,23 @@ namespace Application.Services
 
         public async Task<ProjectTaskDto> GetTaskByIdAsync(int taskId)
         {
-            return await _projectTaskRepository.GetByIdAsync(taskId);
+            var task = await _projectTaskRepository.GetByIdAsync(taskId);
+
+            return _mapper.Map<ProjectTask, ProjectTaskDto>(task);
         }
 
         public async Task<IEnumerable<TaskUserGetDto>> GetTaskUsersAsync(int taskId)
         {
-            return await _projectTaskRepository.GetTaskUsersByTaskIdAsync(taskId);
+            var user = await _projectTaskRepository.GetTaskUsersByTaskIdAsync(taskId);
+
+            return _mapper.Map<IEnumerable<User>, IEnumerable<TaskUserGetDto>>(user);
         }
 
         public async Task<IEnumerable<ProjectTaskDto>> GetTasksBySprintIdAsync(int sprintId)
         {
-            return await _projectTaskRepository.GetAllTasksBySprintIdAsync(sprintId);
+            var task = await _projectTaskRepository.GetAllTasksBySprintIdAsync(sprintId);
+
+            return _mapper.Map<IEnumerable<ProjectTask>, IEnumerable<ProjectTaskDto>>(task);
         }
 
         public async Task<IEnumerable<UsersTasksToDoDto>> GetToDoTasksAsync(string username)

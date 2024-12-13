@@ -2,7 +2,6 @@
 using Application.Interfaces.Services;
 using AutoMapper;
 using Domain;
-using Domain.DTOs;
 using Domain.Interfaces.Repositories;
 using System;
 using System.Collections.Generic;
@@ -25,7 +24,9 @@ namespace Application.Services
 
         public async Task<IEnumerable<CommentDto>> GetTasksCommentsAsync(int taskId)
         {
-            return await _commentRepository.GetAllTaskCommentsAsync(taskId);
+            var comment = await _commentRepository.GetAllTaskCommentsAsync(taskId);
+
+            return _mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDto>>(comment);
         }
 
         public async Task DeleteCommentAsync(int id)

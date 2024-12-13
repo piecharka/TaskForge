@@ -1,4 +1,5 @@
 import { Attachment } from "./attachment";
+import { Permission } from "./permission";
 import { ProjectTask } from "./projectTask";
 import { Team } from "./team";
 import { UsersTask } from "./usersTask";
@@ -20,6 +21,7 @@ export type User = {
     usersTasks: UsersTask[];
     teams: Team[];
     permissionId: number;
+    permission: Permission;
 };
 
 export type UserLoginData = {

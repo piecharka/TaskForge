@@ -2,8 +2,8 @@
 using Application.Interfaces.Services;
 using AutoMapper;
 using Domain;
-using Domain.DTOs;
 using Domain.Interfaces.Repositories;
+using Domain.Model;
 using Persistence.Repositories;
 
 namespace Application.Services
@@ -25,29 +25,50 @@ namespace Application.Services
             await _repository.DeleteAsync(id);
         }
 
-        public async Task<UserGetDto> GetUserByEmailAsync(string email)
+        public async Task<UserDto> GetUserByEmailAsync(string email)
         {
-            return await _repository.GetByEmailAsync(email);
+            var user = await _repository.GetByEmailAsync(email);
+
+            return _mapper.Map<User, UserDto>(user);
         }
 
-        public async Task<UserGetDto> GetUserByIdAsync(int id)
+        public async Task<UserDto> GetUserByIdAsync(int id)
         {
-            return await _repository.GetByIdAsync(id);
+            var user = await _repository.GetByIdAsync(id);
+
+            return _mapper.Map<User, UserDto>(user);
         }
 
-        public async Task<UserGetDto> GetUserByNameAsync(string username)
+        public async Task<UserDto> GetUserByNameAsync(string username)
         {
-            return await _repository.GetByNameAsync(username.ToLower());
+            var user = await _repository.GetByNameAsync(username.ToLower());
+
+            return _mapper.Map<User, UserDto>(user);
         }
 
-        public async Task<IEnumerable<UserGetDto>> GetUsersAsync()
+        public async Task<IEnumerable<UserDto>> GetUsersAsync()
         {
-            return await _repository.GetAllAsync();
+            var users = await _repository.GetAllAsync();
+
+            return _mapper.Map<IEnumerable<User>, IEnumerable<UserDto>>(users);
         }
 
-        public async Task<IEnumerable<UserGetDto>> GetTeamUsersAsync(int teamId)
+        public async Task<IEnumerable<UserDto>> GetTeamUsersAsync(int teamId)
         {
-            return await _repository.GetTeamUsersAsync(teamId);
+            var teamUsers = await _repository.GetTeamUsersAsync(teamId);
+            var dtos = _mapper.Map<IEnumerable<User>, IEnumerable<UserDto>>(teamUsers);
+
+            foreach(var dto in dtos)
+            {
+                var user = teamUsers.First(u => u.UserId == dto.UserId);
+                var teamUser = user.TeamUsers.FirstOrDefault(tu => tu.TeamId == teamId);
+                if (teamUser?.Permission != null)
+                {
+                    dto.Permission = _mapper.Map<Permission, PermissionDto>(teamUser.Permission);
+                }
+            }
+
+            return dtos;
         }
 
         public async Task InsertUserAsync(UserCreateDto userDto)

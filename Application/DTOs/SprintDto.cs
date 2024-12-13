@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.DTOs
+namespace Application.DTOs
 {
     public class SprintDto
     {
@@ -17,7 +17,6 @@ namespace Domain.DTOs
         public DateTime? SprintPlanning { get; set; }
         public DateTime? SprintReview { get; set; }
         public DateTime? SprintRetro { get; set; }
-        public int  CreatedBy { get; set; }
-
+        public int CreatedBy { get; set; }
     }
 }

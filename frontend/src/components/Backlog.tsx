@@ -47,32 +47,32 @@ function Backlog() {
             </select>
         <div className="backlog">
               <div className="task-list">
-                  <h2>To-do tasks</h2>
+                  <h2>To-do</h2>
                 {taskList.map(t => {
                     if (t.taskStatus.statusId === 1)
                       return <Link key={t.taskId} to={"/tasks/" + t.taskId} className="task">
                           <p>{t.taskName}</p>
-                          <span>{t.taskType.typeName}</span>
+                          <span className="task-type">{t.taskType.typeName}</span>
                       </Link>
                   }) }
             </div>
               <div className="task-list">
-                <h2>In progress tasks</h2>
+                <h2>In progress</h2>
                 {taskList.map(t => {
                     if (t.taskStatus.statusId === 3)
                       return <Link key={ t.taskId} to={"/tasks/" + t.taskId} className="task">
                           <p>{t.taskName}</p>
-                          <span>{t.taskType.typeName}</span>
+                          <span className="task-type">{t.taskType.typeName}</span>
                       </Link>
                   })}
             </div>
               <div className="task-list">
-                <h2>Done tasks</h2>
+                <h2>Done</h2>
                   {taskList.map(t => {
                       if (t.taskStatus.statusId === 2)
                           return <Link key={t.taskId} to={"/tasks/" + t.taskId} className="task">
                               <p>{t.taskName}</p>
-                              <span>{t.taskType.typeName}</span>
+                              <span className="task-type">{t.taskType.typeName}</span>
                           </Link>
                   })}
             </div>

@@ -44,6 +44,13 @@ namespace Persistence.Repositories
                 .Where(t => t.LogDate.Date == date.Date && t.ProjectTask.SprintId == sprintId && t.LogTypeId == timeLogTypeId)
                 .ToListAsync();
         }
+
+        public async Task<TimeLog> GetTimeLogByDoneTaskIdAsync(int taskId)
+        {
+            return await _taskForgeDbContext.TimeLogs
+                .Where(tl => tl.ProjectTask.TaskId == taskId && tl.LogTypeId == 2)
+                .FirstOrDefaultAsync();
+        }
         
     }
 }

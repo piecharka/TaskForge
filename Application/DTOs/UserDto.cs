@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Domain.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.DTOs
+namespace Application.DTOs
 {
-    public class UserGetDto
+    public class UserDto
     {
         public int UserId { get; set; }
 
@@ -21,6 +21,7 @@ namespace Domain.DTOs
 
         public bool IsActive { get; set; }
         public int PermissionId { get; set; }
+        public PermissionDto Permission { get; set; }
         public virtual ICollection<UserTeamDto> Teams { get; set; } = new List<UserTeamDto>();
     }
 

@@ -33,9 +33,30 @@ const requests = {
     del: <T> (url: string) => axios.delete<T>(url).then(responseBody),
 
 }
+
+
 const Account = {   
     login: (loginData: UserLoginData) => requests.post<User>('/account/login', loginData),
     register: (registerData: UserRegisterData) => requests.post<User>('/account/register', registerData),
+}
+
+const Attachments = {
+    uploadAttachment: (taskId: number, file: File) => {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        return axios.post(`/attachment/upload/${taskId}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        }).then(responseBody);
+    },
+    getAttachmentsForTask: (taskId: number) =>
+        axios.get(`/attachment/task/${taskId}`),
+
+    // Metoda do pobierania za³¹cznika po attachmentId
+    downloadAttachment: (attachmentId: number) =>
+        axios.get<Blob>(`/attachment/download/${attachmentId}`, { responseType: 'blob' }),
 }
 
 const Comments = {
@@ -68,8 +89,18 @@ const Permission = {
 }
 
 const ProjectTasks = {
-    projectTaskListInTeam: (teamId: number, sortBy: string, sortOrder: string) =>
-        requests.get<ProjectTask>(`/projecttasks/team/${teamId}?SortBy=${sortBy}&SortOrder=${sortOrder}`),
+    projectTaskListInTeam: (
+        teamId: number,
+        sortBy: string,
+        sortOrder: string,
+        filters: Record<string, string>
+    ) => {
+        const filterParams = new URLSearchParams(filters).toString();
+
+        return requests.get<ProjectTask>(
+            `/projecttasks/team/${teamId}?SortBy=${sortBy}&SortOrder=${sortOrder}&${filterParams}`
+        );
+    },
     todoTasks: (username: string | undefined) => requests.get<ProjectTask>(`/projecttasks/users/${username}`),
     getTask: (taskId: number) => requests.get<ProjectTask>(`/projecttasks/${taskId}`),
     getSprintTasks: (sprintId: number) => requests.get<ProjectTask>(`/projecttasks/sprint/${sprintId}`),
@@ -125,6 +156,7 @@ const Notifications = {
 }
 
 const apiHandler = {
+    Attachments,
     Account,
     Comments,
     Users,

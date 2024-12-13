@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Domain;
 
-public partial class Attachment
+public class Attachment
 {
     public int AttachmentId { get; set; }
 

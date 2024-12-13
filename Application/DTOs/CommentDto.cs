@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.DTOs
+namespace Application.DTOs
 {
     public class CommentDto
     {
@@ -17,14 +17,6 @@ namespace Domain.DTOs
         public string CommentText { get; set; }
 
         public DateTime WrittenAt { get; set; }
-
         public virtual CommentUserDto WrittenByNavigation { get; set; }
-    }
-
-    public class CommentUserDto
-    {
-        public int UserId { get; set;}
-        public string Username { get; set;}
-        public string Email { get; set;}
     }
 }

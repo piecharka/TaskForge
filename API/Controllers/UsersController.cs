@@ -11,7 +11,6 @@ using Application.Services;
 using Application.DTOs;
 using Persistence.Repositories;
 using Application.Interfaces.Services;
-using Domain.DTOs;
 using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
@@ -30,21 +29,21 @@ namespace API.Controllers
 
         // GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserGetDto>>> GetUsersAsync()
+        public async Task<ActionResult<IEnumerable<UserDto>>> GetUsersAsync()
         {
             return Ok(await _userService.GetUsersAsync());  
         }
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserGetDto>> GetUserAsync(int id)
+        public async Task<ActionResult<UserDto>> GetUserAsync(int id)
         {
             return Ok(await _userService.GetUserByIdAsync(id));
         }
 
         // GET: api/Users/team
         [HttpGet("/api/users/team/{teamId}")]
-        public async Task<ActionResult<IEnumerable<UserGetDto>>> GetTeamUsersAsync(int teamId)
+        public async Task<ActionResult<IEnumerable<UserDto>>> GetTeamUsersAsync(int teamId)
         {
             return Ok(await _userService.GetTeamUsersAsync(teamId));
         }

@@ -2,7 +2,6 @@
 using Application.Interfaces.Services;
 using AutoMapper;
 using Domain;
-using Domain.DTOs;
 using Domain.Interfaces.Repositories;
 using System;
 using System.Collections.Generic;

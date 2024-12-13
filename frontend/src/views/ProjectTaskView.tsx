@@ -9,6 +9,8 @@ import AddCommentBar from "../components/AddCommentBar";
 import { User } from "../models/user";
 import Select from "react-select";
 import { ProjectTaskStatus } from "../models/projectTaskStatus";
+import UploadAttachment from "../components/UploadAttachment";
+import TaskAttachments from "../components/TaskAttachments";
 
 function ProjectTaskView() {
     const [task, setTask] = useState<ProjectTask>();
@@ -140,7 +142,8 @@ function ProjectTaskView() {
                     })}</span>
                     <p>{task.taskStatus.statusName}</p>
                     <p>{task.taskDescription}</p>
-                       
+                    <TaskAttachments taskId={Number(taskId)} />
+                    <UploadAttachment taskId={Number(taskId)} />
                   </div>
               }
                 <CommentBar/>

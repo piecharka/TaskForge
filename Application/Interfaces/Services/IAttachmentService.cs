@@ -1,13 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Domain;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Interfaces.Repositories
+namespace Application.Interfaces.Services
 {
-    public interface IAttachmentRepository 
+    public interface IAttachmentService
     {
         Task<Attachment> AddAttachmentAsync(IFormFile file, int taskId, int addedBy);
         Task<Attachment> GetAttachmentByIdAsync(int id);

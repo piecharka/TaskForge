@@ -1,5 +1,5 @@
 ﻿using Domain;
-using Domain.DTOs;
+
 using Domain.Interfaces.Repositories;
 using Domain.Model;
 using Microsoft.EntityFrameworkCore;
@@ -30,51 +30,24 @@ namespace Persistence.Repositories
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<SprintDto> GetCurrentTeamSprintAsync(int teamId)
+        public async Task<Sprint> GetCurrentTeamSprintAsync(int teamId)
         {
             return await _forgeDbContext.Sprints
-                .Select(s => new SprintDto
-                {
-                    SprintId = s.SprintId,
-                    SprintName = s.SprintName,
-                    SprintStart = s.SprintStart,
-                    SprintEnd = s.SprintEnd,
-                    GoalDescription = s.GoalDescription,
-                    TeamId = s.TeamId
-                })
                 .Where(s => s.TeamId == teamId && s.SprintStart <= DateTime.Now && s.SprintEnd >= DateTime.Now)
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<SprintDto> GetPreviousTeamSprintAsync(int teamId)
+        public async Task<Sprint> GetPreviousTeamSprintAsync(int teamId)
         {
             return await _forgeDbContext.Sprints
                 .Where(s => s.TeamId == teamId && s.SprintEnd < DateTime.Now)
                 .OrderByDescending(s => s.SprintEnd)
-                .Select(s => new SprintDto
-                {
-                    SprintId = s.SprintId,
-                    SprintName = s.SprintName,
-                    SprintStart = s.SprintStart,
-                    SprintEnd = s.SprintEnd,
-                    GoalDescription = s.GoalDescription,
-                    TeamId = s.TeamId
-                })
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<SprintDto>> GetTeamSprintsAsync(int teamId)
+        public async Task<IEnumerable<Sprint>> GetTeamSprintsAsync(int teamId)
         {
             return await _forgeDbContext.Sprints
-                .Select(s => new SprintDto
-                {
-                    SprintId = s.SprintId,
-                    SprintName = s.SprintName,
-                    SprintStart = s.SprintStart,
-                    SprintEnd = s.SprintEnd,
-                    GoalDescription = s.GoalDescription,
-                    TeamId = s.TeamId
-                })
                 .Where(s => s.TeamId == teamId)
                 .ToListAsync();
         }

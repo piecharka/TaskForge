@@ -13,6 +13,14 @@ function TeamSettings() {
     const tableHeaders = ["Username", "Email", "Last login", "Permission", "Change permission", "Delete"]
     const { teamId } = useParams();
 
+    const dateOptions = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+    };
 
     const fetchTeamUsers = useCallback(() => {
         apiHandler.Users.teamUsers(Number(teamId))
@@ -38,11 +46,14 @@ function TeamSettings() {
     }
 
     const handleChangingPermission = (userId: number) => {
-        apiHandler.Permission.updateUsersPermission(userId, Number(teamId), permissionId)
-        .then(() => {
-            fetchTeamUsers();
-            setChangePermissionView(-1);
-        })
+
+            apiHandler.Permission.updateUsersPermission(userId, Number(teamId), permissionId)
+            .then(() => {
+                fetchTeamUsers();
+                setChangePermissionView(-1);
+            })
+
+       
     }
 
 
@@ -63,8 +74,8 @@ function TeamSettings() {
                       <tr key={t.userId} className="task-row">
                           <td className="task-cell">{t.username}</td>
                           <td className="task-cell">{t.email}</td>
-                          <td className="task-cell">{t.lastLogin}</td>
-                          {changePermissionView !== t.userId && <td className="task-cell">{t.permissionId}</td>}
+                          <td className="task-cell">{new Date(t.lastLogin).toLocaleDateString('en-EN', dateOptions)}</td>
+                          {changePermissionView !== t.userId && <td className="task-cell">{t.permission.permissionName}</td>}
                           {changePermissionView === t.userId && <select id="permission"
                               name="permission"
                               value={permissionId}
@@ -74,7 +85,10 @@ function TeamSettings() {
                               })}
                           </select> }
                           <td className="task-cell">
-                              {changePermissionView !== t.userId && <button onClick={() => setChangePermissionView(t.userId)}>Change permission</button>}
+                              {changePermissionView !== t.userId && <button onClick={() => {
+                                  setChangePermissionView(t.userId);
+                                  setPermissionId(1);
+                              }}>Change permission</button>}
                               {changePermissionView === t.userId && <button onClick={() => handleChangingPermission(t.userId)}>Submit changes</button> }
                           </td>
                           <td className="task-cell">

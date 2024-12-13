@@ -1,5 +1,4 @@
 ﻿using Domain;
-using Domain.DTOs;
 using Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,7 +12,7 @@ namespace Persistence.Repositories
             _forgeDbContext = forgeDbContext;
         }
 
-        public async Task<IEnumerable<ProjectTaskDto>> GetAllInTeamAsync(int teamId)
+        public async Task<IEnumerable<ProjectTask>> GetAllInTeamAsync(int teamId)
         {
             return await _forgeDbContext.ProjectTasks
                  .Include(t => t.Attachments)
@@ -27,76 +26,6 @@ namespace Persistence.Repositories
                  .ThenInclude(ut => ut.User)
                  .Include(t => t.UsersTasks)
                  .Include(t => t.Sprint)
-                 .Select(t => new ProjectTaskDto
-                 {
-                     TaskId = t.TaskId,
-                     TaskName = t.TaskName,
-                     TaskStatusId = t.TaskStatusId,
-                     TeamId = t.TeamId,
-                     CreatedBy = t.CreatedBy,
-                     CreatedAt = t.CreatedAt,
-                     TaskDeadline = t.TaskDeadline,
-                     TaskTypeId = t.TaskTypeId,
-                     TaskDescription = t.TaskDescription,
-                     Attachments = t.Attachments.Select(a => new TaskAttachmentsDto
-                     {
-                         AttachmentId = a.AttachmentId,
-                         TaskId = a.TaskId,
-                         AddedBy = a.AddedBy,
-                         FilePath = a.FilePath
-                     }).ToList(),
-                     Comments = t.Comments.Select(c => new TaskCommentDto
-                     {
-                         CommentId = c.CommentId,
-                         TaskId = c.TaskId,
-                         WrittenBy = c.WrittenBy,
-                         CommentText = c.CommentText,
-                         WrittenAt = c.WrittenAt,
-                         WrittenByNavigation = new TaskCommentUserDto
-                         {
-                             UserId = c.WrittenByNavigation.UserId,
-                             Username = c.WrittenByNavigation.Username,
-                         },
-                     }).ToList(),
-                     CreatedByNavigation = new TaskUserGetDto
-                     {
-                         UserId = t.CreatedByNavigation.UserId,
-                         Username = t.CreatedByNavigation.Username,
-                         Email = t.CreatedByNavigation.Email,
-                         LastLogin = t.CreatedByNavigation.LastLogin,
-                     },
-                     TaskStatus = new ProjectTaskStatusDto
-                     {
-                         StatusId = t.TaskStatus.StatusId,
-                         StatusName = t.TaskStatus.StatusName,
-                     },
-                     TaskType = new ProjectTaskTypeDto
-                     {
-                         TypeId = t.TaskType.TypeId,
-                         TypeName = t.TaskType.TypeName,
-                     },
-                     UsersTasks = t.UsersTasks.Select(ut => new UserTaskDto
-                     {
-                         UserTaskId = ut.UserTaskId,
-                         UserId = ut.UserId,
-                         TaskId = ut.TaskId,
-                         User = new TaskUserGetDto
-                         {
-                             UserId = ut.User.UserId,
-                             Username = ut.User.Username,
-                             Email = ut.User.Email,
-                             LastLogin = ut.User.LastLogin,
-                         },
-                     }).ToList(),
-                     Sprint = new SprintGetDto
-                     {
-                         SprintId = t.Sprint.SprintId,
-                         SprintName = t.Sprint.SprintName,
-                         GoalDescription = t.Sprint.GoalDescription,
-                         SprintStart = t.Sprint.SprintStart,
-                         SprintEnd = t.Sprint.SprintEnd,
-                     }
-                 })
                  .Where(pt => pt.TeamId == teamId)
                  .ToListAsync();
         }
@@ -123,7 +52,7 @@ namespace Persistence.Repositories
                 .ToListAsync();
         }
 
-        public async Task<ICollection<ProjectTaskDto>> GetAllTasksBySprintIdAsync(int sprintId)
+        public async Task<ICollection<ProjectTask>> GetAllTasksBySprintIdAsync(int sprintId)
         {
             return await _forgeDbContext.ProjectTasks
                 .Include(t => t.Attachments)
@@ -136,76 +65,6 @@ namespace Persistence.Repositories
                 .Include(t => t.UsersTasks)
                 .ThenInclude(ut => ut.User)
                 .Include(t => t.UsersTasks)
-                .Select(t => new ProjectTaskDto
-                {
-                    TaskId = t.TaskId,
-                    TaskName = t.TaskName,
-                    TaskStatusId = t.TaskStatusId,
-                    TeamId = t.TeamId,
-                    CreatedBy = t.CreatedBy,
-                    CreatedAt = t.CreatedAt,
-                    TaskDeadline = t.TaskDeadline,
-                    TaskTypeId = t.TaskTypeId,
-                    TaskDescription = t.TaskDescription,
-                    Attachments = t.Attachments.Select(a => new TaskAttachmentsDto
-                    {
-                        AttachmentId = a.AttachmentId,
-                        TaskId = a.TaskId,
-                        AddedBy = a.AddedBy,
-                        FilePath = a.FilePath
-                    }).ToList(),
-                    Comments = t.Comments.Select(c => new TaskCommentDto
-                    {
-                        CommentId = c.CommentId,
-                        TaskId = c.TaskId,
-                        WrittenBy = c.WrittenBy,
-                        CommentText = c.CommentText,
-                        WrittenAt = c.WrittenAt,
-                        WrittenByNavigation = new TaskCommentUserDto
-                        {
-                            UserId = c.WrittenByNavigation.UserId,
-                            Username = c.WrittenByNavigation.Username,
-                        },
-                    }).ToList(),
-                    CreatedByNavigation = new TaskUserGetDto
-                    {
-                        UserId = t.CreatedByNavigation.UserId,
-                        Username = t.CreatedByNavigation.Username,
-                        Email = t.CreatedByNavigation.Email,
-                        LastLogin = t.CreatedByNavigation.LastLogin,
-                    },
-                    TaskStatus = new ProjectTaskStatusDto
-                    {
-                        StatusId = t.TaskStatus.StatusId,
-                        StatusName = t.TaskStatus.StatusName,
-                    },
-                    TaskType = new ProjectTaskTypeDto
-                    {
-                        TypeId = t.TaskType.TypeId,
-                        TypeName = t.TaskType.TypeName,
-                    },
-                    UsersTasks = t.UsersTasks.Select(ut => new UserTaskDto
-                    {
-                        UserTaskId = ut.UserTaskId,
-                        UserId = ut.UserId,
-                        TaskId = ut.TaskId,
-                        User = new TaskUserGetDto
-                        {
-                            UserId = ut.User.UserId,
-                            Username = ut.User.Username,
-                            Email = ut.User.Email,
-                            LastLogin = ut.User.LastLogin,
-                        },
-                    }).ToList(),
-                    Sprint = new SprintGetDto
-                    {
-                        SprintId = t.Sprint.SprintId,
-                        SprintName = t.Sprint.SprintName,
-                        SprintStart = t.Sprint.SprintStart,
-                        SprintEnd = t.Sprint.SprintEnd,
-                        GoalDescription = t.Sprint.GoalDescription,
-                    },
-                })
                 .Where(t => t.Sprint.SprintId == sprintId)
                 .ToListAsync();
         }
@@ -223,7 +82,7 @@ namespace Persistence.Repositories
                 .ToListAsync();
         }
 
-        public async Task<ProjectTaskDto> GetByIdAsync(int id)
+        public async Task<ProjectTask> GetByIdAsync(int id)
         {
             return await _forgeDbContext.ProjectTasks
                  .Include(pt => pt.Attachments)
@@ -237,68 +96,6 @@ namespace Persistence.Repositories
                 .ThenInclude(ut => ut.User)
                 .Include(pt => pt.UsersTasks)
                  .Where(pt => pt.TaskId == id)
-                 .Select(t => new ProjectTaskDto
-                 {
-                     TaskId = t.TaskId,
-                     TaskName = t.TaskName,
-                     TaskStatusId = t.TaskStatusId,
-                     TeamId = t.TeamId,
-                     CreatedBy = t.CreatedBy,
-                     CreatedAt = t.CreatedAt,
-                     TaskDeadline = t.TaskDeadline,
-                     TaskTypeId = t.TaskTypeId,
-                     TaskDescription = t.TaskDescription,
-                     Attachments = t.Attachments.Select(a => new TaskAttachmentsDto
-                     {
-                         AttachmentId = a.AttachmentId,
-                         TaskId = a.TaskId,
-                         AddedBy = a.AddedBy,
-                         FilePath = a.FilePath
-                     }).ToList(),
-                     Comments = t.Comments.Select(c => new TaskCommentDto
-                     {
-                         CommentId = c.CommentId,
-                         TaskId = c.TaskId,
-                         WrittenBy = c.WrittenBy,
-                         CommentText = c.CommentText,
-                         WrittenAt = c.WrittenAt,
-                         WrittenByNavigation = new TaskCommentUserDto
-                         {
-                             UserId = c.WrittenByNavigation.UserId,
-                             Username = c.WrittenByNavigation.Username,
-                         },
-                     }).ToList(),
-                     CreatedByNavigation = new TaskUserGetDto
-                     {
-                         UserId = t.CreatedByNavigation.UserId,
-                         Username = t.CreatedByNavigation.Username,
-                         Email = t.CreatedByNavigation.Email,
-                         LastLogin = t.CreatedByNavigation.LastLogin,
-                     },
-                     TaskStatus = new ProjectTaskStatusDto
-                     {
-                         StatusId = t.TaskStatus.StatusId,
-                         StatusName = t.TaskStatus.StatusName,
-                     },
-                     TaskType = new ProjectTaskTypeDto
-                     {
-                         TypeId = t.TaskType.TypeId,
-                         TypeName = t.TaskType.TypeName,
-                     },
-                     UsersTasks = t.UsersTasks.Select(ut => new UserTaskDto
-                     {
-                         UserTaskId = ut.UserTaskId,
-                         UserId = ut.UserId,
-                         TaskId = ut.TaskId,
-                         User = new TaskUserGetDto
-                         {
-                             UserId = ut.User.UserId,
-                             Username = ut.User.Username,
-                             Email = ut.User.Email,
-                             LastLogin = ut.User.LastLogin,
-                         },
-                     }).ToList()
-                 })
                  .FirstOrDefaultAsync();
         }
 
@@ -388,18 +185,12 @@ namespace Persistence.Repositories
             
         }
 
-        public async Task<ICollection<TaskUserGetDto>> GetTaskUsersByTaskIdAsync(int taskId)
+        public async Task<ICollection<User>> GetTaskUsersByTaskIdAsync(int taskId)
         {
             return await _forgeDbContext.UsersTasks
                 .Include(ut => ut.User)
                 .Where(ut => ut.Task.TaskId == taskId)
-                .Select(ut => new TaskUserGetDto
-                {
-                    UserId = ut.User.UserId,
-                    Username = ut.User.Username,
-                    Email = ut.User.Email,
-                    LastLogin = ut.User.LastLogin,
-                })
+                .Select(ut => ut.User)
                 .ToListAsync();
         }
 

@@ -1,5 +1,5 @@
 ﻿
-using Domain.DTOs;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ namespace Domain.Interfaces.Repositories
 {
     public interface ICommentRepository
     {
-        Task<IEnumerable<CommentDto>> GetAllTaskCommentsAsync(int taskId);
+        Task<IEnumerable<Comment>> GetAllTaskCommentsAsync(int taskId);
         Task AddCommentAsync(Comment comment);
         Task UpdateAsync(Comment comment);
         Task DeleteAsync(int commentId);

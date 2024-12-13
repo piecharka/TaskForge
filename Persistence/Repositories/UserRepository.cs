@@ -1,5 +1,4 @@
 ﻿using Domain;
-using Domain.DTOs;
 using Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,87 +12,32 @@ namespace Persistence.Repositories
             _forgeDbContext = forgeDbContext;
         }
 
-        public async Task<UserGetDto> GetByNameAsync(string username)
+        public async Task<User> GetByNameAsync(string username)
         {
             return await _forgeDbContext.Users
                 .Include(t => t.Teams)
-                .Select(u => new UserGetDto
-                {
-                    UserId = u.UserId,  
-                    Username = u.Username,
-                    Email = u.Email,
-                    Birthday = u.Birthday,
-                    LastLogin = u.LastLogin,
-                    Teams = u.Teams.Select(t => new UserTeamDto
-                    {
-                        TeamId = t.TeamId,
-                        TeamName = t.TeamName
-                    }).ToList()
-                })
                 .Where(u => u.Username == username)
                 .FirstOrDefaultAsync();
         }
-        public async Task<UserGetDto> GetByEmailAsync(string email)
+        public async Task<User> GetByEmailAsync(string email)
         {
             return await _forgeDbContext.Users
                 .Include(t => t.Teams)
-                .Select(u => new UserGetDto
-                {
-                    UserId = u.UserId,
-                    Username = u.Username,
-                    Email = u.Email,
-                    Birthday = u.Birthday,
-                    LastLogin = u.LastLogin,
-                    IsActive = u.IsActive,
-                    Teams = u.Teams.Select(t => new UserTeamDto
-                    {
-                        TeamId = t.TeamId,
-                        TeamName = t.TeamName
-                    }).ToList()
-                })
                 .Where(u => u.Email == email)
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<UserGetDto>> GetAllAsync()
+        public async Task<IEnumerable<User>> GetAllAsync()
         {
             return await _forgeDbContext.Users
                 .Include(t => t.Teams)
-                .Select(u => new UserGetDto
-                {
-                    UserId = u.UserId,
-                    Username = u.Username,
-                    Email = u.Email,
-                    Birthday = u.Birthday,
-                    LastLogin = u.LastLogin,
-                    IsActive = u.IsActive,
-                    Teams = u.Teams.Select(t => new UserTeamDto
-                    {
-                        TeamId = t.TeamId,
-                        TeamName = t.TeamName
-                    }).ToList()
-                })
                 .ToListAsync();
         }
 
-        public async Task<UserGetDto> GetByIdAsync(int userId)
+        public async Task<User> GetByIdAsync(int userId)
         {
             return await _forgeDbContext.Users
                 .Include(t => t.Teams)
-                .Select(u => new UserGetDto
-                {
-                    UserId = u.UserId,
-                    Username = u.Username,
-                    Email = u.Email,
-                    Birthday = u.Birthday,
-                    LastLogin = u.LastLogin,
-                    IsActive = u.IsActive,
-                    Teams = u.Teams.Select(t => new UserTeamDto
-                    {
-                        TeamId = t.TeamId,
-                        TeamName = t.TeamName
-                    }).ToList()
-                })
                 .Where(u => u.UserId == userId)
                 .FirstOrDefaultAsync();
         }
@@ -148,29 +92,13 @@ namespace Persistence.Repositories
             }
         }
 
-        public async Task<IEnumerable<UserGetDto>> GetTeamUsersAsync(int teamId)
+        public async Task<IEnumerable<User>> GetTeamUsersAsync(int teamId)
         {
             return await _forgeDbContext.Users
                 .Include(t => t.Teams)
+                .Include(t => t.TeamUsers)
+                .ThenInclude(tu => tu.Permission)
                 .Where(u => u.Teams.Any(t => t.TeamId == teamId))
-                .Select(u => new UserGetDto
-                {
-                    UserId = u.UserId,
-                    Username = u.Username,
-                    Email = u.Email,
-                    Birthday = u.Birthday,
-                    LastLogin = u.LastLogin,
-                    IsActive = u.IsActive,
-                    PermissionId = u.TeamUsers
-                        .Where(tu => tu.UserId == u.UserId && tu.TeamId == teamId)
-                        .Select(tu => tu.PermissionId)
-                        .FirstOrDefault(),
-                    Teams = u.Teams.Select(t => new UserTeamDto
-                    {
-                        TeamId = t.TeamId,
-                        TeamName = t.TeamName
-                    }).ToList()
-                })
                 .ToListAsync();
         }
     }

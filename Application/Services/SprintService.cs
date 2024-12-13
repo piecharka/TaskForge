@@ -1,7 +1,7 @@
 ﻿using Application.DTOs;
 using Application.Interfaces.Services;
 using AutoMapper;
-using Domain.DTOs;
+using Domain;
 using Domain.Interfaces.Repositories;
 using Domain.Model;
 using System;
@@ -40,17 +40,23 @@ namespace Application.Services
 
         public async Task<SprintDto> GetCurrentSprintTeamAsync(int teamId)
         {
-            return await _sprintRepository.GetCurrentTeamSprintAsync(teamId);
+            var sprint = await _sprintRepository.GetCurrentTeamSprintAsync(teamId);
+            
+            return _mapper.Map<Sprint, SprintDto>(sprint);
         }
 
         public async Task<SprintDto> GetPreviousSprintAsync(int teamId)
         {
-            return await _sprintRepository.GetPreviousTeamSprintAsync(teamId);
+            var sprint = await _sprintRepository.GetPreviousTeamSprintAsync(teamId);
+        
+            return _mapper.Map<Sprint,SprintDto>(sprint);
         }
 
         public async Task<IEnumerable<SprintDto>> GetSprintsAsync(int teamId)
         {
-            return await _sprintRepository.GetTeamSprintsAsync(teamId);
+            var sprints = await _sprintRepository.GetTeamSprintsAsync(teamId);
+        
+            return _mapper.Map<IEnumerable<Sprint> , IEnumerable<SprintDto>>(sprints);
         }
 
         public async Task AddSprintAsync(SprintDto sprintDto)
@@ -127,6 +133,8 @@ namespace Application.Services
             var sprint = await _sprintRepository.GetSprintByIdAsync(sprintId);
             var tasks = await _projectTaskRepository.GetAllTasksBySprintIdAsync(sprintId);
 
+            var tasksDto = _mapper.Map<ICollection<ProjectTask>, ICollection<ProjectTaskDto>>(tasks);
+
             var sprintTaskCount = new List<SprintTaskCountDto>();
             var taskCount = tasks.Count();
             var doneTasks = new List<int>();
@@ -136,7 +144,7 @@ namespace Application.Services
                 
                 foreach(var timelog in timeLogs)
                 {
-                    if(IsInTaskList(tasks, timelog.TaskId) && !doneTasks.Contains(timelog.TaskId))
+                    if(IsInTaskList(tasksDto, timelog.TaskId) && !doneTasks.Contains(timelog.TaskId))
                     {
                         taskCount--;
                         doneTasks.Add(timelog.TaskId);

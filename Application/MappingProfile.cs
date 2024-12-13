@@ -1,7 +1,6 @@
 ﻿using Application.DTOs;
 using AutoMapper;
 using Domain;
-using Domain.DTOs;
 using Domain.Model;
 using Persistence.DTOs;
 using System;
@@ -24,12 +23,28 @@ namespace Application
             CreateMap<Team, TeamGetDto>();
             CreateMap<ProjectTask, UsersTasksToDoDto>();
             CreateMap<UserRegisterDto, User>();
+            CreateMap<Comment, CommentDto>();
             CreateMap<CommentInsertDto, Comment>();
             CreateMap<CommentUpdateDto, Comment>();
             CreateMap<SprintEventDto, SprintEvent>();
             CreateMap<SprintDto, Sprint>();
             CreateMap<Notification, NotificationDto>();
             CreateMap<NotificationStatus, NotificationStatusDto>();
+            CreateMap<User, UserDto>();
+            CreateMap<Team, UserTeamDto>();
+            CreateMap<Permission, PermissionDto>();
+            CreateMap<ProjectTask, ProjectTaskDto>();
+            CreateMap<Attachment, AttachmentDto>();
+            CreateMap<Team, TeamGetDto>();
+            CreateMap<ProjectTaskStatus, ProjectTaskStatusDto>();
+            CreateMap<ProjectTaskType, ProjectTaskTypeDto>();
+            CreateMap<UsersTask, UserTaskDto>();
+            CreateMap<UsersTask, TaskUserDto>();
+            CreateMap<Sprint, SprintDto>();
+            CreateMap<Sprint, SprintGetDto>();
+            CreateMap<User, TaskUserGetDto>();
+            CreateMap<User, CommentUserDto>();
+            
         }
     }
 }
