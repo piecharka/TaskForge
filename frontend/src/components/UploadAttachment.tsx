@@ -41,21 +41,26 @@ const UploadAttachment: React.FC<UploadAttachmentProps> = ({ taskId }) => {
     };
 
     return (
-        <div>
-            <h3>Add attachment</h3>
-            <form onSubmit={handleSubmit}>
+        <div className="upload-container">
+            <h3 className="upload-title">Add Attachment</h3>
+            <form onSubmit={handleSubmit} className="upload-form">
                 <input
                     type="file"
                     onChange={handleFileChange}
                     accept="application/pdf,image/*"
+                    className="file-input"
                 />
-                <button type="submit" disabled={loading}>
-                    {loading ? 'Sending...' : 'Add file'}
+                <button
+                    type="submit"
+                    className={`btn upload-btn ${loading ? 'loading' : ''}`}
+                    disabled={loading}
+                >
+                    {loading ? 'Uploading...' : 'Upload File'}
                 </button>
             </form>
 
-            {error && <div style={{ color: 'red' }}>{error}</div>}
-            {success && <div style={{ color: 'green' }}>Attachment added correctly</div>}
+            {error && <div className="error-message">{error}</div>}
+            {success && <div className="success-message">Attachment uploaded successfully!</div>}
         </div>
     );
 };

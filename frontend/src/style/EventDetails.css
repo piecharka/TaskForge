@@ -1,0 +1,37 @@
+.event-details {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+.event-title {
+    font-size: 1.8rem;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.event-date, .event-description, .event-sprint, .event-type, .event-team, .event-creator {
+    font-size: 1rem;
+    margin: 5px 0;
+}
+
+.delete-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #D64933;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .delete-button:hover {
+        background-color: #c0392b;
+    }

@@ -1,0 +1,60 @@
+
+.team-summary {
+    display: grid;
+    grid-template-columns: 1fr 2fr; /* Zrównowa¿ony uk³ad */
+    grid-template-areas:
+        "events chart-1"
+        "team-stats chart-2";
+    gap: 1.5rem; /* Dodanie odstêpów miêdzy elementami */
+    padding: 2rem; /* Dodatkowy margines wokó³ ca³ej sekcji */
+    align-items: start; /* Wyrównanie do góry */
+}
+
+.team-events {
+    grid-area: events;
+    background-color: #3d424b; /* Jasne t³o dla kontrastu */
+    padding: 1.5rem; /* Wewnêtrzny odstêp */
+    border-radius: 8px; /* Zaokr¹glone rogi */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Lekki cieñ */
+}
+
+.team-stats {
+    grid-area: team-stats;
+    background-color: #3d424b; /* Jasne t³o dla kontrastu */
+    padding: 1.5rem; /* Wewnêtrzny odstêp */
+    border-radius: 8px; /* Zaokr¹glone rogi */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+    .team-events h3 {
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+        color: white;
+    }
+
+    .team-events h2 {
+        margin-bottom: 0.5rem;
+        font-size: 1.2rem;
+        color: white;
+    }
+
+    .team-events p {
+        margin: 0.5rem 0;
+        font-size: 1rem;
+        color: #58A4B0;
+    }
+
+.chart-1, .chart-2 {
+    background-color: #3d424b; /* T³o wykresów */
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Lekki cieñ */
+}
+
+.chart-1 {
+    grid-area: chart-1;
+}
+
+.chart-2 {
+    grid-area: chart-2;
+}

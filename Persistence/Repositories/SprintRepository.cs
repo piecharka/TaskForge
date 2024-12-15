@@ -48,6 +48,7 @@ namespace Persistence.Repositories
         public async Task<IEnumerable<Sprint>> GetTeamSprintsAsync(int teamId)
         {
             return await _forgeDbContext.Sprints
+                .Include(s => s.ProjectTasks)
                 .Where(s => s.TeamId == teamId)
                 .ToListAsync();
         }

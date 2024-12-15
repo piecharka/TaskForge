@@ -18,19 +18,19 @@ namespace API.Controllers
             _analyticsService = analyticsService;
         }
 
-        [HttpGet("team/{id}")]
+        [HttpGet("team/{teamId}")]
         public async Task<ActionResult<int>> AverageTaskCountPerSprint(int teamId)
         {
             return Ok(await _analyticsService.AverageTasksCountPerSprint(teamId));
         }
 
-        [HttpGet("team/user/{id}")]
+        [HttpGet("team/user/{teamId}")]
         public async Task<ActionResult<int>> AverageTaskCountPerUser(int teamId)
         {
             return Ok(await _analyticsService.AverageTaskCountPerUser(teamId));
         }
 
-        [HttpGet("team/task/{id}")]
+        [HttpGet("team/task/{teamId}")]
         public async Task<ActionResult<double>> AverageTaskTimeForTask(int teamId)
         {
             return Ok(await _analyticsService.AverageTimeForTask(teamId));

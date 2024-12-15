@@ -40,6 +40,12 @@ const Account = {
     register: (registerData: UserRegisterData) => requests.post<User>('/account/register', registerData),
 }
 
+const Analytics = {
+    averageTaskCountPerSprint: (teamId: number) => requests.get(`/analytics/team/${teamId}`),
+    averageTaskCountPerUser: (teamId: number) => requests.get(`/analytics/team/user/${teamId}`),
+    averageTimeForTask: (teamId: number) => requests.get(`/analytics/team/task/${teamId}`)
+}
+
 const Attachments = {
     uploadAttachment: (taskId: number, file: File) => {
         const formData = new FormData();
@@ -158,6 +164,7 @@ const Notifications = {
 const apiHandler = {
     Attachments,
     Account,
+    Analytics,
     Comments,
     Users,
     Teams,

@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces.Services;
 using Domain.Interfaces.Repositories;
+using Domain.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,15 +29,15 @@ namespace Application.Services
 
         public async Task<int> AverageTasksCountPerSprint(int teamId)
         {
-            var sprints = await _sprintRepository.GetTeamSprintsAsync(teamId);
+            var sprints = await _sprintRepository.GetTeamSprintsAsync(teamId) ?? new List<Sprint>(); 
 
             int sum = 0;
-            foreach(var sprint in sprints)
+            foreach (var sprint in sprints)
             {
-                sum += sprint.ProjectTasks.Count();
+                sum += sprint.ProjectTasks?.Count() ?? 0;
             }
 
-            return sum / sprints.Count();
+            return sprints.Any() ? sum / sprints.Count() : 0;
         }
         
         public async Task<int> AverageTaskCountPerUser(int teamId)

@@ -98,6 +98,7 @@ namespace Persistence.Repositories
                 .Include(t => t.Teams)
                 .Include(t => t.TeamUsers)
                 .ThenInclude(tu => tu.Permission)
+                .Include(u => u.ProjectTasks)
                 .Where(u => u.Teams.Any(t => t.TeamId == teamId))
                 .ToListAsync();
         }

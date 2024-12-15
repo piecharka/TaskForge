@@ -52,7 +52,7 @@ const TaskAttachments: React.FC<TaskAttachmentsProps> = ({ taskId }) => {
                 <ul>
                     {attachments.map((attachment) => (
                         <li key={attachment.attachmentId}>
-                            <button onClick={() => handleDownload(attachment.attachmentId, attachment.filePath)}>
+                            <button className="btn attachment-btn download-btn" onClick={() => handleDownload(attachment.attachmentId, attachment.filePath)}>
                                 Download {attachment.fileName}
                             </button>
                         </li>

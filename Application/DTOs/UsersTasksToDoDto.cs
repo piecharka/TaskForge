@@ -23,6 +23,8 @@ namespace Application.DTOs
         public string TaskDescription { get; set; }
 
         public TeamGetDto Team{ get; set; }
-        public ProjectTaskStatus TaskStatus { get; set; }
+        public ProjectTaskStatusDto TaskStatus { get; set; }
+        public ProjectTaskTypeDto TaskType { get; set; }
+        public SprintDto Sprint { get; set; }
     }
 }
